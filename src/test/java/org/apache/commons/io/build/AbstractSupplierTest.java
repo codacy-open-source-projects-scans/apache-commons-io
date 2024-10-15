@@ -17,33 +17,31 @@
 
 package org.apache.commons.io.build;
 
-import org.apache.commons.io.function.IOSupplier;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
 
 /**
- * Abstracts supplying an instance of {@code T}.
+ * Tests {@link AbstractSupplier}.
  * <p>
- * Extend this class to implement the builder pattern.
+ * This code is used in Javadoc.
  * </p>
- * <p>
- * For example, here is a builder, a domain class, and a test.
- * </p>
- * <p>
- * The builder:
- * </p>
- * <pre>
-    &#47;**
-     &#42; Builds Foo instances.
-     &#42;&#47;
-    public static class Builder extends AbstractSupplier&#60;Foo, Builder&#62; {
+ */
+public class AbstractSupplierTest {
+
+    /**
+     * Builds {@link Foo} instances.
+     */
+    public static class Builder extends AbstractSupplier<Foo, Builder> {
 
         private String bar1;
         private String bar2;
         private String bar3;
 
-        &#47;**
-         &#42; Builds a new Foo.
-         &#42;&#47;
-        &#64;Override
+        /**
+         * Builds a new {@link Foo}.
+         */
+        @Override
         public Foo get() {
             return new Foo(bar1, bar2, bar3);
         }
@@ -63,15 +61,11 @@ import org.apache.commons.io.function.IOSupplier;
             return this;
         }
     }
- * </pre>
- * <p>
- * The domain class:
- * </p>
- * <pre>
-    &#47;**
-     &#42; Domain class.
-     &#42;&#47;
-    public class Foo {
+
+    /**
+     * Domain class.
+     */
+    public static class Foo {
 
         public static Builder builder() {
             return new Builder();
@@ -100,44 +94,18 @@ import org.apache.commons.io.function.IOSupplier;
         }
 
     }
- * </pre>
- * <p>
- * The test:
- * </p>
- * <pre>
-    &#64;Test
+
+    @Test
     public void test() {
+        // @formatter:off
         final Foo foo = Foo.builder()
             .setBar1("value1")
             .setBar2("value2")
             .setBar3("value3")
             .get();
+        // @formatter:on
         assertEquals("value1", foo.getBar1());
         assertEquals("value2", foo.getBar2());
         assertEquals("value3", foo.getBar3());
     }
- * </pre>
- *
- * @param <T> the type of instances to build.
- * @param <B> the type of builder subclass.
- * @since 2.12.0
- */
-public abstract class AbstractSupplier<T, B extends AbstractSupplier<T, B>> implements IOSupplier<T> {
-
-    /**
-     * Returns this instance typed as the subclass type {@code B}.
-     * <p>
-     * This is the same as the expression:
-     * </p>
-     * <pre>
-     * (B) this
-     * </pre>
-     *
-     * @return this instance typed as the subclass type {@code B}.
-     */
-    @SuppressWarnings("unchecked")
-    protected B asThis() {
-        return (B) this;
-    }
-
 }
