@@ -40,7 +40,7 @@ import java.nio.file.attribute.BasicFileAttributes;
  *
  * <p>
  * Example, showing how to print out a list of the
- * current directory's <em>visible</em> (i.e. not hidden) files:
+ * current directory's <em>visible</em> (not hidden) files:
  * </p>
  *
  * <pre>
@@ -56,14 +56,14 @@ import java.nio.file.attribute.BasicFileAttributes;
  * final Path dir = PathUtils.current();
  * final AccumulatorPathVisitor visitor = AccumulatorPathVisitor.withLongCounters(HiddenFileFilter.HIDDEN);
  * //
- * // Walk one dir
+ * // Walk one directory
  * Files.<b>walkFileTree</b>(dir, Collections.emptySet(), 1, visitor);
  * System.out.println(visitor.getPathCounters());
  * System.out.println(visitor.getFileList());
  * //
  * visitor.getPathCounters().reset();
  * //
- * // Walk dir tree
+ * // Walk directory tree
  * Files.<b>walkFileTree</b>(dir, visitor);
  * System.out.println(visitor.getPathCounters());
  * System.out.println(visitor.getDirList());
@@ -106,10 +106,10 @@ public class HiddenFileFilter extends AbstractFileFilter implements Serializable
 
     /**
      * Checks to see if the file is hidden.
-     * @param file  the File to check
      *
-     * @return {@code true} if the file is
-     *  <em>hidden</em>, otherwise {@code false}.
+     * @param file       the File to check
+     * @param attributes the path's basic attributes (may be null).
+     * @return {@code true} if the file is <em>hidden</em>, otherwise {@code false}.
      * @since 2.9.0
      */
     @Override

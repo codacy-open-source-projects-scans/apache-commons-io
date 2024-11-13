@@ -15,26 +15,30 @@
  * limitations under the License.
  */
 
-package org.apache.commons.io.file;
+package org.apache.commons.io.test;
 
-import java.nio.file.FileVisitResult;
-import java.nio.file.Path;
-import java.nio.file.attribute.BasicFileAttributes;
+import java.io.IOException;
 
 /**
- * A filter for {@link Path}s.
- *
- * @since 2.9.0
+ * A custom IOException for testing that an exact IOException is thrown.
  */
-@FunctionalInterface
-public interface PathFilter {
+public class CustomIOException extends IOException {
 
-    /**
-     * Tests whether or not to include the specified Path in a result.
-     *
-     * @param path The Path to test.
-     * @param attributes the path's basic attributes (may be null).
-     * @return a FileVisitResult
-     */
-    FileVisitResult accept(Path path, BasicFileAttributes attributes);
+    private static final long serialVersionUID = 1L;
+
+    public CustomIOException() {
+    }
+
+    public CustomIOException(final String message) {
+        super(message);
+    }
+
+    public CustomIOException(final String message, final Throwable cause) {
+        super(message, cause);
+    }
+
+    public CustomIOException(final Throwable cause) {
+        super(cause);
+    }
+
 }

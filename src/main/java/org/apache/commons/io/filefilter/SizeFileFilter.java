@@ -45,14 +45,14 @@ import java.nio.file.attribute.BasicFileAttributes;
  * final Path dir = PathUtils.current();
  * final AccumulatorPathVisitor visitor = AccumulatorPathVisitor.withLongCounters(new SizeFileFilter(1024 * 1024));
  * //
- * // Walk one dir
+ * // Walk one directory
  * Files.<b>walkFileTree</b>(dir, Collections.emptySet(), 1, visitor);
  * System.out.println(visitor.getPathCounters());
  * System.out.println(visitor.getFileList());
  * //
  * visitor.getPathCounters().reset();
  * //
- * // Walk dir tree
+ * // Walk directory tree
  * Files.<b>walkFileTree</b>(dir, visitor);
  * System.out.println(visitor.getPathCounters());
  * System.out.println(visitor.getDirList());
@@ -130,13 +130,12 @@ public class SizeFileFilter extends AbstractFileFilter implements Serializable {
     /**
      * Checks to see if the size of the file is favorable.
      * <p>
-     * If size equals threshold and smaller files are required,
-     * file <b>IS NOT</b> selected.
-     * If size equals threshold and larger files are required,
-     * file <b>IS</b> selected.
+     * If size equals threshold and smaller files are required, file <b>IS NOT</b> selected. If size equals threshold and larger files are required, file
+     * <b>IS</b> selected.
      * </p>
-     * @param file  the File to check
      *
+     * @param file       the File to check
+     * @param attributes the path's basic attributes (may be null).
      * @return true if the file name matches
      */
     @Override

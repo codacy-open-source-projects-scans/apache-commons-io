@@ -49,14 +49,14 @@ import org.apache.commons.io.file.PathUtils;
  * final Path dir = PathUtils.current();
  * final AccumulatorPathVisitor visitor = AccumulatorPathVisitor.withLongCounters(new SuffixFileFilter(".java"));
  * //
- * // Walk one dir
+ * // Walk one directory
  * Files.<b>walkFileTree</b>(dir, Collections.emptySet(), 1, visitor);
  * System.out.println(visitor.getPathCounters());
  * System.out.println(visitor.getFileList());
  * //
  * visitor.getPathCounters().reset();
  * //
- * // Walk dir tree
+ * // Walk directory tree
  * Files.<b>walkFileTree</b>(dir, visitor);
  * System.out.println(visitor.getPathCounters());
  * System.out.println(visitor.getDirList());
@@ -123,6 +123,7 @@ public class SuffixFileFilter extends AbstractFileFilter implements Serializable
      * <p>
      * The array is not cloned, so could be changed after constructing the
      * instance. This would be inadvisable however.
+     * </p>
      *
      * @param suffixes  the suffixes to allow, must not be null
      * @throws NullPointerException if the suffix array is null
@@ -186,8 +187,9 @@ public class SuffixFileFilter extends AbstractFileFilter implements Serializable
 
     /**
      * Checks to see if the file name ends with the suffix.
-     * @param path  the File to check
      *
+     * @param path       the File to check
+     * @param attributes the path's basic attributes (may be null).
      * @return true if the file name ends with one of our suffixes
      * @since 2.9.0
      */

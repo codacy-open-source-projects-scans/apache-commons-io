@@ -63,14 +63,14 @@ import org.apache.commons.io.file.PathUtils;
  * final AccumulatorPathVisitor visitor = AccumulatorPathVisitor.withLongCounters(
  *     WildcardFileFilter.builder().setWildcards("*test*.java~*~").get());
  * //
- * // Walk one dir
+ * // Walk one directory
  * Files.<b>walkFileTree</b>(dir, Collections.emptySet(), 1, visitor);
  * System.out.println(visitor.getPathCounters());
  * System.out.println(visitor.getFileList());
  * //
  * visitor.getPathCounters().reset();
  * //
- * // Walk dir tree
+ * // Walk directory tree
  * Files.<b>walkFileTree</b>(dir, visitor);
  * System.out.println(visitor.getPathCounters());
  * System.out.println(visitor.getDirList());
@@ -276,7 +276,7 @@ public class WildcardFileFilter extends AbstractFileFilter implements Serializab
      * Checks to see if the file name matches one of the wildcards.
      *
      * @param path the file to check
-     *
+     * @param attributes the path's basic attributes (may be null).
      * @return true if the file name matches one of the wildcards.
      * @since 2.9.0
      */

@@ -52,14 +52,14 @@ import org.apache.commons.io.file.PathUtils;
  * final Path dir = PathUtils.current();
  * final AccumulatorPathVisitor visitor = AccumulatorPathVisitor.withLongCounters(new RegexFileFilter("^.*[tT]est(-\\d+)?\\.java$"));
  * //
- * // Walk one dir
+ * // Walk one directory
  * Files.<b>walkFileTree</b>(dir, Collections.emptySet(), 1, visitor);
  * System.out.println(visitor.getPathCounters());
  * System.out.println(visitor.getFileList());
  * //
  * visitor.getPathCounters().reset();
  * //
- * // Walk dir tree
+ * // Walk directory tree
  * Files.<b>walkFileTree</b>(dir, visitor);
  * System.out.println(visitor.getPathCounters());
  * System.out.println(visitor.getDirList());
@@ -177,7 +177,7 @@ public class RegexFileFilter extends AbstractFileFilter implements Serializable 
      * Checks to see if the file name matches one of the regular expressions.
      *
      * @param path the path
-     * @param attributes the path attributes
+     * @param attributes the path's basic attributes (may be null).
      * @return true if the file name matches one of the regular expressions
      */
     @Override

@@ -18,7 +18,6 @@ package org.apache.commons.io.filefilter;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.RandomAccessFile;
 import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
@@ -72,14 +71,14 @@ import org.apache.commons.io.RandomAccessFiles;
  * final Path dir = PathUtils.current();
  * final AccumulatorPathVisitor visitor = AccumulatorPathVisitor.withLongCounters(MagicNumberFileFilter("ustar", 257));
  * //
- * // Walk one dir
+ * // Walk one directory
  * Files.<b>walkFileTree</b>(dir, Collections.emptySet(), 1, visitor);
  * System.out.println(visitor.getPathCounters());
  * System.out.println(visitor.getFileList());
  * //
  * visitor.getPathCounters().reset();
  * //
- * // Walk dir tree
+ * // Walk directory tree
  * Files.<b>walkFileTree</b>(dir, visitor);
  * System.out.println(visitor.getPathCounters());
  * System.out.println(visitor.getDirList());
@@ -262,8 +261,9 @@ public class MagicNumberFileFilter extends AbstractFileFilter implements Seriali
     @Override
     public boolean accept(final File file) {
         if (file != null && file.isFile() && file.canRead()) {
-            try (RandomAccessFile randomAccessFile = RandomAccessFileMode.READ_ONLY.create(file)) {
-                return Arrays.equals(magicNumbers, RandomAccessFiles.read(randomAccessFile, byteOffset, magicNumbers.length));
+            try {
+                return RandomAccessFileMode.READ_ONLY.apply(file.toPath(),
+                        raf -> Arrays.equals(magicNumbers, RandomAccessFiles.read(raf, byteOffset, magicNumbers.length)));
             } catch (final IOException ignored) {
                 // Do nothing, fall through and do not accept file
             }
@@ -276,13 +276,13 @@ public class MagicNumberFileFilter extends AbstractFileFilter implements Seriali
      * Accepts the provided file if the file contains the file filter's magic
      * number at the specified offset.
      * </p>
-     *
      * <p>
      * If any {@link IOException}s occur while reading the file, the file will
      * be rejected.
+     *
      * </p>
      * @param file the file to accept or reject.
-     *
+     * @param attributes the path's basic attributes (may be null).
      * @return {@code true} if the file contains the filter's magic number
      *         at the specified offset, {@code false} otherwise.
      * @since 2.9.0

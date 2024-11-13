@@ -34,6 +34,7 @@ import java.nio.file.Files;
 import java.nio.file.OpenOption;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.nio.file.spi.FileSystemProvider;
 import java.util.Arrays;
 import java.util.Objects;
@@ -413,9 +414,7 @@ public abstract class AbstractOrigin<T, B extends AbstractOrigin<T, B>> extends 
 
         @Override
         public byte[] getByteArray(final long position, final int length) throws IOException {
-            try (RandomAccessFile raf = RandomAccessFileMode.READ_ONLY.create(origin)) {
-                return RandomAccessFiles.read(raf, position, length);
-            }
+            return RandomAccessFileMode.READ_ONLY.apply(origin, raf -> RandomAccessFiles.read(raf, position, length));
         }
 
         @Override
@@ -457,7 +456,7 @@ public abstract class AbstractOrigin<T, B extends AbstractOrigin<T, B>> extends 
     /**
      * A {@link Reader} origin.
      * <p>
-     * This origin cannot provide other aspects.
+     * This origin cannot provide conversions to other aspects.
      * </p>
      */
     public static class ReaderOrigin extends AbstractOrigin<Reader, ReaderOrigin> {
@@ -558,7 +557,7 @@ public abstract class AbstractOrigin<T, B extends AbstractOrigin<T, B>> extends 
     /**
      * A {@link Writer} origin.
      * <p>
-     * This origin cannot provide other aspects.
+     * This origin cannot provide conversions to other aspects.
      * </p>
      */
     public static class WriterOrigin extends AbstractOrigin<Writer, WriterOrigin> {
@@ -717,8 +716,7 @@ public abstract class AbstractOrigin<T, B extends AbstractOrigin<T, B>> extends 
     /**
      * Gets this origin as a RandomAccessFile, if possible.
      *
-     * @param openOption TODO
-     *
+     * @param openOption options like {@link StandardOpenOption}.
      * @return this origin as a RandomAccessFile, if possible.
      * @throws FileNotFoundException         See {@link RandomAccessFile#RandomAccessFile(File, String)}.
      * @throws UnsupportedOperationException if this method is not implemented in a concrete subclass.

@@ -56,36 +56,43 @@ public class MoreComplexObjectTest extends AbstractCloseableListTest {
         inputStream = addCloseable(new ByteArrayInputStream(bos.toByteArray()));
     }
 
-    /** Trusting java.* is probably reasonable and avoids having to be too
-     *  detailed in the accepts.
+    /**
+     * Trusting java.* is probably reasonable and avoids having to be too detailed in the accepts.
      */
     @Test
     public void testTrustJavaIncludingArrays() throws IOException, ClassNotFoundException {
+        // @formatter:off
         assertSerialization(addCloseable(
-                new ValidatingObjectInputStream(inputStream)
+                ValidatingObjectInputStream.builder()
+                .setInputStream(inputStream)
                 .accept(MoreComplexObject.class)
                 .accept("java.*", "[Ljava.*")
+                .get()
         ));
+        // @formatter:on
     }
 
-    /** Trusting java.lang.* and the array variants of that means we have
-     *  to define a number of accept classes explicitly. Quite safe but
-     *  might become a bit verbose.
+    /**
+     * Trusting java.lang.* and the array variants of that means we have to define a number of accept classes explicitly. Quite safe but might become a bit
+     * verbose.
      */
     @Test
     public void testTrustJavaLang() throws IOException, ClassNotFoundException {
+        // @formatter:off
         assertSerialization(addCloseable(
-                new ValidatingObjectInputStream(inputStream)
+                ValidatingObjectInputStream.builder()
+                .setInputStream(inputStream)
                 .accept(MoreComplexObject.class, ArrayList.class, Random.class)
                 .accept("java.lang.*", "[Ljava.lang.*")
+                .get()
         ));
+        // @formatter:on
     }
 
-    /** Here we accept everything but reject specific classes, using a pure
-     *  blacklist mode.
+    /**
+     * Here we accept everything but reject specific classes, using a pure blacklist mode.
      *
-     *  That's not as safe as it's hard to get an exhaustive blacklist, but
-     *  might be ok in controlled environments.
+     * That's not as safe as it's hard to get an exhaustive blacklist, but might be ok in controlled environments.
      */
     @Test
     public void testUseBlacklist() throws IOException, ClassNotFoundException {
@@ -95,10 +102,14 @@ public class MoreComplexObjectTest extends AbstractCloseableListTest {
                 "org.codehaus.groovy.runtime.MethodClosure",
                 "org.springframework.beans.factory.ObjectFactory"
         };
+        // @formatter:off
         assertSerialization(addCloseable(
-                new ValidatingObjectInputStream(inputStream)
+                ValidatingObjectInputStream.builder()
+                .setInputStream(inputStream)
                 .accept("*")
                 .reject(blacklist)
+                .get()
         ));
+        // @formatter:on
     }
 }

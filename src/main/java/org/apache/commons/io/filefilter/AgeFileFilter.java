@@ -50,14 +50,14 @@ import org.apache.commons.io.file.PathUtils;
  * Instant cutoff = Instant.now().minus(Duration.ofDays(1));
  * AccumulatorPathVisitor visitor = AccumulatorPathVisitor.withLongCounters(new AgeFileFilter(cutoff));
  * //
- * // Walk one dir
+ * // Walk one directoryectory
  * Files.<b>walkFileTree</b>(dir, Collections.emptySet(), 1, visitor);
  * System.out.println(visitor.getPathCounters());
  * System.out.println(visitor.getFileList());
  * //
  * visitor.getPathCounters().reset();
  * //
- * // Walk dir tree
+ * // Walk directory tree
  * Files.<b>walkFileTree</b>(dir, visitor);
  * System.out.println(visitor.getPathCounters());
  * System.out.println(visitor.getDirList());
@@ -193,8 +193,9 @@ public class AgeFileFilter extends AbstractFileFilter implements Serializable {
      * If last modification time equals cutoff and newer files are required, file <b>IS NOT</b> selected. If last
      * modification time equals cutoff and older files are required, file <b>IS</b> selected.
      * </p>
-     * @param file the File to check
      *
+     * @param file the File to check
+     * @param attributes the path's basic attributes (may be null).
      * @return true if the file name matches
      * @since 2.9.0
      */
