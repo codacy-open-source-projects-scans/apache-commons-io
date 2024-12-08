@@ -72,14 +72,14 @@ import org.apache.commons.io.RandomAccessFiles;
  * final AccumulatorPathVisitor visitor = AccumulatorPathVisitor.withLongCounters(MagicNumberFileFilter("ustar", 257));
  * //
  * // Walk one directory
- * Files.<b>walkFileTree</b>(dir, Collections.emptySet(), 1, visitor);
+ * Files.<strong>walkFileTree</strong>(dir, Collections.emptySet(), 1, visitor);
  * System.out.println(visitor.getPathCounters());
  * System.out.println(visitor.getFileList());
  * //
  * visitor.getPathCounters().reset();
  * //
  * // Walk directory tree
- * Files.<b>walkFileTree</b>(dir, visitor);
+ * Files.<strong>walkFileTree</strong>(dir, visitor);
  * System.out.println(visitor.getPathCounters());
  * System.out.println(visitor.getDirList());
  * System.out.println(visitor.getFileList());
@@ -139,7 +139,6 @@ public class MagicNumberFileFilter extends AbstractFileFilter implements Seriali
      * </pre>
      *
      * @param magicNumber the magic number to look for in the file.
-     *
      * @throws IllegalArgumentException if {@code magicNumber} is
      *         {@code null}, or contains no bytes.
      */
@@ -166,7 +165,6 @@ public class MagicNumberFileFilter extends AbstractFileFilter implements Seriali
      *
      * @param magicNumbers the magic number to look for in the file.
      * @param offset the byte offset in the file to start comparing bytes.
-     *
      * @throws IllegalArgumentException if {@code magicNumber}
      *         contains no bytes, or {@code offset}
      *         is a negative number.
@@ -224,7 +222,6 @@ public class MagicNumberFileFilter extends AbstractFileFilter implements Seriali
      * @param magicNumber the magic number to look for in the file.
      *        The string is converted to bytes using the platform default charset.
      * @param offset the byte offset in the file to start comparing bytes.
-     *
      * @throws IllegalArgumentException if {@code magicNumber} is
      *         the empty String, or {@code offset} is
      *         a negative number.
@@ -254,7 +251,6 @@ public class MagicNumberFileFilter extends AbstractFileFilter implements Seriali
      * </p>
      *
      * @param file the file to accept or reject.
-     *
      * @return {@code true} if the file contains the filter's magic number
      *         at the specified offset, {@code false} otherwise.
      */

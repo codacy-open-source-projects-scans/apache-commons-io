@@ -149,7 +149,7 @@ public class IOUtils {
     public static final char DIR_SEPARATOR = File.separatorChar;
 
     /**
-     * The UNIX directory separator character '{@value}'.
+     * The Unix directory separator character '{@value}'.
      */
     public static final char DIR_SEPARATOR_UNIX = '/';
 
@@ -187,7 +187,7 @@ public class IOUtils {
     public static final String LINE_SEPARATOR = System.lineSeparator();
 
     /**
-     * The UNIX line separator string.
+     * The Unix line separator string.
      *
      * @see StandardLineSeparator#LF
      */
@@ -513,7 +513,6 @@ public class IOUtils {
      *
      * @param closeable the objects to close, may be null or already closed
      * @since 2.0
-     *
      * @see Throwable#addSuppressed(Throwable)
      */
     public static void closeQuietly(final Closeable closeable) {
@@ -545,7 +544,7 @@ public class IOUtils {
      * } catch (Exception e) {
      *     // error handling
      * } finally {
-     *     <b>IOUtils.closeQuietly(closeable); // In case normal close was skipped due to Exception</b>
+     *     <strong>IOUtils.closeQuietly(closeable); // In case normal close was skipped due to Exception</strong>
      * }
      * </pre>
      * <p>
@@ -2043,7 +2042,6 @@ public class IOUtils {
      *
      * @param input where to read input from
      * @param buffer destination
-     *
      * @throws IOException              if there is a problem reading the file
      * @throws IllegalArgumentException if length is negative
      * @throws EOFException             if the number of bytes read was incorrect
@@ -2064,7 +2062,6 @@ public class IOUtils {
      * @param buffer destination
      * @param offset initial offset into buffer
      * @param length length to read, must be &gt;= 0
-     *
      * @throws IOException              if there is a problem reading the file
      * @throws IllegalArgumentException if length is negative
      * @throws EOFException             if the number of bytes read was incorrect
@@ -2743,7 +2740,7 @@ public class IOUtils {
      * Gets contents of an {@link InputStream} as a {@code byte[]}.
      * Use this method instead of {@link #toByteArray(InputStream)}
      * when {@link InputStream} size is known.
-     * <b>NOTE:</b> the method checks that the length can safely be cast to an int without truncation
+     * <strong>NOTE:</strong> the method checks that the length can safely be cast to an int without truncation
      * before using {@link IOUtils#toByteArray(InputStream, int)} to read into the byte array.
      * (Arrays can have no more than Integer.MAX_VALUE entries anyway)
      *

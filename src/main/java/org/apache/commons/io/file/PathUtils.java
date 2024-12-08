@@ -227,7 +227,7 @@ public final class PathUtils {
     }
 
     /**
-     * Cleans a directory including subdirectories without deleting directories.
+     * Cleans a directory by deleting only files, including in subdirectories, but without deleting the directories.
      *
      * @param directory directory to clean.
      * @return The visitation path counters.
@@ -238,7 +238,7 @@ public final class PathUtils {
     }
 
     /**
-     * Cleans a directory including subdirectories without deleting directories.
+     * Cleans a directory by deleting only files, including in subdirectories, but without deleting the directories.
      *
      * @param directory     directory to clean.
      * @param deleteOptions How to handle deletion.
@@ -406,7 +406,6 @@ public final class PathUtils {
      * Gets the current directory.
      *
      * @return the current directory.
-     *
      * @since 2.9.0
      */
     public static Path current() {
@@ -800,11 +799,9 @@ public final class PathUtils {
      *
      * @param filter the filter to apply to the set of files.
      * @param paths  the array of files to apply the filter to.
-     *
      * @return a subset of {@code files} that is accepted by the file filter.
      * @throws NullPointerException     if the filter is {@code null}
      * @throws IllegalArgumentException if {@code files} contains a {@code null} value.
-     *
      * @since 2.9.0
      */
     public static Path[] filter(final PathFilter filter, final Path... paths) {
@@ -1692,7 +1689,7 @@ public final class PathUtils {
     }
 
     /**
-     * Implements behavior similar to the UNIX "touch" utility. Creates a new file with size 0, or, if the file exists, just updates the file's modified time.
+     * Implements behavior similar to the Unix "touch" utility. Creates a new file with size 0, or, if the file exists, just updates the file's modified time.
      * this method creates parent directories if they do not exist.
      *
      * @param file the file to touch.
@@ -1721,7 +1718,6 @@ public final class PathUtils {
      * @param directory See {@link Files#walkFileTree(Path,FileVisitor)}.
      * @param <T>       See {@link Files#walkFileTree(Path,FileVisitor)}.
      * @return the given visitor.
-     *
      * @throws NoSuchFileException  if the directory does not exist.
      * @throws IOException          if an I/O error is thrown by a visitor method.
      * @throws NullPointerException if the directory is {@code null}.
@@ -1742,7 +1738,6 @@ public final class PathUtils {
      * @param visitor  See {@link Files#walkFileTree(Path,Set,int,FileVisitor)}.
      * @param <T>      See {@link Files#walkFileTree(Path,Set,int,FileVisitor)}.
      * @return the given visitor.
-     *
      * @throws IOException if an I/O error is thrown by a visitor method.
      */
     public static <T extends FileVisitor<? super Path>> T visitFileTree(final T visitor, final Path start, final Set<FileVisitOption> options,
@@ -1761,7 +1756,6 @@ public final class PathUtils {
      * @param more    See {@link Paths#get(String,String[])}.
      * @param <T>     See {@link Files#walkFileTree(Path,FileVisitor)}.
      * @return the given visitor.
-     *
      * @throws IOException if an I/O error is thrown by a visitor method.
      */
     public static <T extends FileVisitor<? super Path>> T visitFileTree(final T visitor, final String first, final String... more) throws IOException {
@@ -1777,7 +1771,6 @@ public final class PathUtils {
      * @param uri     See {@link Paths#get(URI)}.
      * @param <T>     See {@link Files#walkFileTree(Path,FileVisitor)}.
      * @return the given visitor.
-     *
      * @throws IOException if an I/O error is thrown by a visitor method.
      */
     public static <T extends FileVisitor<? super Path>> T visitFileTree(final T visitor, final URI uri) throws IOException {
