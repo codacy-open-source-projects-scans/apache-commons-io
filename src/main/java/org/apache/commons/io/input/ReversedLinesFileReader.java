@@ -31,23 +31,40 @@ import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.io.Charsets;
 import org.apache.commons.io.FileSystem;
 import org.apache.commons.io.StandardLineSeparator;
 import org.apache.commons.io.build.AbstractStreamBuilder;
+import org.apache.commons.io.function.IOIterable;
+import org.apache.commons.io.function.IOIterator;
 
 /**
  * Reads lines in a file reversely (similar to a BufferedReader, but starting at the last line). Useful for e.g. searching in log files.
  * <p>
  * To build an instance, use {@link Builder}.
  * </p>
+ * <p>
+ * For example:
+ * </p>
+ * <pre>
+ * <code>
+ * try (ReversedLinesFileReader reader = ReversedLinesFileReader.builder()
+ *   .setPath(path)
+ *   .setBufferSize(4096)
+ *   .setCharset(StandardCharsets.UTF_8)
+ *   .get()) {
+ *      reader.forEach(line -&gt; System.out.println(line));
+ * }
+ * </code>
+ * </pre>
  *
  * @see Builder
  * @since 2.2
  */
-public class ReversedLinesFileReader implements Closeable {
+public class ReversedLinesFileReader implements Closeable, IOIterable<String> {
 
     // @formatter:off
     /**
@@ -57,11 +74,11 @@ public class ReversedLinesFileReader implements Closeable {
      * For example:
      * </p>
      * <pre>{@code
-     * ReversedLinesFileReader r = ReversedLinesFileReader.builder()
+     * ReversedLinesFileReader reader = ReversedLinesFileReader.builder()
      *   .setPath(path)
      *   .setBufferSize(4096)
      *   .setCharset(StandardCharsets.UTF_8)
-     *   .get();}
+     *   .get());}
      * </pre>
      *
      * @see #get()
@@ -71,7 +88,7 @@ public class ReversedLinesFileReader implements Closeable {
     public static class Builder extends AbstractStreamBuilder<ReversedLinesFileReader, Builder> {
 
         /**
-         * Constructs a new {@link Builder}.
+         * Constructs a new builder of {@link ReversedLinesFileReader}.
          */
         public Builder() {
             setBufferSizeDefault(DEFAULT_BLOCK_SIZE);
@@ -463,6 +480,38 @@ public class ReversedLinesFileReader implements Closeable {
         channel.close();
     }
 
+    @Override
+    public IOIterator<String> iterator() {
+        return new IOIterator<String>() {
+
+            private String next;
+
+            @Override
+            public boolean hasNext() throws IOException {
+                if (next == null) {
+                    next = readLine();
+                }
+                return next != null;
+            }
+
+            @Override
+            public String next() throws IOException {
+                if (next == null) {
+                    next = readLine();
+                }
+                final String tmp = next;
+                next = null;
+                return tmp;
+            }
+
+            @Override
+            public Iterator<String> unwrap() {
+                return null;
+            }
+
+        };
+    }
+
     /**
      * Returns the lines of the file from bottom to top.
      *
@@ -470,7 +519,6 @@ public class ReversedLinesFileReader implements Closeable {
      * @throws IOException if an I/O error occurs.
      */
     public String readLine() throws IOException {
-
         String line = currentFilePart.readLine();
         while (line == null) {
             currentFilePart = currentFilePart.rollOver();
@@ -480,13 +528,11 @@ public class ReversedLinesFileReader implements Closeable {
             }
             line = currentFilePart.readLine();
         }
-
         // aligned behavior with BufferedReader that doesn't return a last, empty line
         if (EMPTY_STRING.equals(line) && !trailingNewlineOfFileSkipped) {
             trailingNewlineOfFileSkipped = true;
             line = readLine();
         }
-
         return line;
     }
 

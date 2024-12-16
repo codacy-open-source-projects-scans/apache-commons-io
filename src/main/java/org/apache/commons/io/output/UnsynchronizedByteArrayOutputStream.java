@@ -36,7 +36,7 @@ import org.apache.commons.io.input.UnsynchronizedByteArrayInputStream;
  * @since 2.7
  */
 //@NotThreadSafe
-public final class UnsynchronizedByteArrayOutputStream extends AbstractByteArrayOutputStream {
+public final class UnsynchronizedByteArrayOutputStream extends AbstractByteArrayOutputStream<UnsynchronizedByteArrayOutputStream> {
 
     // @formatter:off
     /**
@@ -63,6 +63,13 @@ public final class UnsynchronizedByteArrayOutputStream extends AbstractByteArray
      */
     // @formatter:on
     public static class Builder extends AbstractStreamBuilder<UnsynchronizedByteArrayOutputStream, Builder> {
+
+        /**
+         * Constructs a new builder of {@link UnsynchronizedByteArrayOutputStream}.
+         */
+        public Builder() {
+            // empty
+        }
 
         /**
          * Builds a new {@link UnsynchronizedByteArrayOutputStream}.

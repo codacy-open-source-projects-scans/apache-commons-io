@@ -18,39 +18,34 @@
 package org.apache.commons.io.function;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.Iterator;
 import java.util.Objects;
 
 /**
- * Adapts an {@link Iterator} as an {@link IOIterator}.
+ * An {@link Iterable} for an {@link IOIterable} that throws {@link UncheckedIOException} instead of {@link IOException}.
+ * <p>
+ * Keep package-private for now.
+ * </p>
  *
- * @param <E> the type of the stream elements.
+ * @param <E> the type of elements returned by this iterator.
  */
-final class IOIteratorAdapter<E> implements IOIterator<E> {
+final class UncheckedIOIterable<E> implements Iterable<E> {
 
-    static <E> IOIteratorAdapter<E> adapt(final Iterator<E> delegate) {
-        return new IOIteratorAdapter<>(delegate);
-    }
+    private final IOIterable<E> delegate;
 
-    private final Iterator<E> delegate;
-
-    private IOIteratorAdapter(final Iterator<E> delegate) {
+    /**
+     * Constructs a new instance.
+     *
+     * @param delegate The delegate
+     */
+    UncheckedIOIterable(final IOIterable<E> delegate) {
         this.delegate = Objects.requireNonNull(delegate, "delegate");
     }
 
     @Override
-    public boolean hasNext() throws IOException {
-        return delegate.hasNext();
-    }
-
-    @Override
-    public E next() throws IOException {
-        return delegate.next();
-    }
-
-    @Override
-    public Iterator<E> unwrap() {
-        return delegate;
+    public Iterator<E> iterator() {
+        return new UncheckedIOIterator<>(delegate.iterator());
     }
 
 }

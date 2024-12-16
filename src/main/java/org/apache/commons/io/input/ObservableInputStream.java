@@ -54,6 +54,13 @@ public class ObservableInputStream extends ProxyInputStream {
         private List<Observer> observers;
 
         /**
+         * Constructs a new instance for subclasses.
+         */
+        public AbstractBuilder() {
+            // empty
+        }
+
+        /**
          * Sets the list of observer callbacks.
          *
          * @param observers The list of observer callbacks.
@@ -72,6 +79,13 @@ public class ObservableInputStream extends ProxyInputStream {
      */
     public static class Builder extends AbstractBuilder<Builder> {
 
+        /**
+         * Constructs a new builder of {@link ObservableInputStream}.
+         */
+        public Builder() {
+            // empty
+        }
+
         @Override
         public ObservableInputStream get() throws IOException {
             return new ObservableInputStream(this);
@@ -83,6 +97,13 @@ public class ObservableInputStream extends ProxyInputStream {
      * Abstracts observer callback for {@link ObservableInputStream}s.
      */
     public static abstract class Observer {
+
+        /**
+         * Constructs a new instance for subclasses.
+         */
+        public Observer() {
+            // empty
+        }
 
         /**
          * Called to indicate that the {@link ObservableInputStream} has been closed.
