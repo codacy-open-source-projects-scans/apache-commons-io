@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -64,7 +64,8 @@ public class TailerListenerAdapter implements TailerListener {
     }
 
     /**
-     * Handles an Exception .
+     * Handles an Exception.
+     *
      * @param ex the exception.
      */
     @Override
@@ -74,6 +75,7 @@ public class TailerListenerAdapter implements TailerListener {
 
     /**
      * Handles a line from a Tailer.
+     *
      * @param line the line.
      */
     @Override
@@ -84,6 +86,7 @@ public class TailerListenerAdapter implements TailerListener {
     /**
      * The tailer will call this method during construction,
      * giving the listener a method of stopping the tailer.
+     *
      * @param tailer the tailer.
      */
     @Override

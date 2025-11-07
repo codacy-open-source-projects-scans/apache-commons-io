@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -35,7 +35,7 @@ import org.junit.jupiter.api.io.TempDir;
 /**
  * Tests {@link FileUtils}.
  */
-public class FileUtilsFileNewerTest {
+class FileUtilsFileNewerTest {
 
     // Test data
     private static final int FILE1_SIZE = 1;
@@ -74,7 +74,7 @@ public class FileUtilsFileNewerTest {
      * @see FileUtils#isFileNewer(File, File)
      */
     @Test
-    public void testIsFileNewer() throws IOException {
+    void testIsFileNewer() throws IOException {
         if (!testFile1.exists()) {
             throw new IllegalStateException("The testFile1 should exist");
         }
@@ -125,7 +125,7 @@ public class FileUtilsFileNewerTest {
      * @see FileUtils#isFileNewer(File, File)
      */
     @Test
-    public void testIsFileNewerImaginaryFile() throws IOException {
+    void testIsFileNewerImaginaryFile() throws IOException {
         final File imaginaryFile = new File(temporaryFolder, "imaginaryFile");
         if (imaginaryFile.exists()) {
             throw new IllegalStateException("The imaginary File exists");
@@ -141,7 +141,7 @@ public class FileUtilsFileNewerTest {
      * </p>
      */
     @Test
-    public void testIsFileNewerNoDate() {
+    void testIsFileNewerNoDate() {
         assertThrows(NullPointerException.class, () -> FileUtils.isFileNewer(testFile1, (Date) null), "date");
     }
 
@@ -152,7 +152,7 @@ public class FileUtilsFileNewerTest {
      * </p>
      */
     @Test
-    public void testIsFileNewerNoFile() {
+    void testIsFileNewerNoFile() {
         assertThrows(NullPointerException.class, () -> FileUtils.isFileNewer(null, 0), "file");
     }
 
@@ -163,7 +163,7 @@ public class FileUtilsFileNewerTest {
      * </p>
      */
     @Test
-    public void testIsFileNewerNoFileReference() {
+    void testIsFileNewerNoFileReference() {
         assertThrows(NullPointerException.class, () -> FileUtils.isFileNewer(testFile1, (File) null), "reference");
     }
 }

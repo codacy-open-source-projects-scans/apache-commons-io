@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -36,7 +36,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests {@link AgeFileFilter}.
  */
-public class AgeFileFilterTest {
+class AgeFileFilterTest {
 
     /**
      * Javadoc example.
@@ -44,7 +44,7 @@ public class AgeFileFilterTest {
      * System.out calls are commented out here but not in the Javadoc.
      */
     @Test
-    public void testJavadocExampleUsingIo() {
+    void testJavadocExampleUsingIo() {
         final File dir = FileUtils.current();
         // We are interested in files older than one day
         final long cutoffMillis = System.currentTimeMillis();
@@ -59,7 +59,7 @@ public class AgeFileFilterTest {
      * System.out calls are commented out here but not in the Javadoc.
      */
     @Test
-    public void testJavadocExampleUsingNio() throws IOException {
+    void testJavadocExampleUsingNio() throws IOException {
         final Path dir = Paths.get("");
         // We are interested in files older than one day
         final long cutoffMillis = System.currentTimeMillis();
@@ -93,7 +93,7 @@ public class AgeFileFilterTest {
     }
 
     @Test
-    public void testNoCounting() throws IOException {
+    void testNoCounting() throws IOException {
         final Path dir = Paths.get("");
         final long cutoffMillis = System.currentTimeMillis();
         final AccumulatorPathVisitor visitor = new AccumulatorPathVisitor(Counters.noopPathCounters(),

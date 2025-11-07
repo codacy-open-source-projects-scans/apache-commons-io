@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -18,6 +18,7 @@
 package org.apache.commons.io.function;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.IOException;
@@ -33,7 +34,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests {@link IOIterable}.
  */
-public class IOIterableTest {
+class IOIterableTest {
 
     private static class Fixture implements IOIterable<Path> {
 
@@ -42,6 +43,11 @@ public class IOIterableTest {
         @Override
         public IOIterator<Path> iterator() {
             return IOIterator.adapt(list);
+        }
+
+        @Override
+        public Iterable<Path> unwrap() {
+            return list;
         }
 
     }
@@ -56,7 +62,14 @@ public class IOIterableTest {
     }
 
     @Test
-    public void testForEach() throws IOException {
+    void testAsIterable() throws IOException {
+        final AtomicInteger ref = new AtomicInteger();
+        iterable.asIterable().iterator().forEachRemaining(e -> ref.incrementAndGet());
+        assertEquals(2, ref.get());
+    }
+
+    @Test
+    void testForEach() throws IOException {
         final AtomicInteger ref = new AtomicInteger();
         assertThrows(NullPointerException.class, () -> iterable.forEach(null));
         iterable.forEach(e -> ref.incrementAndGet());
@@ -64,16 +77,22 @@ public class IOIterableTest {
     }
 
     @Test
-    public void testIterator() throws IOException {
+    void testIterator() throws IOException {
         final AtomicInteger ref = new AtomicInteger();
         iterable.iterator().forEachRemaining(e -> ref.incrementAndGet());
         assertEquals(2, ref.get());
     }
 
     @Test
-    public void testSpliterator() throws IOException {
+    void testSpliterator() {
         final AtomicInteger ref = new AtomicInteger();
         iterable.spliterator().forEachRemaining(e -> ref.incrementAndGet());
         assertEquals(2, ref.get());
+    }
+
+    @Test
+    void testUnrwap() {
+        assertSame(fixture.list, iterable.unwrap());
+        assertSame(fixture.unwrap(), iterable.unwrap());
     }
 }

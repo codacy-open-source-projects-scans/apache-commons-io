@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -81,26 +81,27 @@ public final class UncheckedBufferedReader extends BufferedReader {
          * Builds a new {@link UncheckedBufferedReader}.
          *
          * <p>
-         * You must set input that supports {@link #getReader()} on this builder, otherwise, this method throws an exception.
+         * You must set an aspect that supports {@link #getReader()} on this builder, otherwise, this method throws an exception.
          * </p>
          * <p>
-         * This builder use the following aspects:
+         * This builder uses the following aspects:
          * </p>
          * <ul>
-         * <li>{@link #getReader()}</li>
+         * <li>{@link #getReader()} gets the target aspect.</li>
          * <li>{@link #getBufferSize()}</li>
          * </ul>
          *
          * @return a new instance.
-         * @throws UnsupportedOperationException if the origin cannot provide a Reader.
+         * @throws UnsupportedOperationException if the origin cannot provide a {@link Reader}.
          * @throws IllegalStateException if the {@code origin} is {@code null}.
          * @see #getReader()
          * @see #getBufferSize()
+         * @see #getUnchecked()
          */
         @Override
         public UncheckedBufferedReader get() {
             // This an unchecked class, so this method is as well.
-            return Uncheck.get(() -> new UncheckedBufferedReader(getReader(), getBufferSize()));
+            return Uncheck.get(() -> new UncheckedBufferedReader(this));
         }
 
     }
@@ -117,12 +118,13 @@ public final class UncheckedBufferedReader extends BufferedReader {
     /**
      * Constructs a buffering character-input stream that uses an input buffer of the specified size.
      *
-     * @param reader     A Reader
-     * @param bufferSize Input-buffer size
-     * @throws IllegalArgumentException If {@code bufferSize <= 0}
+     * @param builder A Builder providing the underlying reader and buffer size.
+     * @throws IOException              if an I/O error occurs.
+     * @throws IllegalArgumentException If {@code bufferSize <= 0}.
      */
-    private UncheckedBufferedReader(final Reader reader, final int bufferSize) {
-        super(reader, bufferSize);
+    @SuppressWarnings("resource")
+    private UncheckedBufferedReader(final Builder builder) throws IOException {
+        super(builder.getReader(), builder.getBufferSize());
     }
 
     /**
@@ -146,7 +148,7 @@ public final class UncheckedBufferedReader extends BufferedReader {
      */
     @Override
     public int read() throws UncheckedIOException {
-        return Uncheck.get(super::read);
+        return Uncheck.getAsInt(super::read);
     }
 
     /**
@@ -186,7 +188,7 @@ public final class UncheckedBufferedReader extends BufferedReader {
      */
     @Override
     public boolean ready() throws UncheckedIOException {
-        return Uncheck.get(super::ready);
+        return Uncheck.getAsBoolean(super::ready);
     }
 
     /**

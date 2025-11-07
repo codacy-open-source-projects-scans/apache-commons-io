@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -125,21 +125,21 @@ public class WildcardFilter extends AbstractFileFilter implements Serializable {
     }
 
     /**
-     * Checks to see if the file name matches one of the wildcards.
+     * Tests to see if the file name matches one of the wildcards.
      *
      * @param file the file to check
      * @return true if the file name matches one of the wildcards
      */
     @Override
     public boolean accept(final File file) {
-        if (file.isDirectory()) {
+        if (isDirectory(file)) {
             return false;
         }
         return Stream.of(wildcards).anyMatch(wildcard -> FilenameUtils.wildcardMatch(file.getName(), wildcard));
     }
 
     /**
-     * Checks to see if the file name matches one of the wildcards.
+     * Tests to see if the file name matches one of the wildcards.
      *
      * @param dir  the file directory
      * @param name  the file name
@@ -154,7 +154,7 @@ public class WildcardFilter extends AbstractFileFilter implements Serializable {
     }
 
     /**
-     * Checks to see if the file name matches one of the wildcards.
+     * Tests to see if the file name matches one of the wildcards.
      *
      * @param path the file to check
      * @param attributes the path's basic attributes (may be null).

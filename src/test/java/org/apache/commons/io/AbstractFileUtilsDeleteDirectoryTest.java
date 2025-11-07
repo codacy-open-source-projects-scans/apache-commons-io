@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -34,15 +34,15 @@ public abstract class AbstractFileUtilsDeleteDirectoryTest {
     @TempDir
     public File top;
 
-    protected abstract boolean setupSymlink(final File res, final File link) throws Exception;
+    protected abstract boolean setupSymlink(File res, File link) throws Exception;
 
     @Test
-    public void testDeleteDirectoryNullArgument() {
+    void testDeleteDirectoryNullArgument() {
         assertThrows(NullPointerException.class, () -> FileUtils.deleteDirectory(null));
     }
 
     @Test
-    public void testDeleteDirWithASymbolicLinkDir2() throws Exception {
+    void testDeleteDirWithASymbolicLinkDir2() throws Exception {
 
         final File realOuter = new File(top, "realouter");
         assertTrue(realOuter.mkdirs());
@@ -73,7 +73,7 @@ public abstract class AbstractFileUtilsDeleteDirectoryTest {
     }
 
     @Test
-    public void testDeleteDirWithASymlinkDir() throws Exception {
+    void testDeleteDirWithASymlinkDir() throws Exception {
 
         final File realOuter = new File(top, "realouter");
         assertTrue(realOuter.mkdirs());
@@ -104,7 +104,7 @@ public abstract class AbstractFileUtilsDeleteDirectoryTest {
     }
 
     @Test
-    public void testDeleteDirWithSymlinkFile() throws Exception {
+    void testDeleteDirWithSymlinkFile() throws Exception {
         final File realOuter = new File(top, "realouter");
         assertTrue(realOuter.mkdirs());
 
@@ -135,7 +135,7 @@ public abstract class AbstractFileUtilsDeleteDirectoryTest {
     }
 
     @Test
-    public void testDeleteInvalidSymbolicLinks() throws Exception {
+    void testDeleteInvalidSymbolicLinks() throws Exception {
         final File aFile = new File(top, "realParentDirA");
         assertTrue(aFile.mkdir());
         final File bFile = new File(aFile, "realChildDirB");
@@ -158,7 +158,7 @@ public abstract class AbstractFileUtilsDeleteDirectoryTest {
     }
 
     @Test
-    public void testDeleteParentSymbolicLink2() throws Exception {
+    void testDeleteParentSymbolicLink2() throws Exception {
         final File realParent = new File(top, "realparent");
         assertTrue(realParent.mkdirs());
 
@@ -191,7 +191,7 @@ public abstract class AbstractFileUtilsDeleteDirectoryTest {
     }
 
     @Test
-    public void testDeleteParentSymlink() throws Exception {
+    void testDeleteParentSymlink() throws Exception {
         final File realParent = new File(top, "realparent");
         assertTrue(realParent.mkdirs());
 
@@ -224,7 +224,7 @@ public abstract class AbstractFileUtilsDeleteDirectoryTest {
     }
 
     @Test
-    public void testDeletesNested() throws Exception {
+    void testDeletesNested() throws Exception {
         final File nested = new File(top, "nested");
         assertTrue(nested.mkdirs());
 
@@ -241,7 +241,7 @@ public abstract class AbstractFileUtilsDeleteDirectoryTest {
     }
 
     @Test
-    public void testDeletesRegular() throws Exception {
+    void testDeletesRegular() throws Exception {
         final File nested = new File(top, "nested");
         assertTrue(nested.mkdirs());
 

@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.build.AbstractOrigin;
 import org.apache.commons.io.build.AbstractStreamBuilder;
 
@@ -91,13 +92,17 @@ public class UnsynchronizedByteArrayInputStream extends InputStream {
             // empty
         }
 
+        private byte[] checkOriginByteArray() throws IOException {
+            return checkOrigin().getByteArray();
+        }
+
         /**
          * Builds a new {@link UnsynchronizedByteArrayInputStream}.
          * <p>
-         * You must set input that supports {@code byte[]} on this builder, otherwise, this method throws an exception.
+         * You must set an aspect that supports {@code byte[]} on this builder, otherwise, this method throws an exception.
          * </p>
          * <p>
-         * This builder use the following aspects:
+         * This builder uses the following aspects:
          * </p>
          * <ul>
          * <li>{@code byte[]}</li>
@@ -106,13 +111,15 @@ public class UnsynchronizedByteArrayInputStream extends InputStream {
          * </ul>
          *
          * @return a new instance.
-         * @throws UnsupportedOperationException if the origin cannot provide a byte[].
+         * @throws UnsupportedOperationException if the origin cannot provide a {@code byte[]}.
          * @throws IllegalStateException         if the {@code origin} is {@code null}.
+         * @throws IOException                   if an I/O error occurs converting to an {@code byte[]} using {@link AbstractOrigin#getByteArray()}.
          * @see AbstractOrigin#getByteArray()
+         * @see #getUnchecked()
          */
         @Override
         public UnsynchronizedByteArrayInputStream get() throws IOException {
-            return new UnsynchronizedByteArrayInputStream(checkOrigin().getByteArray(), offset, length);
+            return new UnsynchronizedByteArrayInputStream(this);
         }
 
         @Override
@@ -199,6 +206,10 @@ public class UnsynchronizedByteArrayInputStream extends InputStream {
      */
     private int markedOffset;
 
+    private UnsynchronizedByteArrayInputStream(final Builder builder) throws IOException {
+        this(builder.checkOriginByteArray(), builder.offset, builder.length);
+    }
+
     /**
      * Constructs a new byte array input stream.
      *
@@ -278,9 +289,9 @@ public class UnsynchronizedByteArrayInputStream extends InputStream {
 
     @Override
     public int read(final byte[] dest, final int off, final int len) {
-        Objects.requireNonNull(dest, "dest");
-        if (off < 0 || len < 0 || off + len > dest.length) {
-            throw new IndexOutOfBoundsException();
+        IOUtils.checkFromIndexSize(dest, off, len);
+        if (len == 0) {
+            return 0;
         }
 
         if (offset >= eod) {

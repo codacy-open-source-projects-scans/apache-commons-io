@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -60,7 +60,7 @@ public abstract class AbstractConditionalFileFilterTest extends AbstractIOFileFi
 
     @BeforeEach
     public void setUp() {
-        this.workingPath = determineWorkingDirectoryPath(getWorkingPathNamePropertyKey(), getDefaultWorkingPath());
+        this.workingPath = getWorkingDirectoryPath(getWorkingPathNamePropertyKey(), getDefaultWorkingPath());
         this.file = new File(this.workingPath, TEST_FILE_NAME_PREFIX + 1 + TEST_FILE_TYPE);
         this.trueFilters = new TesterTrueFileFilter[4];
         this.falseFilters = new TesterFalseFileFilter[4];
@@ -73,7 +73,7 @@ public abstract class AbstractConditionalFileFilterTest extends AbstractIOFileFi
     }
 
     @Test
-    public void testAdd() {
+    void testAdd() {
         final List<TesterTrueFileFilter> filters = new ArrayList<>();
         final ConditionalFileFilter fileFilter = getConditionalFileFilter();
         filters.add(new TesterTrueFileFilter());
@@ -90,7 +90,7 @@ public abstract class AbstractConditionalFileFilterTest extends AbstractIOFileFi
     }
 
     @Test
-    public void testFilterBuiltUsingAdd() {
+    void testFilterBuiltUsingAdd() {
         final List<List<IOFileFilter>> testFilters = getTestFilters();
         final List<boolean[]> testTrueResults = getTrueResults();
         final List<boolean[]> testFalseResults = getFalseResults();
@@ -124,7 +124,7 @@ public abstract class AbstractConditionalFileFilterTest extends AbstractIOFileFi
     }
 
     @Test
-    public void testFilterBuiltUsingConstructor() {
+    void testFilterBuiltUsingConstructor() {
         final List<List<IOFileFilter>> testFilters = getTestFilters();
         final List<boolean[]> testTrueResults = getTrueResults();
         final List<boolean[]> testFalseResults = getFalseResults();
@@ -158,7 +158,7 @@ public abstract class AbstractConditionalFileFilterTest extends AbstractIOFileFi
     }
 
     @Test
-    public void testNoFilters() {
+    void testNoFilters() {
         final ConditionalFileFilter fileFilter = getConditionalFileFilter();
         final File file = new File(this.workingPath, TEST_FILE_NAME_PREFIX + 1 + TEST_FILE_TYPE);
         assertFileFiltering(1, (IOFileFilter) fileFilter, file, false);
@@ -166,7 +166,7 @@ public abstract class AbstractConditionalFileFilterTest extends AbstractIOFileFi
     }
 
     @Test
-    public void testRemove() {
+    void testRemove() {
         final List<TesterTrueFileFilter> filters = new ArrayList<>();
         final ConditionalFileFilter fileFilter = getConditionalFileFilter();
         filters.add(new TesterTrueFileFilter());

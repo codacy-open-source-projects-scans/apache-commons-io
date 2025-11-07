@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -41,7 +41,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 /**
  * Tests {@link ReversedLinesFileReader}.
  */
-public class ReversedLinesFileReaderParamBlockSizeTest {
+class ReversedLinesFileReaderParamBlockSizeTest {
 
     private static final String UTF_8 = StandardCharsets.UTF_8.name();
     private static final String ISO_8859_1 = StandardCharsets.ISO_8859_1.name();
@@ -82,9 +82,11 @@ public class ReversedLinesFileReaderParamBlockSizeTest {
         assertEquals(expected, actual, messageSupplier);
     }
 
-    // small and uneven block sizes are not used in reality but are good to show that the algorithm is solid
+    /**
+     * Small and uneven block sizes are not used in reality but are good to show that the algorithm is solid.
+     */
     public static IntStream blockSizes() {
-        return IntStream.of(1, 3, 8, 256, 4096);
+        return IntStream.of(1, 3, 8, 10, 256, 4096, 8192);
     }
 
     private ReversedLinesFileReader reversedLinesFileReader;
@@ -108,7 +110,7 @@ public class ReversedLinesFileReaderParamBlockSizeTest {
 
     @ParameterizedTest(name = "BlockSize={0}")
     @MethodSource("blockSizes")
-    public void testEmptyFile(final int blockSize) throws URISyntaxException, IOException {
+    void testEmptyFile(final int blockSize) throws URISyntaxException, IOException {
         final File testFileEmpty = TestResources.getFile("/test-file-empty.bin");
         try (ReversedLinesFileReader reader = new ReversedLinesFileReader(testFileEmpty, blockSize, UTF_8)) {
             assertNull(reader.readLine());
@@ -119,7 +121,7 @@ public class ReversedLinesFileReaderParamBlockSizeTest {
     }
 
     @Test
-    public void testFileSizeIsExactMultipleOfBlockSize() throws URISyntaxException, IOException {
+    void testFileSizeIsExactMultipleOfBlockSize() throws URISyntaxException, IOException {
         final int blockSize = 10;
         final File testFile20Bytes = TestResources.getFile("/test-file-20byteslength.bin");
         reversedLinesFileReader = new ReversedLinesFileReader(testFile20Bytes, blockSize, ISO_8859_1);
@@ -129,7 +131,7 @@ public class ReversedLinesFileReaderParamBlockSizeTest {
 
     @ParameterizedTest(name = "BlockSize={0}")
     @MethodSource("blockSizes")
-    public void testGBK(final int testParamBlockSize) throws URISyntaxException, IOException {
+    void testGBK(final int testParamBlockSize) throws URISyntaxException, IOException {
         final File testFileGBK = TestResources.getFile("/test-file-gbk.bin");
         reversedLinesFileReader = new ReversedLinesFileReader(testFileGBK, testParamBlockSize, "GBK");
         assertEqualsAndNoLineBreaks(TEST_LINE_GBK_2, reversedLinesFileReader.readLine());
@@ -138,7 +140,7 @@ public class ReversedLinesFileReaderParamBlockSizeTest {
 
     @ParameterizedTest(name = "BlockSize={0}")
     @MethodSource("blockSizes")
-    public void testIsoFileDefaults(final int testParamBlockSize) throws URISyntaxException, IOException {
+    void testIsoFileDefaults(final int testParamBlockSize) throws URISyntaxException, IOException {
         final File testFileIso = TestResources.getFile("/test-file-iso8859-1.bin");
         reversedLinesFileReader = new ReversedLinesFileReader(testFileIso, testParamBlockSize, ISO_8859_1);
         assertFileWithShrinkingTestLines(reversedLinesFileReader);
@@ -146,7 +148,7 @@ public class ReversedLinesFileReaderParamBlockSizeTest {
 
     @ParameterizedTest(name = "BlockSize={0}")
     @MethodSource("blockSizes")
-    public void testIsoFileManyWindowsBreaksSmallBlockSize2VerifyBlockSpanningNewLines(final int testParamBlockSize) throws URISyntaxException, IOException {
+    void testIsoFileManyWindowsBreaksSmallBlockSize2VerifyBlockSpanningNewLines(final int testParamBlockSize) throws URISyntaxException, IOException {
         final File testFileIso = TestResources.getFile("/test-file-iso8859-1-shortlines-win-linebr.bin");
         reversedLinesFileReader = new ReversedLinesFileReader(testFileIso, testParamBlockSize, ISO_8859_1);
 
@@ -160,7 +162,7 @@ public class ReversedLinesFileReaderParamBlockSizeTest {
 
     @ParameterizedTest(name = "BlockSize={0}")
     @MethodSource("blockSizes")
-    public void testShiftJISFile(final int testParamBlockSize) throws URISyntaxException, IOException {
+    void testShiftJISFile(final int testParamBlockSize) throws URISyntaxException, IOException {
         final File testFileShiftJIS = TestResources.getFile("/test-file-shiftjis.bin");
         reversedLinesFileReader = new ReversedLinesFileReader(testFileShiftJIS, testParamBlockSize, "Shift_JIS");
         assertEqualsAndNoLineBreaks(TEST_LINE_SHIFT_JIS2, reversedLinesFileReader.readLine());
@@ -169,7 +171,7 @@ public class ReversedLinesFileReaderParamBlockSizeTest {
 
     @ParameterizedTest(name = "BlockSize={0}")
     @MethodSource("blockSizes")
-    public void testUnsupportedEncodingBig5(final int testParamBlockSize) throws URISyntaxException {
+    void testUnsupportedEncodingBig5(final int testParamBlockSize) throws URISyntaxException {
         final File testFileEncodingBig5 = TestResources.getFile("/test-file-empty.bin");
         assertThrows(UnsupportedEncodingException.class,
                 () -> new ReversedLinesFileReader(testFileEncodingBig5, testParamBlockSize, "Big5").close());
@@ -177,7 +179,7 @@ public class ReversedLinesFileReaderParamBlockSizeTest {
 
     @ParameterizedTest(name = "BlockSize={0}")
     @MethodSource("blockSizes")
-    public void testUnsupportedEncodingUTF16(final int testParamBlockSize) throws URISyntaxException {
+    void testUnsupportedEncodingUTF16(final int testParamBlockSize) throws URISyntaxException {
         final File testFileEmpty = TestResources.getFile("/test-file-empty.bin");
         assertThrows(UnsupportedEncodingException.class,
                 () -> new ReversedLinesFileReader(testFileEmpty, testParamBlockSize, StandardCharsets.UTF_16.name()).close());
@@ -185,7 +187,7 @@ public class ReversedLinesFileReaderParamBlockSizeTest {
 
     @ParameterizedTest(name = "BlockSize={0}")
     @MethodSource("blockSizes")
-    public void testUTF16BEFile(final int testParamBlockSize) throws URISyntaxException, IOException {
+    void testUTF16BEFile(final int testParamBlockSize) throws URISyntaxException, IOException {
         final File testFileUTF16BE = TestResources.getFile("/test-file-utf16be.bin");
         reversedLinesFileReader = new ReversedLinesFileReader(testFileUTF16BE, testParamBlockSize, StandardCharsets.UTF_16BE.name());
         assertFileWithShrinkingTestLines(reversedLinesFileReader);
@@ -193,7 +195,7 @@ public class ReversedLinesFileReaderParamBlockSizeTest {
 
     @ParameterizedTest(name = "BlockSize={0}")
     @MethodSource("blockSizes")
-    public void testUTF16LEFile(final int testParamBlockSize) throws URISyntaxException, IOException {
+    void testUTF16LEFile(final int testParamBlockSize) throws URISyntaxException, IOException {
         final File testFileUTF16LE = TestResources.getFile("/test-file-utf16le.bin");
         reversedLinesFileReader = new ReversedLinesFileReader(testFileUTF16LE, testParamBlockSize, StandardCharsets.UTF_16LE.name());
         assertFileWithShrinkingTestLines(reversedLinesFileReader);
@@ -201,7 +203,7 @@ public class ReversedLinesFileReaderParamBlockSizeTest {
 
     @ParameterizedTest(name = "BlockSize={0}")
     @MethodSource("blockSizes")
-    public void testUTF8File(final int testParamBlockSize) throws URISyntaxException, IOException {
+    void testUTF8File(final int testParamBlockSize) throws URISyntaxException, IOException {
         final File testFileIso = TestResources.getFile("/test-file-utf8.bin");
         reversedLinesFileReader = new ReversedLinesFileReader(testFileIso, testParamBlockSize, UTF_8);
         assertFileWithShrinkingTestLines(reversedLinesFileReader);
@@ -209,7 +211,7 @@ public class ReversedLinesFileReaderParamBlockSizeTest {
 
     @ParameterizedTest(name = "BlockSize={0}")
     @MethodSource("blockSizes")
-    public void testUTF8FileCRBreaks(final int testParamBlockSize) throws URISyntaxException, IOException {
+    void testUTF8FileCRBreaks(final int testParamBlockSize) throws URISyntaxException, IOException {
         final File testFileIso = TestResources.getFile("/test-file-utf8-cr-only.bin");
         reversedLinesFileReader = new ReversedLinesFileReader(testFileIso, testParamBlockSize, UTF_8);
         assertFileWithShrinkingTestLines(reversedLinesFileReader);
@@ -217,7 +219,7 @@ public class ReversedLinesFileReaderParamBlockSizeTest {
 
     @ParameterizedTest(name = "BlockSize={0}")
     @MethodSource("blockSizes")
-    public void testUTF8FileWindowsBreaks(final int testParamBlockSize) throws URISyntaxException, IOException {
+    void testUTF8FileWindowsBreaks(final int testParamBlockSize) throws URISyntaxException, IOException {
         final File testFileIso = TestResources.getFile("/test-file-utf8-win-linebr.bin");
         reversedLinesFileReader = new ReversedLinesFileReader(testFileIso, testParamBlockSize, UTF_8);
         assertFileWithShrinkingTestLines(reversedLinesFileReader);
@@ -225,7 +227,7 @@ public class ReversedLinesFileReaderParamBlockSizeTest {
 
     @ParameterizedTest(name = "BlockSize={0}")
     @MethodSource("blockSizes")
-    public void testUTF8FileWindowsBreaksSmallBlockSize2VerifyBlockSpanningNewLines(final int testParamBlockSize) throws URISyntaxException, IOException {
+    void testUTF8FileWindowsBreaksSmallBlockSize2VerifyBlockSpanningNewLines(final int testParamBlockSize) throws URISyntaxException, IOException {
         final File testFileUtf8 = TestResources.getFile("/test-file-utf8-win-linebr.bin");
         reversedLinesFileReader = new ReversedLinesFileReader(testFileUtf8, testParamBlockSize, UTF_8);
         assertFileWithShrinkingTestLines(reversedLinesFileReader);
@@ -233,7 +235,7 @@ public class ReversedLinesFileReaderParamBlockSizeTest {
 
     @ParameterizedTest(name = "BlockSize={0}")
     @MethodSource("blockSizes")
-    public void testWindows31jFile(final int testParamBlockSize) throws URISyntaxException, IOException {
+    void testWindows31jFile(final int testParamBlockSize) throws URISyntaxException, IOException {
         final File testFileWindows31J = TestResources.getFile("/test-file-windows-31j.bin");
         reversedLinesFileReader = new ReversedLinesFileReader(testFileWindows31J, testParamBlockSize, "windows-31j");
         assertEqualsAndNoLineBreaks(TEST_LINE_WINDOWS_31J_2, reversedLinesFileReader.readLine());
@@ -242,7 +244,7 @@ public class ReversedLinesFileReaderParamBlockSizeTest {
 
     @ParameterizedTest(name = "BlockSize={0}")
     @MethodSource("blockSizes")
-    public void testxWindows949File(final int testParamBlockSize) throws URISyntaxException, IOException {
+    void testxWindows949File(final int testParamBlockSize) throws URISyntaxException, IOException {
         final File testFilexWindows949 = TestResources.getFile("/test-file-x-windows-949.bin");
         reversedLinesFileReader = new ReversedLinesFileReader(testFilexWindows949, testParamBlockSize, "x-windows-949");
         assertEqualsAndNoLineBreaks(TEST_LINE_X_WINDOWS_949_2, reversedLinesFileReader.readLine());
@@ -251,7 +253,7 @@ public class ReversedLinesFileReaderParamBlockSizeTest {
 
     @ParameterizedTest(name = "BlockSize={0}")
     @MethodSource("blockSizes")
-    public void testxWindows950File(final int testParamBlockSize) throws URISyntaxException, IOException {
+    void testxWindows950File(final int testParamBlockSize) throws URISyntaxException, IOException {
         final File testFilexWindows950 = TestResources.getFile("/test-file-x-windows-950.bin");
         reversedLinesFileReader = new ReversedLinesFileReader(testFilexWindows950, testParamBlockSize, "x-windows-950");
         assertEqualsAndNoLineBreaks(TEST_LINE_X_WINDOWS_950_2, reversedLinesFileReader.readLine());

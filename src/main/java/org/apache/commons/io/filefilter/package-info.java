@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -148,7 +148,7 @@
  * }
  * </pre>
  * <h2>Using NIO</h2>
- * <p>You can combine Java <strong>file tree walking</strong> by using <code>java.nio.file.Files.walk()</code> APIs with filters:</p>
+ * <p>You can combine Java <strong>file tree walking</strong> by using {@code java.nio.file.Files.walk()} APIs with filters:</p>
  * <pre>
  * final Path dir = Paths.get("");
  * // We are interested in files older than one day

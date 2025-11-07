@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -156,7 +156,7 @@ public class NameFileFilter extends AbstractFileFilter implements Serializable {
     }
 
     /**
-     * Checks to see if the file name matches.
+     * Tests to see if the file name matches.
      *
      * @param file  the File to check
      * @return true if the file name matches
@@ -167,7 +167,7 @@ public class NameFileFilter extends AbstractFileFilter implements Serializable {
     }
 
     /**
-     * Checks to see if the file name matches.
+     * Tests to see if the file name matches.
      *
      * @param dir  the File directory (ignored)
      * @param name  the file name

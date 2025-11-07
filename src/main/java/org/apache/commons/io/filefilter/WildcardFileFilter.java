@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -107,7 +107,7 @@ public class WildcardFileFilter extends AbstractFileFilter implements Serializab
 
         @Override
         public WildcardFileFilter get() {
-            return new WildcardFileFilter(ioCase, wildcards);
+            return new WildcardFileFilter(this);
         }
 
         /**
@@ -166,6 +166,10 @@ public class WildcardFileFilter extends AbstractFileFilter implements Serializab
 
     /** Whether the comparison is case-sensitive. */
     private final IOCase ioCase;
+
+    private WildcardFileFilter(final Builder builder) {
+        this(builder.ioCase, builder.wildcards);
+    }
 
     /**
      * Constructs a new wildcard filter for an array of wildcards specifying case-sensitivity.
@@ -257,7 +261,7 @@ public class WildcardFileFilter extends AbstractFileFilter implements Serializab
     }
 
     /**
-     * Checks to see if the file name matches one of the wildcards.
+     * Tests to see if the file name matches one of the wildcards.
      *
      * @param file the file to check
      * @return true if the file name matches one of the wildcards
@@ -268,7 +272,7 @@ public class WildcardFileFilter extends AbstractFileFilter implements Serializab
     }
 
     /**
-     * Checks to see if the file name matches one of the wildcards.
+     * Tests to see if the file name matches one of the wildcards.
      *
      * @param dir  the file directory (ignored)
      * @param name the file name
@@ -280,7 +284,7 @@ public class WildcardFileFilter extends AbstractFileFilter implements Serializab
     }
 
     /**
-     * Checks to see if the file name matches one of the wildcards.
+     * Tests to see if the file name matches one of the wildcards.
      *
      * @param path the file to check
      * @param attributes the path's basic attributes (may be null).

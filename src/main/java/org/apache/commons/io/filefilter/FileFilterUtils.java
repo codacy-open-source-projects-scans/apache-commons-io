@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -153,7 +153,7 @@ public class FileFilterUtils {
      * @return a filter that ANDs the two specified filters
      * @see #and(IOFileFilter...)
      * @see AndFileFilter
-     * @deprecated use {@link #and(IOFileFilter...)}
+     * @deprecated Use {@link #and(IOFileFilter...)}
      */
     @Deprecated
     public static IOFileFilter andFileFilter(final IOFileFilter filter1, final IOFileFilter filter2) {
@@ -603,7 +603,7 @@ public class FileFilterUtils {
      * @return a filter that ORs the two specified filters
      * @see #or(IOFileFilter...)
      * @see OrFileFilter
-     * @deprecated use {@link #or(IOFileFilter...)}
+     * @deprecated Use {@link #or(IOFileFilter...)}
      */
     @Deprecated
     public static IOFileFilter orFileFilter(final IOFileFilter filter1, final IOFileFilter filter2) {
@@ -669,7 +669,7 @@ public class FileFilterUtils {
      * @see SizeFileFilter
      * @since 1.3
      */
-    public static IOFileFilter sizeRangeFileFilter(final long minSizeInclusive, final long maxSizeInclusive ) {
+    public static IOFileFilter sizeRangeFileFilter(final long minSizeInclusive, final long maxSizeInclusive) {
         final IOFileFilter minimumFilter = new SizeFileFilter(minSizeInclusive, true);
         final IOFileFilter maximumFilter = new SizeFileFilter(maxSizeInclusive + 1L, false);
         return minimumFilter.and(maximumFilter);

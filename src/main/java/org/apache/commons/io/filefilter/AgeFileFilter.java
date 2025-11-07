@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -173,7 +173,7 @@ public class AgeFileFilter extends AbstractFileFilter implements Serializable {
     }
 
     /**
-     * Checks to see if the last modification of the file matches cutoff favorably.
+     * Tests to see if the last modification of the file matches cutoff favorably.
      * <p>
      * If last modification time equals cutoff and newer files are required, file <strong>IS NOT</strong> selected. If last
      * modification time equals cutoff and older files are required, file <strong>IS</strong> selected.
@@ -188,7 +188,7 @@ public class AgeFileFilter extends AbstractFileFilter implements Serializable {
     }
 
     /**
-     * Checks to see if the last modification of the file matches cutoff favorably.
+     * Tests to see if the last modification of the file matches cutoff favorably.
      * <p>
      * If last modification time equals cutoff and newer files are required, file <strong>IS NOT</strong> selected. If last
      * modification time equals cutoff and older files are required, file <strong>IS</strong> selected.

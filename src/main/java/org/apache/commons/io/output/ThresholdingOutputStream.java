@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,6 +19,7 @@ package org.apache.commons.io.output;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.function.IOConsumer;
 import org.apache.commons.io.function.IOFunction;
 
@@ -37,6 +38,11 @@ import org.apache.commons.io.function.IOFunction;
  * NOTE: This implementation may trigger the event <em>before</em> the threshold is actually reached, since it triggers
  * when a pending write operation would cause the threshold to be exceeded.
  * </p>
+ * <p>
+ * See also the subclass {@link DeferredFileOutputStream}.
+ * </p>
+ *
+ * @see DeferredFileOutputStream
  */
 public class ThresholdingOutputStream extends OutputStream {
 
@@ -201,7 +207,7 @@ public class ThresholdingOutputStream extends OutputStream {
     /**
      * Sets the byteCount to count. Useful for re-opening an output stream that has previously been written to.
      *
-     * @param count The number of bytes that have already been written to the output stream
+     * @param count The number of bytes that have already been written to the output stream.
      * @since 2.5
      */
     protected void setByteCount(final long count) {
@@ -222,6 +228,7 @@ public class ThresholdingOutputStream extends OutputStream {
      * Writes {@code b.length} bytes from the specified byte array to this output stream.
      *
      * @param b The array of bytes to be written.
+     * @throws NullPointerException if the byte array is {@code null}.
      * @throws IOException if an error occurs.
      */
     @SuppressWarnings("resource") // the underlying stream is managed by a subclass.
@@ -239,11 +246,14 @@ public class ThresholdingOutputStream extends OutputStream {
      * @param b The byte array from which the data will be written.
      * @param off The start offset in the byte array.
      * @param len The number of bytes to write.
+     * @throws NullPointerException if the byte array is {@code null}.
+     * @throws IndexOutOfBoundsException if {@code off} or {@code len} are negative, or if {@code off + len} is greater than {@code b.length}.
      * @throws IOException if an error occurs.
      */
     @SuppressWarnings("resource") // the underlying stream is managed by a subclass.
     @Override
     public void write(final byte[] b, final int off, final int len) throws IOException {
+        IOUtils.checkFromIndexSize(b, off, len);
         // TODO we could write the sub-array up the threshold, fire the event,
         // and then write the rest so the event is always fired at the precise point.
         checkThreshold(len);

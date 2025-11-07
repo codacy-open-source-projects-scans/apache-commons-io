@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,8 +24,6 @@ import java.io.InputStream;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.build.AbstractStreamBuilder;
-import org.apache.commons.io.function.Erase;
-import org.apache.commons.io.function.IOConsumer;
 import org.apache.commons.io.function.IOIntConsumer;
 
 /**
@@ -53,7 +51,7 @@ public abstract class ProxyInputStream extends FilterInputStream {
      * @param <B> The builder type.
      * @since 2.18.0
      */
-    protected static abstract class AbstractBuilder<T, B extends AbstractStreamBuilder<T, B>> extends AbstractStreamBuilder<T, B> {
+    protected abstract static class AbstractBuilder<T, B extends AbstractStreamBuilder<T, B>> extends AbstractStreamBuilder<T, B> {
 
         private IOIntConsumer afterRead;
 
@@ -88,7 +86,7 @@ public abstract class ProxyInputStream extends FilterInputStream {
          * </p>
          *
          * @param afterRead the {@link ProxyInputStream#afterRead(int)} behavior.
-         * @return this instance.
+         * @return {@code this} instance.
          */
         public B setAfterRead(final IOIntConsumer afterRead) {
             this.afterRead = afterRead;
@@ -100,12 +98,7 @@ public abstract class ProxyInputStream extends FilterInputStream {
     /**
      * Tracks whether {@link #close()} has been called or not.
      */
-    private boolean closed;
-
-    /**
-     * Handles exceptions.
-     */
-    private final IOConsumer<IOException> exceptionHandler;
+    private volatile boolean closed;
 
     private final IOIntConsumer afterRead;
 
@@ -130,7 +123,6 @@ public abstract class ProxyInputStream extends FilterInputStream {
     public ProxyInputStream(final InputStream proxy) {
         // the delegate is stored in a protected superclass variable named 'in'.
         super(proxy);
-        this.exceptionHandler = Erase::rethrow;
         this.afterRead = IOIntConsumer.NOOP;
     }
 
@@ -144,7 +136,6 @@ public abstract class ProxyInputStream extends FilterInputStream {
     protected ProxyInputStream(final InputStream proxy, final AbstractBuilder<?, ?> builder) {
         // the delegate is stored in a protected superclass instance variable named 'in'.
         super(proxy);
-        this.exceptionHandler = Erase::rethrow;
         this.afterRead = builder.getAfterRead() != null ? builder.getAfterRead() : IOIntConsumer.NOOP;
     }
 
@@ -204,9 +195,9 @@ public abstract class ProxyInputStream extends FilterInputStream {
      * you want to add pre-processing steps also to them.
      * </p>
      *
-     * @since 2.0
      * @param n number of bytes that the caller asked to be read.
      * @throws IOException if the pre-processing fails in a subclass.
+     * @since 2.0
      */
     @SuppressWarnings("unused") // Possibly thrown from subclasses.
     protected void beforeRead(final int n) throws IOException {
@@ -245,7 +236,7 @@ public abstract class ProxyInputStream extends FilterInputStream {
      * @since 2.0
      */
     protected void handleIOException(final IOException e) throws IOException {
-        exceptionHandler.accept(e);
+        throw e;
     }
 
     /**
@@ -367,12 +358,15 @@ public abstract class ProxyInputStream extends FilterInputStream {
     }
 
     /**
-     * Package-private for testing.
+     * Sets the underlying input stream.
      *
      * @param in The input stream to set in {@link java.io.FilterInputStream#in}.
+     * @return {@code this} instance.
+     * @since 2.19.0
      */
-    void setIn(final InputStream in) {
+    public ProxyInputStream setReference(final InputStream in) {
         this.in = in;
+        return this;
     }
 
     /**

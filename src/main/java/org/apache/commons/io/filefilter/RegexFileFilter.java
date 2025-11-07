@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -102,7 +102,7 @@ public class RegexFileFilter extends AbstractFileFilter implements Serializable 
     private final Pattern pattern;
 
     /** How convert a path to a string. */
-    private transient final Function<Path, String> pathToString;
+    private final transient Function<Path, String> pathToString;
 
     /**
      * Constructs a new regular expression filter for a compiled regular expression
@@ -162,7 +162,7 @@ public class RegexFileFilter extends AbstractFileFilter implements Serializable 
     }
 
     /**
-     * Checks to see if the file name matches one of the regular expressions.
+     * Tests to see if the file name matches one of the regular expressions.
      *
      * @param dir the file directory (ignored)
      * @param name the file name
@@ -174,7 +174,7 @@ public class RegexFileFilter extends AbstractFileFilter implements Serializable 
     }
 
     /**
-     * Checks to see if the file name matches one of the regular expressions.
+     * Tests to see if the file name matches one of the regular expressions.
      *
      * @param path the path
      * @param attributes the path's basic attributes (may be null).

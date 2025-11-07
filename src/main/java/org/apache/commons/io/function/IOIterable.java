@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -18,6 +18,7 @@
 package org.apache.commons.io.function;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.Objects;
 
 /**
@@ -29,6 +30,17 @@ import java.util.Objects;
 public interface IOIterable<T> {
 
     /**
+     * Creates an {@link Iterable} for this instance that throws {@link UncheckedIOException} instead of
+     * {@link IOException}.
+     *
+     * @return an {@link UncheckedIOException} {@link Iterable}.
+     * @since 2.21.0
+     */
+    default Iterable<T> asIterable() {
+        return new UncheckedIOIterable<>(this);
+    }
+
+    /**
      * Like {@link Iterable#iterator()}.
      *
      * @param action The action to be performed for each element.
@@ -37,8 +49,7 @@ public interface IOIterable<T> {
      * @see Iterable#iterator()
      */
     default void forEach(final IOConsumer<? super T> action) throws IOException {
-        Objects.requireNonNull(action);
-        iterator().forEachRemaining(action);
+        iterator().forEachRemaining(Objects.requireNonNull(action));
     }
 
     /**
@@ -58,5 +69,14 @@ public interface IOIterable<T> {
     default IOSpliterator<T> spliterator() {
         return IOSpliteratorAdapter.adapt(new UncheckedIOIterable<>(this).spliterator());
     }
+
+    /**
+     * Unwraps this instance and returns the underlying {@link Iterable}.
+     * <p>
+     * Implementations may not have anything to unwrap and that behavior is undefined for now.
+     * </p>
+     * @return the underlying Iterable.
+     */
+    Iterable<T> unwrap();
 
 }

@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,6 +19,8 @@ package org.apache.commons.io.output;
 import java.io.Serializable;
 import java.io.StringWriter;
 import java.io.Writer;
+
+import org.apache.commons.io.IOUtils;
 
 /**
  * {@link Writer} implementation that outputs to a {@link StringBuilder}.
@@ -70,8 +72,8 @@ public class StringBuilderWriter extends Writer implements Serializable {
     /**
      * Appends a single character to this Writer.
      *
-     * @param value The character to append
-     * @return This writer instance
+     * @param value The character to append.
+     * @return This writer instance.
      */
     @Override
     public Writer append(final char value) {
@@ -82,8 +84,8 @@ public class StringBuilderWriter extends Writer implements Serializable {
     /**
      * Appends a character sequence to this Writer.
      *
-     * @param value The character to append
-     * @return This writer instance
+     * @param value The character to append.
+     * @return This writer instance.
      */
     @Override
     public Writer append(final CharSequence value) {
@@ -94,10 +96,10 @@ public class StringBuilderWriter extends Writer implements Serializable {
     /**
      * Appends a portion of a character sequence to the {@link StringBuilder}.
      *
-     * @param value The character to append
-     * @param start The index of the first character
-     * @param end The index of the last character + 1
-     * @return This writer instance
+     * @param value The character to append.
+     * @param start The index of the first character.
+     * @param end The index of the last character + 1.
+     * @return This writer instance.
      */
     @Override
     public Writer append(final CharSequence value, final int start, final int end) {
@@ -124,7 +126,7 @@ public class StringBuilderWriter extends Writer implements Serializable {
     /**
      * Gets the underlying builder.
      *
-     * @return The underlying builder
+     * @return The underlying builder.
      */
     public StringBuilder getBuilder() {
         return builder;
@@ -143,13 +145,15 @@ public class StringBuilderWriter extends Writer implements Serializable {
     /**
      * Writes a portion of a character array to the {@link StringBuilder}.
      *
-     * @param value The value to write
-     * @param offset The index of the first character
-     * @param length The number of characters to write
+     * @param value The value to write.
+     * @param offset The index of the first character.
+     * @param length The number of characters to write.
+     * @throws IndexOutOfBoundsException if {@code offset} or {@code length} are negative, or if {@code offset + length} is greater than {@code value.length}.
      */
     @Override
     public void write(final char[] value, final int offset, final int length) {
         if (value != null) {
+            IOUtils.checkFromIndexSize(value, offset, length);
             builder.append(value, offset, length);
         }
     }
@@ -157,7 +161,7 @@ public class StringBuilderWriter extends Writer implements Serializable {
     /**
      * Writes a String to the {@link StringBuilder}.
      *
-     * @param value The value to write
+     * @param value The value to write.
      */
     @Override
     public void write(final String value) {
