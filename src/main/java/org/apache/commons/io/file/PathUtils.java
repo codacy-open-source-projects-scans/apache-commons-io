@@ -499,7 +499,7 @@ public final class PathUtils {
      * </p>
      * <ul>
      * <li>A directory to delete does not have to be empty.</li>
-     * <li>You get exceptions when a file or directory cannot be deleted; {@link File#delete()} returns a boolean.
+     * <li>You get exceptions when a file or directory cannot be deleted; {@link File#delete()} returns a boolean.</li>
      * </ul>
      *
      * @param path file or directory to delete, must not be {@code null}
@@ -518,7 +518,7 @@ public final class PathUtils {
      * </p>
      * <ul>
      * <li>A directory to delete does not have to be empty.</li>
-     * <li>You get exceptions when a file or directory cannot be deleted; {@link File#delete()} returns a boolean.
+     * <li>You get exceptions when a file or directory cannot be deleted; {@link File#delete()} returns a boolean.</li>
      * </ul>
      *
      * @param path          file or directory to delete, must not be {@code null}
@@ -540,7 +540,7 @@ public final class PathUtils {
      * </p>
      * <ul>
      * <li>A directory to delete does not have to be empty.</li>
-     * <li>You get exceptions when a file or directory cannot be deleted; {@link File#delete()} returns a boolean.
+     * <li>You get exceptions when a file or directory cannot be deleted; {@link File#delete()} returns a boolean.</li>
      * </ul>
      *
      * @param path          file or directory to delete, must not be {@code null}
@@ -1412,7 +1412,7 @@ public final class PathUtils {
     /**
      * Returns true if the given options contain {@link StandardDeleteOption#OVERRIDE_READ_ONLY}.
      *
-     * @param deleteOptions the array to test
+     * @param deleteOptions the array to test.
      * @return true if the given options contain {@link StandardDeleteOption#OVERRIDE_READ_ONLY}.
      */
     private static boolean overrideReadOnly(final DeleteOption... deleteOptions) {

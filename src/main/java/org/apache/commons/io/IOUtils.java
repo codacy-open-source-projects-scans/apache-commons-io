@@ -81,11 +81,11 @@ import org.apache.commons.io.output.UnsynchronizedByteArrayOutputStream;
  * This class provides static utility methods for input/output operations.
  * </p>
  * <ul>
- * <li>closeQuietly - these methods close a stream ignoring nulls and exceptions
- * <li>toXxx/read - these methods read data from a stream
- * <li>write - these methods write data to a stream
- * <li>copy - these methods copy all the data from one stream to another
- * <li>contentEquals - these methods compare the content of two streams
+ * <li>closeQuietly - these methods close a stream ignoring nulls and exceptions</li>
+ * <li>toXxx/read - these methods read data from a stream</li>
+ * <li>write - these methods write data to a stream</li>
+ * <li>copy - these methods copy all the data from one stream to another</li>
+ * <li>contentEquals - these methods compare the content of two streams</li>
  * </ul>
  * <p>
  * The byte-to-char methods and char-to-byte methods involve a conversion step.
@@ -558,11 +558,11 @@ public class IOUtils {
      * }
      * </code></pre>
      *
-     * @param array the array against which the range is validated
-     * @param off   the starting offset into the array (inclusive)
-     * @param len   the number of elements to access
-     * @throws NullPointerException      if {@code array} is {@code null}
-     * @throws IndexOutOfBoundsException if the range {@code [off, off + len)} is out of bounds for {@code array}
+     * @param array the array against which the range is validated.
+     * @param off   the starting offset into the array (inclusive).
+     * @param len   the number of elements to access.
+     * @throws NullPointerException      if {@code array} is {@code null}.
+     * @throws IndexOutOfBoundsException if the range {@code [off, off + len)} is out of bounds for {@code array}.
      * @see InputStream#read(byte[], int, int)
      * @see OutputStream#write(byte[], int, int)
      * @since 2.21.0
@@ -605,11 +605,11 @@ public class IOUtils {
      * }
      * </code></pre>
      *
-     * @param array the array against which the range is validated
-     * @param off   the starting offset into the array (inclusive)
-     * @param len   the number of characters to access
-     * @throws NullPointerException      if {@code array} is {@code null}
-     * @throws IndexOutOfBoundsException if the range {@code [off, off + len)} is out of bounds for {@code array}
+     * @param array the array against which the range is validated.
+     * @param off   the starting offset into the array (inclusive).
+     * @param len   the number of characters to access.
+     * @throws NullPointerException      if {@code array} is {@code null}.
+     * @throws IndexOutOfBoundsException if the range {@code [off, off + len)} is out of bounds for {@code array}.
      * @see Reader#read(char[], int, int)
      * @see Writer#write(char[], int, int)
      * @since 2.21.0
@@ -648,11 +648,11 @@ public class IOUtils {
      * }
      * </code></pre>
      *
-     * @param str the string against which the range is validated
-     * @param off the starting offset into the string (inclusive)
-     * @param len the number of characters to write
-     * @throws NullPointerException      if {@code str} is {@code null}
-     * @throws IndexOutOfBoundsException if the range {@code [off, off + len)} is out of bounds for {@code str}
+     * @param str the string against which the range is validated.
+     * @param off the starting offset into the string (inclusive).
+     * @param len the number of characters to write.
+     * @throws NullPointerException      if {@code str} is {@code null}.
+     * @throws IndexOutOfBoundsException if the range {@code [off, off + len)} is out of bounds for {@code str}.
      * @see Writer#write(String, int, int)
      * @since 2.21.0
      */
@@ -684,10 +684,10 @@ public class IOUtils {
      * }
      * </code></pre>
      *
-     * @param seq       the character sequence to validate (may be {@code null}, treated as {@code "null"})
-     * @param fromIndex the starting index (inclusive)
-     * @param toIndex   the ending index (exclusive)
-     * @throws IndexOutOfBoundsException if the range {@code [fromIndex, toIndex)} is out of bounds for {@code seq}
+     * @param seq       the character sequence to validate (may be {@code null}, treated as {@code "null"}).
+     * @param fromIndex the starting index (inclusive).
+     * @param toIndex   the ending index (exclusive).
+     * @throws IndexOutOfBoundsException if the range {@code [fromIndex, toIndex)} is out of bounds for {@code seq}.
      * @see Appendable#append(CharSequence, int, int)
      * @since 2.21.0
      */
@@ -780,7 +780,7 @@ public class IOUtils {
      * @param closeable the object to close, may be null.
      */
     private static void closeQ(final Closeable closeable) {
-        closeQuietly(closeable, null);
+        closeQuietly(closeable, (Consumer<Exception>) null);
     }
 
     /**
@@ -824,7 +824,40 @@ public class IOUtils {
      * @see Throwable#addSuppressed(Throwable)
      */
     public static void closeQuietly(final Closeable closeable) {
-        closeQuietly(closeable, null);
+        closeQuietly(closeable, (Consumer<Exception>) null);
+    }
+
+    /**
+     * Closes a {@link Closeable} unconditionally and adds any exception thrown by the {@code close()} to the given Throwable.
+     *
+     * <p>
+     * For example:
+     * </p>
+     *
+     * <pre>
+     * Closeable closeable = ...;
+     * try {
+     *     // process closeable
+     *     closeable.close();
+     * } catch (Exception e) {
+     *     // error handling
+     *     throw IOUtils.closeQuietly(closeable, e);
+     * }
+     * </pre>
+     * <p>
+     * Also consider using a try-with-resources statement where appropriate.
+     * </p>
+     *
+     * @param <T> The Throwable type.
+     * @param closeable The object to close, may be null or already closed.
+     * @param throwable Add the exception throw by the closeable to the given Throwable.
+     * @return The given Throwable.
+     * @since 2.22.0
+     * @see Throwable#addSuppressed(Throwable)
+     */
+    public static <T extends Throwable> T closeQuietly(final Closeable closeable, final T throwable) {
+        closeQuietly(closeable, (Consumer<Exception>) throwable::addSuppressed);
+        return throwable;
     }
 
     /**
@@ -1856,10 +1889,10 @@ public class IOUtils {
      *
      * @param reader the {@link Reader} to source.
      * @param writer the {@link Writer} to target.
-     * @param buffer the buffer to be used for the copy
-     * @return the number of characters copied
-     * @throws NullPointerException if the input or output is null
-     * @throws IOException          if an I/O error occurs
+     * @param buffer the buffer to be used for the copy.
+     * @return the number of characters copied.
+     * @throws NullPointerException if the input or output is null.
+     * @throws IOException          if an I/O error occurs.
      * @since 2.2
      */
     public static long copyLarge(final Reader reader, final Writer writer, final char[] buffer) throws IOException {
