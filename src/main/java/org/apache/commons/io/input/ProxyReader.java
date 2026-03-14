@@ -26,9 +26,7 @@ import java.nio.CharBuffer;
 import org.apache.commons.io.IOUtils;
 
 /**
- * A Proxy stream which acts as expected, that is it passes the method
- * calls on to the proxied stream and doesn't change which methods are
- * being called.
+ * A reader proxy which delegates to the wrapped reader.
  * <p>
  * It is an alternative base class to FilterReader
  * to increase reusability, because FilterReader changes the
@@ -259,6 +257,22 @@ public abstract class ProxyReader extends FilterReader {
     }
 
     /**
+     * Sets the underlying reader.
+     * <p>
+     * Use with caution.
+     * </p>
+     *
+     * @param in The input stream to set in {@code java.io.Reader#in}.
+     * @return {@code this} instance.
+     * @since 2.22.0
+     */
+    public ProxyReader setReference(final Reader in) {
+        this.in = in;
+        return this;
+    }
+
+
+    /**
      * Invokes the delegate's {@code skip(long)} method.
      *
      * @param ln the number of bytes to skip.
@@ -273,6 +287,19 @@ public abstract class ProxyReader extends FilterReader {
             handleIOException(e);
             return 0;
         }
+    }
+
+    /**
+     * Unwraps this instance by returning the underlying {@link Reader}.
+     * <p>
+     * Use with caution.
+     * </p>
+     *
+     * @return the underlying {@link Reader}.
+     * @since 2.22.0
+     */
+    public Reader unwrap() {
+        return in;
     }
 
 }
