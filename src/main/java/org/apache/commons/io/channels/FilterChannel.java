@@ -42,7 +42,7 @@ import org.apache.commons.io.output.ProxyWriter;
  * {@link Builder}.
  * </p>
  *
- * @param <C> the {@link Channel} type.
+ * @param <C> The {@link Channel} type.
  * @see FilterInputStream
  * @see FilterOutputStream
  * @see FilterReader
@@ -94,7 +94,7 @@ public class FilterChannel<C extends Channel> implements Channel {
     /**
      * Creates a new {@link Builder}.
      *
-     * @return a new {@link Builder}.
+     * @return A new {@link Builder}.
      */
     public static Builder forChannel() {
         return new Builder();
@@ -106,7 +106,7 @@ public class FilterChannel<C extends Channel> implements Channel {
      * Constructs a new instance.
      *
      * @param builder The source builder.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     @SuppressWarnings("unchecked")
     FilterChannel(final AbstractBuilder<?, ?, ?> builder) throws IOException {
@@ -138,7 +138,7 @@ public class FilterChannel<C extends Channel> implements Channel {
      * Use with caution.
      * </p>
      *
-     * @return the underlying channel of type {@code C}.
+     * @return The underlying channel of type {@code C}.
      */
     public C unwrap() {
         return channel;

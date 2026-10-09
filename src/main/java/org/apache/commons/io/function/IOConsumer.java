@@ -29,7 +29,7 @@ import org.apache.commons.io.IOIndexedException;
 /**
  * Like {@link Consumer} but throws {@link IOException}.
  *
- * @param <T> the type of the input to the operations.
+ * @param <T> The type of the input to the operations.
  * @since 2.7
  */
 @FunctionalInterface
@@ -41,6 +41,21 @@ public interface IOConsumer<T> {
     IOConsumer<?> NOOP_IO_CONSUMER = t -> {
         // noop
     };
+
+    /**
+     * Applies the given {@link IOConsumer} action to the object if the consumer is not {@code null}. Otherwise, does nothing.
+     *
+     * @param consumer The consumer to consume.
+     * @param object   The object to be consumed.
+     * @param <T>      the type of the argument the consumer accepts.
+     * @throws IOException Thrown when the consumer fails.
+     * @since 2.23.0
+     */
+    static <T> void accept(final IOConsumer<T> consumer, final T object) throws IOException {
+        if (consumer != null) {
+            consumer.accept(object);
+        }
+    }
 
     /**
      * Performs an action for each element of the collection gathering any exceptions.
@@ -88,7 +103,7 @@ public interface IOConsumer<T> {
      * @param <T> The element type.
      * @param iterable The input to stream.
      * @param action The action to apply to each input element.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      * @since 2.12.0
      */
     static <T> void forEach(final Iterable<T> iterable, final IOConsumer<T> action) throws IOException {
@@ -101,7 +116,7 @@ public interface IOConsumer<T> {
      * @param <T> The element type.
      * @param stream The input to stream.
      * @param action The action to apply to each input element.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      * @since 2.12.0
      */
     static <T> void forEach(final Stream<T> stream, final IOConsumer<T> action) throws IOException {
@@ -114,7 +129,7 @@ public interface IOConsumer<T> {
      * @param <T> The element type.
      * @param array The input to stream.
      * @param action The action to apply to each input element.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      * @since 2.12.0
      */
     static <T> void forEach(final T[] array, final IOConsumer<T> action) throws IOException {
@@ -125,7 +140,7 @@ public interface IOConsumer<T> {
      * Returns the constant no-op consumer.
      *
      * @param <T> Type consumer type.
-     * @return a constant no-op consumer.
+     * @return A constant no-op consumer.
      * @since 2.9.0
      */
     @SuppressWarnings("unchecked")
@@ -136,8 +151,8 @@ public interface IOConsumer<T> {
     /**
      * Performs this operation on the given argument.
      *
-     * @param t the input argument.
-     * @throws IOException if an I/O error occurs.
+     * @param t The input argument.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     void accept(T t) throws IOException;
 
@@ -146,8 +161,8 @@ public interface IOConsumer<T> {
      * operation. If performing either operation throws an exception, it is relayed to the caller of the composed operation.
      * If performing this operation throws an exception, the {@code after} operation will not be performed.
      *
-     * @param after the operation to perform after this operation.
-     * @return a composed {@link Consumer} that performs in sequence this operation followed by the {@code after} operation.
+     * @param after The operation to perform after this operation.
+     * @return A composed {@link Consumer} that performs in sequence this operation followed by the {@code after} operation.
      * @throws NullPointerException if {@code after} is null.
      */
     default IOConsumer<T> andThen(final IOConsumer<? super T> after) {
@@ -161,7 +176,7 @@ public interface IOConsumer<T> {
     /**
      * Creates a {@link Consumer} for this instance that throws {@link UncheckedIOException} instead of {@link IOException}.
      *
-     * @return an UncheckedIOException Consumer.
+     * @return An UncheckedIOException Consumer.
      * @since 2.12.0
      */
     default Consumer<T> asConsumer() {

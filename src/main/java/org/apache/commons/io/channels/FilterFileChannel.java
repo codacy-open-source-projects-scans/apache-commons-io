@@ -85,7 +85,7 @@ public class FilterFileChannel extends FileChannel {
     /**
      * Creates a new {@link Builder}.
      *
-     * @return a new {@link Builder}.
+     * @return A new {@link Builder}.
      */
     public static Builder forFilterFileChannel() {
         return new Builder();
@@ -100,7 +100,7 @@ public class FilterFileChannel extends FileChannel {
     /**
      * Constructs a new instance.
      *
-     * @param fileChannel the file channel to wrap.
+     * @param fileChannel The file channel to wrap.
      */
     public FilterFileChannel(final FileChannel fileChannel) {
         this.fileChannel = Objects.requireNonNull(fileChannel, "fileChannel");
@@ -197,7 +197,7 @@ public class FilterFileChannel extends FileChannel {
      * Use with caution.
      * </p>
      *
-     * @return the underlying {@link FileChannel}.
+     * @return The underlying {@link FileChannel}.
      */
     public FileChannel unwrap() {
         return fileChannel;

@@ -27,7 +27,7 @@ import java.util.function.Supplier;
  * Using an IOSupplier allows you to compose usage of checked and unchecked exceptions as you best see fit.
  * </p>
  *
- * @param <T> the return type of the operations.
+ * @param <T> The return type of the operations.
  * @since 2.7
  */
 @FunctionalInterface
@@ -36,7 +36,7 @@ public interface IOSupplier<T> {
     /**
      * Creates a {@link Supplier} for this instance that throws {@link UncheckedIOException} instead of {@link IOException}.
      *
-     * @return an UncheckedIOException Supplier.
+     * @return An UncheckedIOException Supplier.
      * @since 2.12.0
      */
     default Supplier<T> asSupplier() {
@@ -46,8 +46,8 @@ public interface IOSupplier<T> {
     /**
      * Gets a result.
      *
-     * @return a result.
-     * @throws IOException if an I/O error occurs.
+     * @return A result.
+     * @throws IOException Thrown if an I/O error occurs.
      * @see #getUnchecked()
      */
     T get() throws IOException;
@@ -55,7 +55,7 @@ public interface IOSupplier<T> {
     /**
      * Gets a result.
      *
-     * @return a result.
+     * @return A result.
      * @throws UncheckedIOException if an I/O error occurs.
      * @see #get()
      * @since 2.17.0

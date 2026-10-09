@@ -39,9 +39,9 @@ public class Counters {
         /**
          * Constructs a new instance.
          *
-         * @param byteCounter the byte counter.
-         * @param directoryCounter the directory counter.
-         * @param fileCounter the file counter.
+         * @param byteCounter The byte counter.
+         * @param directoryCounter The directory counter.
+         * @param fileCounter The file counter.
          */
         protected AbstractPathCounters(final Counter byteCounter, final Counter directoryCounter, final Counter fileCounter) {
             this.byteCounter = byteCounter;
@@ -76,7 +76,7 @@ public class Counters {
         /**
          * Gets the count of visited files.
          *
-         * @return the byte count of visited files.
+         * @return The byte count of visited files.
          */
         @Override
         public Counter getFileCounter() {
@@ -186,28 +186,28 @@ public class Counters {
         /**
          * Adds the given number to this counter.
          *
-         * @param val the value to add.
+         * @param val The value to add.
          */
         void add(long val);
 
         /**
          * Gets the counter as a long.
          *
-         * @return the counter as a long.
+         * @return The counter as a long.
          */
         long get();
 
         /**
          * Gets the counter as a BigInteger.
          *
-         * @return the counter as a BigInteger.
+         * @return The counter as a BigInteger.
          */
         BigInteger getBigInteger();
 
         /**
          * Gets the counter as a Long.
          *
-         * @return the counter as a Long.
+         * @return The counter as a Long.
          */
         Long getLong();
 
@@ -369,21 +369,21 @@ public class Counters {
         /**
          * Gets the byte counter.
          *
-         * @return the byte counter.
+         * @return The byte counter.
          */
         Counter getByteCounter();
 
         /**
          * Gets the directory counter.
          *
-         * @return the directory counter.
+         * @return The directory counter.
          */
         Counter getDirectoryCounter();
 
         /**
          * Gets the file counter.
          *
-         * @return the file counter.
+         * @return The file counter.
          */
         Counter getFileCounter();
 
@@ -399,7 +399,7 @@ public class Counters {
     /**
      * Returns a new BigInteger Counter.
      *
-     * @return a new BigInteger Counter.
+     * @return A new BigInteger Counter.
      */
     public static Counter bigIntegerCounter() {
         return new BigIntegerCounter();
@@ -408,7 +408,7 @@ public class Counters {
     /**
      * Returns a new BigInteger PathCounters.
      *
-     * @return a new BigInteger PathCounters.
+     * @return A new BigInteger PathCounters.
      */
     public static PathCounters bigIntegerPathCounters() {
         return new BigIntegerPathCounters();
@@ -417,7 +417,7 @@ public class Counters {
     /**
      * Returns a new long Counter.
      *
-     * @return a new long Counter.
+     * @return A new long Counter.
      */
     public static Counter longCounter() {
         return new LongCounter();
@@ -426,7 +426,7 @@ public class Counters {
     /**
      * Returns a new BigInteger PathCounters.
      *
-     * @return a new BigInteger PathCounters.
+     * @return A new BigInteger PathCounters.
      */
     public static PathCounters longPathCounters() {
         return new LongPathCounters();
@@ -435,7 +435,7 @@ public class Counters {
     /**
      * Returns the no-op Counter.
      *
-     * @return the no-op Counter.
+     * @return The no-op Counter.
      * @since 2.9.0
      */
     public static Counter noopCounter() {
@@ -445,7 +445,7 @@ public class Counters {
     /**
      * Returns the no-op PathCounters.
      *
-     * @return the no-op PathCounters.
+     * @return The no-op PathCounters.
      * @since 2.9.0
      */
     public static PathCounters noopPathCounters() {

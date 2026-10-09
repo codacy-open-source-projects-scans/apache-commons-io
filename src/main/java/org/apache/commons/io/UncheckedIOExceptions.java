@@ -34,8 +34,8 @@ final class UncheckedIOExceptions {
      * This method exists because there is no String constructor in {@link UncheckedIOException}.
      * </p>
      *
-     * @param message the detail message.
-     * @return a new {@link UncheckedIOException}.
+     * @param message The detail message.
+     * @return A new {@link UncheckedIOException}.
      */
     public static UncheckedIOException create(final Object message) {
         final String string = Objects.toString(message);
@@ -49,8 +49,8 @@ final class UncheckedIOExceptions {
      * </p>
      *
      * @param e cause the {@link IOException}.
-     * @param message the detail message.
-     * @return a new {@link UncheckedIOException}.
+     * @param message The detail message.
+     * @return A new {@link UncheckedIOException}.
      */
     public static UncheckedIOException wrap(final IOException e, final Object message) {
         return new UncheckedIOException(Objects.toString(message), e);

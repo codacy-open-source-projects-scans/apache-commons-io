@@ -56,8 +56,8 @@ import org.junit.jupiter.params.provider.EnumSource;
 /**
  * Tests {@link AbstractOrigin} and subclasses.
  *
- * @param <T> the type of instances to build.
- * @param <B> the type of builder subclass.
+ * @param <T> The type of instances to build.
+ * @param <B> The type of builder subclass.
  */
 public abstract class AbstractOriginTest<T, B extends AbstractOrigin<T, B>> {
 
@@ -125,8 +125,8 @@ public abstract class AbstractOriginTest<T, B extends AbstractOrigin<T, B>> {
     }
 
     @SuppressWarnings("resource")
-    private boolean isValid(final RandomAccessFile raf) throws IOException {
-        return Objects.requireNonNull(raf).getFD().valid();
+    private boolean isValid(final RandomAccessFile randomAccessFile) throws IOException {
+        return Objects.requireNonNull(randomAccessFile, "randomAccessFile").getFD().valid();
     }
 
     protected abstract B newOriginRo() throws IOException;

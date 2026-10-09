@@ -17,8 +17,11 @@
 
 package org.apache.commons.io.input;
 
+import static org.apache.commons.io.IOUtils.EMPTY_BYTE_ARRAY;
+
 import java.io.IOException;
 import java.io.InterruptedIOException;
+import java.nio.ByteBuffer;
 
 /**
  * Package-wide internals for input.
@@ -29,12 +32,21 @@ final class Input {
      * Throws an {@link IOException} on false input.
      *
      * @param isOpen whether an input is open or not.
-     * @throws IOException if {@code isOpen} is false indicating an input is closed.
+     * @throws IOException Thrown if {@code isOpen} is false indicating an input is closed.
      */
     static void checkOpen(final boolean isOpen) throws IOException {
         if (!isOpen) {
             throw new IOException("Closed");
         }
+    }
+
+    /**
+     * Creates an empty read-only ByteBuffer.
+     *
+     * @return an empty read-only ByteBuffer.
+     */
+    static ByteBuffer emptyByteBuffer() {
+        return ByteBuffer.wrap(EMPTY_BYTE_ARRAY).asReadOnlyBuffer();
     }
 
     /**

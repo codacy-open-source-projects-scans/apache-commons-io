@@ -36,10 +36,14 @@ import java.util.stream.Stream;
  */
 public class ObjectStreamClassPredicate implements Predicate<ObjectStreamClass> {
 
-    // This is not a Set for now to avoid ClassNameMatchers requiring proper implementations of hashCode() and equals().
+    /**
+     * This is not a Set for now to avoid ClassNameMatchers requiring proper implementations of hashCode() and equals().
+     */
     private final List<ClassNameMatcher> acceptMatchers = new ArrayList<>();
 
-    // This is not a Set for now to avoid ClassNameMatchers requiring proper implementations of hashCode() and equals().
+    /**
+     * This is not a Set for now to avoid ClassNameMatchers requiring proper implementations of hashCode() and equals().
+     */
     private final List<ClassNameMatcher> rejectMatchers = new ArrayList<>();
 
     /**
@@ -69,7 +73,7 @@ public class ObjectStreamClassPredicate implements Predicate<ObjectStreamClass> 
      * The reject list takes precedence over the accept list.
      * </p>
      *
-     * @param matcher a class name matcher to <em>accept</em> objects.
+     * @param matcher A class name matcher to <em>accept</em> objects.
      * @return {@code this} instance.
      */
     public ObjectStreamClassPredicate accept(final ClassNameMatcher matcher) {
@@ -83,7 +87,7 @@ public class ObjectStreamClassPredicate implements Predicate<ObjectStreamClass> 
      * The reject list takes precedence over the accept list.
      * </p>
      *
-     * @param pattern a Pattern for compiled regular expression.
+     * @param pattern A Pattern for compiled regular expression.
      * @return {@code this} instance.
      */
     public ObjectStreamClassPredicate accept(final Pattern pattern) {
@@ -126,7 +130,7 @@ public class ObjectStreamClassPredicate implements Predicate<ObjectStreamClass> 
      * The reject list takes precedence over the accept list.
      * </p>
      *
-     * @param m the matcher to use.
+     * @param m The matcher to use.
      * @return {@code this} instance.
      */
     public ObjectStreamClassPredicate reject(final ClassNameMatcher m) {
@@ -188,17 +192,8 @@ public class ObjectStreamClassPredicate implements Predicate<ObjectStreamClass> 
      */
     public boolean test(final String name) {
         // The reject list takes precedence over the accept list.
-        for (final ClassNameMatcher m : rejectMatchers) {
-            if (m.matches(name)) {
-                return false;
-            }
-        }
-        for (final ClassNameMatcher m : acceptMatchers) {
-            if (m.matches(name)) {
-                return true;
-            }
-        }
-        return false;
+        final Predicate<ClassNameMatcher> p = m -> m.matches(name);
+        return rejectMatchers.stream().noneMatch(p) && acceptMatchers.stream().anyMatch(p);
     }
 
 }

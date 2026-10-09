@@ -40,7 +40,7 @@ public class CountingInputStream extends ProxyInputStream {
     /**
      * Constructs a new CountingInputStream.
      *
-     * @param in  the InputStream to delegate to.
+     * @param in  The InputStream to delegate to.
      */
     public CountingInputStream(final InputStream in) {
         super(in);
@@ -77,7 +77,7 @@ public class CountingInputStream extends ProxyInputStream {
      * result in incorrect count for files over 2GB.
      * </p>
      *
-     * @return the number of bytes accumulated.
+     * @return The number of bytes accumulated.
      * @since 1.3
      */
     public synchronized long getByteCount() {
@@ -92,7 +92,7 @@ public class CountingInputStream extends ProxyInputStream {
      * See {@link #getByteCount()} for a method using a {@code long}.
      * </p>
      *
-     * @return the number of bytes accumulated.
+     * @return The number of bytes accumulated.
      * @throws ArithmeticException if the byte count is too large.
      * @deprecated Use {@link #getByteCount()}.
      */
@@ -113,7 +113,7 @@ public class CountingInputStream extends ProxyInputStream {
      * result in incorrect count for files over 2GB.
      * </p>
      *
-     * @return the count previous to resetting.
+     * @return The count previous to resetting.
      * @since 1.3
      */
     public synchronized long resetByteCount() {
@@ -130,7 +130,7 @@ public class CountingInputStream extends ProxyInputStream {
      * See {@link #resetByteCount()} for a method using a {@code long}.
      * </p>
      *
-     * @return the count previous to resetting.
+     * @return The count previous to resetting.
      * @throws ArithmeticException if the byte count is too large.
      * @deprecated Use {@link #resetByteCount()}.
      */
@@ -147,9 +147,9 @@ public class CountingInputStream extends ProxyInputStream {
      * Skips the stream over the specified number of bytes, adding the skipped
      * amount to the count.
      *
-     * @param length  the number of bytes to skip.
-     * @return the actual number of bytes skipped.
-     * @throws IOException if an I/O error occurs.
+     * @param length  The number of bytes to skip.
+     * @return The actual number of bytes skipped.
+     * @throws IOException Thrown if an I/O error occurs.
      * @see InputStream#skip(long)
      */
     @Override

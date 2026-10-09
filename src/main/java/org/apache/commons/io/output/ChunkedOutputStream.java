@@ -83,7 +83,7 @@ public class ChunkedOutputStream extends FilterOutputStream {
          * <li>{@link #getBufferSize()} is used for the chunk size.</li>
          * </ul>
          *
-         * @return a new instance.
+         * @return A new instance.
          * @throws IllegalStateException         if the {@code origin} is {@code null}.
          * @throws UnsupportedOperationException if the origin cannot be converted to an {@link OutputStream}.
          * @throws IOException                   if an I/O error occurs converting to an {@link OutputStream} using {@link #getOutputStream()}.
@@ -101,7 +101,7 @@ public class ChunkedOutputStream extends FilterOutputStream {
     /**
      * Constructs a new {@link Builder}.
      *
-     * @return a new {@link Builder}.
+     * @return A new {@link Builder}.
      * @since 2.13.0
      */
     public static Builder builder() {
@@ -117,7 +117,7 @@ public class ChunkedOutputStream extends FilterOutputStream {
      * Constructs a new stream that uses the specified chunk size.
      *
      * @param builder holds contruction data.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     @SuppressWarnings("resource") // caller closes.
     private ChunkedOutputStream(final Builder builder) throws IOException {
@@ -132,7 +132,7 @@ public class ChunkedOutputStream extends FilterOutputStream {
     /**
      * Constructs a new stream that uses a chunk size of {@link IOUtils#DEFAULT_BUFFER_SIZE}.
      *
-     * @param stream the stream to wrap.
+     * @param stream The stream to wrap.
      * @deprecated Use {@link #builder()}, {@link Builder}, and {@link Builder#get()}.
      */
     @Deprecated
@@ -143,8 +143,8 @@ public class ChunkedOutputStream extends FilterOutputStream {
     /**
      * Constructs a new stream that uses the specified chunk size.
      *
-     * @param stream    the stream to wrap.
-     * @param chunkSize the chunk size to use; must be a positive number.
+     * @param stream    The stream to wrap.
+     * @param chunkSize The chunk size to use; must be a positive number.
      * @throws IllegalArgumentException if the chunk size is &lt;= 0.
      * @deprecated Use {@link #builder()}, {@link Builder}, and {@link Builder#get()}.
      */
@@ -165,13 +165,13 @@ public class ChunkedOutputStream extends FilterOutputStream {
     /**
      * Writes the data buffer in chunks to the underlying stream
      *
-     * @param data      the data to write.
-     * @param srcOffset the offset.
-     * @param length    the length of data to write.
+     * @param data      The data to write.
+     * @param srcOffset The offset.
+     * @param length    The length of data to write.
      * @throws NullPointerException if the data is {@code null}.
      * @throws IndexOutOfBoundsException if {@code srcOffset} or {@code length} are negative,
      *                                   or if {@code srcOffset + length} is greater than {@code data.length}.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     @Override
     public void write(final byte[] data, final int srcOffset, final int length) throws IOException {

@@ -343,8 +343,8 @@ import org.apache.commons.io.output.WriterOutputStream;
  *   </li>
  * </ul>
  *
- * @param <T> the type produced by the builder.
- * @param <B> the concrete builder subclass type.
+ * @param <T> The type produced by the builder.
+ * @param <B> The concrete builder subclass type.
  * @since 2.12.0
  */
 public abstract class AbstractOrigin<T, B extends AbstractOrigin<T, B>> extends AbstractSupplier<T, B> {
@@ -356,8 +356,8 @@ public abstract class AbstractOrigin<T, B extends AbstractOrigin<T, B>> extends 
      * instead.
      * </p>
      *
-     * @param <T> the type of instances to build.
-     * @param <B> the type of builder subclass.
+     * @param <T> The type of instances to build.
+     * @param <B> The type of builder subclass.
      */
     public abstract static class AbstractRandomAccessFileOrigin<T extends RandomAccessFile, B extends AbstractRandomAccessFileOrigin<T, B>>
             extends AbstractOrigin<T, B> {
@@ -994,7 +994,7 @@ public abstract class AbstractOrigin<T, B extends AbstractOrigin<T, B>> extends 
                 /**
                  * Sets the connect timeout duration.
                  *
-                 * @param connectTimeout the connect timeout duration.
+                 * @param connectTimeout The connect timeout duration.
                  * @return {@code this instance}.
                  */
                 public Builder setConnectTimeout(final Duration connectTimeout) {
@@ -1005,7 +1005,7 @@ public abstract class AbstractOrigin<T, B extends AbstractOrigin<T, B>> extends 
                 /**
                  * Sets the read timeout duration.
                  *
-                 * @param readTimeout the read timeout duration.
+                 * @param readTimeout The read timeout duration.
                  * @return {@code this instance}.
                  */
                 public Builder setReadTimeout(final Duration readTimeout) {
@@ -1017,7 +1017,7 @@ public abstract class AbstractOrigin<T, B extends AbstractOrigin<T, B>> extends 
             /**
              * Creates a new builder.
              *
-             * @return a new builder.
+             * @return A new builder.
              */
             public static Builder builder() {
                 return new Builder();
@@ -1191,7 +1191,7 @@ public abstract class AbstractOrigin<T, B extends AbstractOrigin<T, B>> extends 
     /**
      * Gets the origin, never null.
      *
-     * @return the origin, never null.
+     * @return The origin, never null.
      */
     @Override
     public T get() {
@@ -1212,7 +1212,7 @@ public abstract class AbstractOrigin<T, B extends AbstractOrigin<T, B>> extends 
     /**
      * Gets a portion of this origin as a byte array, if possible.
      *
-     * @param position the initial index of the range to be copied, inclusive.
+     * @param position The initial index of the range to be copied, inclusive.
      * @param length   How many bytes to copy.
      * @return this origin as a byte array, if possible.
      * @throws UnsupportedOperationException if the origin cannot be converted to a Path.
@@ -1337,9 +1337,9 @@ public abstract class AbstractOrigin<T, B extends AbstractOrigin<T, B>> extends 
     /**
      * Gets a new Reader on the origin, buffered by default.
      *
-     * @param charset the charset to use for decoding, null maps to the default Charset.
-     * @return a new Reader on the origin.
-     * @throws IOException if an I/O error occurs opening the file.
+     * @param charset The charset to use for decoding, null maps to the default Charset.
+     * @return A new Reader on the origin.
+     * @throws IOException Thrown if an I/O error occurs opening the file.
      */
     public Reader getReader(final Charset charset) throws IOException {
         return Files.newBufferedReader(getPath(), Charsets.toCharset(charset));
@@ -1357,9 +1357,9 @@ public abstract class AbstractOrigin<T, B extends AbstractOrigin<T, B>> extends 
     /**
      * Gets a new Writer on the origin, buffered by default.
      *
-     * @param charset the charset to use for encoding.
+     * @param charset The charset to use for encoding.
      * @param options options specifying how the file is opened.
-     * @return a new Writer on the origin.
+     * @return A new Writer on the origin.
      * @throws IOException                   if an I/O error occurs opening or creating the file.
      * @throws UnsupportedOperationException if the origin cannot be converted to a Path.
      */
@@ -1370,8 +1370,8 @@ public abstract class AbstractOrigin<T, B extends AbstractOrigin<T, B>> extends 
     /**
      * Gets the size of the origin, if possible.
      *
-     * @return the size of the origin in bytes or characters.
-     * @throws IOException if an I/O error occurs.
+     * @return The size of the origin in bytes or characters.
+     * @throws IOException Thrown if an I/O error occurs.
      * @since 2.13.0
      */
     public long size() throws IOException {

@@ -45,12 +45,52 @@ The <action> type attribute can be add,update,fix,remove.
     <title>Apache Commons IO Release Notes</title>
   </properties>
   <body>
-    <release version="2.22.1" date="YYYY-MM-DD" description="This is a feature and maintenance release. Java 8 or later is required.">
+    <release version="2.23.0" date="YYYY-MM-DD" description="This is a feature and maintenance release. Java 8 or later is required.">
       <!-- FIX -->
+      <action type="fix" dev="ggregory" due-to="Sai Asish Y" issue="IO-867">ThresholdingOutputStream.isThresholdExceeded() now reflects the threshold-reached state, and a failed thresholdReached() no longer leaves the stream unable to fire the event again.</action>
+      <action type="fix" dev="ggregory" due-to="Gary Gregory">Clean BufferedFileChannelInputStream's direct ByteBuffer only once #854.</action>
+      <action type="fix" dev="ggregory" due-to="Gary Gregory">BufferedFileChannelInputStream now clears its direct memory byte buffer on close (#855).</action>
+      <action type="fix" dev="ggregory" due-to="Gary Gregory">MemoryMappedFileInputStream now clears its direct memory byte buffer on close (#855).</action>
+      <action type="fix" dev="ggregory" due-to="Gary Gregory">FileChannels.contentEquals(ReadableByteChannel, ReadableByteChannel, int) now clears its direct memory byte buffer on close (#855).</action>
+      <action type="fix" dev="ggregory" due-to="Gary Gregory">BufferedFileChannelInputStream now clears its direct memory byte buffer on close (#855).</action>
+      <action type="fix" dev="ggregory" due-to="Gary Gregory">MemoryMappedFileInputStream now clears its direct memory byte buffer on close (#855).</action>
+      <action type="fix" dev="ggregory" due-to="Sarankumar Baskar" issue="IO-855">Clarify PeekableInputStream.peek() behavior in Javadoc (#856).</action>
+      <action type="fix" dev="ggregory" due-to="Gary Gregory">DeferredFileOutputStream now clears and deletes its temporary storage by default (#858).</action>
+      <action type="fix" dev="ggregory" due-to="Gary Gregory">Update generic type of RandomAccessFileMode.accept(Path, IOConsumer) from IOConsumer&lt;RandomAccessFile&gt; to IOConsumer&lt;IORandomAccessFile&gt;.</action>
+      <action type="fix" dev="ggregory" due-to="Gary Gregory">Harden tests for NPEs on failures, happy path unchanged.</action>
+      <action type="fix" dev="ggregory" due-to="Sarankumar Baskar, Gary Gregory" issue="IO-891">Fix BoundedReader.skip(long) accounting and bounds handling (#860).</action>
+      <action type="fix" dev="ggregory" due-to="Gary Gregory">DeferredFileOutputStream better NPE message and new file permission tests (#862).</action>
+      <action type="fix" dev="ggregory" due-to="Gary Gregory">Add messages when throwing NullPointerException.</action>
+      <action type="fix" dev="ggregory" due-to="Gary Gregory">FileAlterationMonitor now allows other observers to be notified even if one fails.</action>
+      <action type="fix" dev="ggregory" due-to="Gary Gregory">FileEntry.setName(String) now throws NullPointerException on null input.</action>
+      <action type="fix" dev="ggregory" due-to="Gary Gregory">FileAlterationObserver now notifies all listeners even if one throws an exception.</action>
+      <action type="fix" dev="ggregory" due-to="Gary Gregory">Fix SpotBugs USO_UNSAFE_METHOD_SYNCHRONIZATION in FileCleaner.exitWhenFinished().</action>
+      <action type="fix" dev="ggregory" due-to="Gary Gregory">Fix SpotBugs USO_UNSAFE_METHOD_SYNCHRONIZATION in NullInputStream.mark()/reset().</action>
+      <action type="fix" dev="ggregory" due-to="Gary Gregory">Fix SpotBugs USO_UNSAFE_METHOD_SYNCHRONIZATION in ProxyInputStream.mark()/reset().</action>
+      <action type="fix" dev="ggregory" due-to="Gary Gregory">Fix SpotBugs USO_UNSAFE_METHOD_SYNCHRONIZATION in ProxyReader.mark()/reset().</action>
+      <action type="fix" dev="ggregory" due-to="Marcono1234, Tanvir Alam, Gary Gregory" issue="IO-780">Do not discard CharsetEncoder errors in ReaderInputStream (#874).</action>
+      <action type="fix" dev="ggregory" due-to="Gary Gregory">Relax QueueInputStream timeout test for busy CI hosts.</action>
       <!-- ADD -->
+      <action type="add" dev="ggregory" due-to="Gary Gregory">Add IOConsumer.accept(IOConsumer, T) (#846).</action>
+      <action type="add" dev="ggregory" due-to="Gary Gregory">Add UnsynchronizedBufferedReader.unwrap() (#850).</action>
+      <action type="add" dev="ggregory" due-to="Gary Gregory">Add UnsynchronizedBufferedReader.getPosition() (#851).</action>
+      <action type="add" dev="ggregory" due-to="Gary Gregory">Add Buffers clear() methods (#853).</action>
+      <action type="add" dev="ggregory" due-to="Gary Gregory">Add DeferredFileOutputStream.Builder.setDeleteTempFileOnClose(boolean) (#858).</action>
+      <action type="add" dev="ggregory" due-to="Gary Gregory">Add PathUtils.clear[IfExists](Path) (#858).</action>
+      <action type="add" dev="ggregory" due-to="Gary Gregory">Add PathUtils.deleteIfExists(Path) (#858).</action>
+      <action type="add" dev="ggregory" due-to="Gary Gregory">Add a strict mode to ValidatingObjectInputStream (#861).</action>
+      <action type="add" dev="ggregory" due-to="Gary Gregory">Add org.apache.commons.io.FileCleaningTracker.exitWhenFinishedTest() (#867).</action>
+      <action type="add" dev="ggregory" due-to="Gary Gregory">Add AbstractByteArrayOutputStream.writeRepeat(int, int) (#868).</action>
+      <action type="add" dev="ggregory" due-to="Gary Gregory">Add FileEntry.toString().</action>
+      <action type="add" dev="ggregory" due-to="Gary Gregory">Add PathUtils.touch(Path, FileTime).</action>
+      <action type="add" dev="ggregory" due-to="Xu Zhao, zx8410-ops, Gary Gregory" issue="IO-892">Add FileAlterationObserver.Builder.setMaxDepth(int) to limit directory traversal depth.</action>
+      <action type="add" dev="ggregory" due-to="Gary Gregory, maxxedev">Make the call to the "sun." packages optional when cleaning byte buffers (#872).</action>
       <!-- UPDATE -->
-      <action type="update" dev="ggregory" due-to="Gary Gregory">Bump org.apache.commons:commons-parent from 98 to 99.</action>
-      <action type="update" dev="ggregory" due-to="Gary Gregory">[test] Bump commons-codec:commons-codec from 1.21.0 to 1.22.0.</action>
+      <action type="update" dev="ggregory" due-to="Gary Gregory">Bump org.apache.commons:commons-parent from 98 to 105 (#849).</action>
+      <action type="update" dev="ggregory" due-to="Gary Gregory">[test] Bump commons-codec:commons-codec from 1.21.0 to 1.22.1.</action>
+      <action type="update" dev="ggregory" due-to="Gary Gregory, Dependabot">[test] Bump commons.bytebuddy.version from 1.18.8 to 1.18.14.</action>
+      <action type="update" dev="ggregory" due-to="Gary Gregory">[test] Bump commons-lang3 from 3.20.0 to 3.21.0.</action>
+      <action type="update" dev="ggregory" due-to="Gary Gregory">[test] Bump com.google.jimfs:jimfs from 1.3.1 to 1.3.2 (#884).</action>
     </release>
     <release version="2.22.0" date="2026-04-19" description="This is a feature and maintenance release. Java 8 or later is required.">
       <!-- FIX -->

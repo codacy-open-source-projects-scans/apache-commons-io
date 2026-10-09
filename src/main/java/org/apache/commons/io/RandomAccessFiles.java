@@ -37,7 +37,7 @@ public class RandomAccessFiles {
      * @param raf1 A RandomAccessFile.
      * @param raf2 Another RandomAccessFile.
      * @return true if the contents of both RandomAccessFiles are equal, false otherwise.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      * @since 2.15.0
      */
     @SuppressWarnings("resource") // See comments
@@ -71,7 +71,7 @@ public class RandomAccessFiles {
      * @param input    The source RandomAccessFile.
      * @param position The offset position, measured in bytes from the beginning of the file, at which to set the file pointer.
      * @param length   How many bytes to read.
-     * @return a new byte array.
+     * @return A new byte array.
      * @throws IOException If the first byte cannot be read for any reason other than end of file, or if the random access file has been closed, or if some
      *                     other I/O error occurs.
      */

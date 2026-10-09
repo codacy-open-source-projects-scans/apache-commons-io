@@ -52,7 +52,7 @@ public class ThresholdingOutputStream extends OutputStream {
     private static final IOFunction<ThresholdingOutputStream, OutputStream> NOOP_OS_GETTER = os -> NullOutputStream.INSTANCE;
 
     /**
-     * The threshold at which the event will be triggered.
+     * The number of bytes at which to trigger an event, a negative threshold is mapped to zero
      */
     private final int threshold;
 
@@ -79,24 +79,24 @@ public class ThresholdingOutputStream extends OutputStream {
     /**
      * Constructs an instance of this class which will trigger an event at the specified threshold.
      *
-     * @param threshold The number of bytes at which to trigger an event.
+     * @param threshold The number of bytes at which to trigger an event, a negative threshold is mapped to zero.
      */
     public ThresholdingOutputStream(final int threshold) {
         this(threshold, IOConsumer.noop(), NOOP_OS_GETTER);
     }
 
     /**
-     * Constructs an instance of this class which will trigger an event at the specified threshold.
-     * A negative threshold has no meaning and will be treated as 0
+     * Constructs an instance of this class which will trigger an event at the specified threshold. A negative threshold has no meaning and will be treated as
+     * 0.
      *
-     * @param threshold The number of bytes at which to trigger an event.
-     * @param thresholdConsumer Accepts reaching the threshold.
+     * @param threshold          The number of bytes at which to trigger an event, a negative threshold is mapped to zero.
+     * @param thresholdConsumer  Accepts reaching the threshold.
      * @param outputStreamGetter Gets the output stream.
      * @since 2.9.0
      */
     public ThresholdingOutputStream(final int threshold, final IOConsumer<ThresholdingOutputStream> thresholdConsumer,
         final IOFunction<ThresholdingOutputStream, OutputStream> outputStreamGetter) {
-        this.threshold = threshold < 0 ? 0 : threshold;
+        this.threshold = Math.max(0, threshold);
         this.thresholdConsumer = thresholdConsumer == null ? IOConsumer.noop() : thresholdConsumer;
         this.outputStreamGetter = outputStreamGetter == null ? NOOP_OS_GETTER : outputStreamGetter;
     }
@@ -106,19 +106,24 @@ public class ThresholdingOutputStream extends OutputStream {
      * so, triggers an event to allow a concrete implementation to take action on this.
      *
      * @param count The number of bytes about to be written to the underlying output stream.
-     * @throws IOException if an error occurs.
+     * @throws IOException Thrown if an error occurs.
      */
     protected void checkThreshold(final int count) throws IOException {
         if (!thresholdExceeded && written + count > threshold) {
             thresholdExceeded = true;
-            thresholdReached();
+            try {
+                thresholdReached();
+            } catch (final IOException | RuntimeException e) {
+                thresholdExceeded = false;
+                throw e;
+            }
         }
     }
 
     /**
      * Closes this output stream and releases any system resources associated with this stream.
      *
-     * @throws IOException if an error occurs.
+     * @throws IOException Thrown if an error occurs.
      */
     @Override
     public void close() throws IOException {
@@ -134,7 +139,7 @@ public class ThresholdingOutputStream extends OutputStream {
     /**
      * Flushes this output stream and forces any buffered output bytes to be written out.
      *
-     * @throws IOException if an error occurs.
+     * @throws IOException Thrown if an error occurs.
      */
     @SuppressWarnings("resource") // the underlying stream is managed by a subclass.
     @Override
@@ -157,7 +162,7 @@ public class ThresholdingOutputStream extends OutputStream {
      * ultimately delegate.
      *
      * @return The underlying output stream.
-     * @throws IOException if an error occurs.
+     * @throws IOException Thrown if an error occurs.
      * @since 2.14.0
      */
     protected OutputStream getOutputStream() throws IOException {
@@ -169,7 +174,7 @@ public class ThresholdingOutputStream extends OutputStream {
      * ultimately delegate.
      *
      * @return The underlying output stream.
-     * @throws IOException if an error occurs.
+     * @throws IOException Thrown if an error occurs.
      * @deprecated Use {@link #getOutputStream()}.
      */
     @Deprecated
@@ -180,7 +185,7 @@ public class ThresholdingOutputStream extends OutputStream {
     /**
      * Gets the threshold, in bytes, at which an event will be triggered.
      *
-     * @return The threshold point, in bytes.
+     * @return The threshold point, in bytes, at which an event will be triggered, zero or greater.
      */
     public int getThreshold() {
         return threshold;
@@ -192,7 +197,7 @@ public class ThresholdingOutputStream extends OutputStream {
      * @return {@code true} if the threshold has been reached; {@code false} otherwise.
      */
     public boolean isThresholdExceeded() {
-        return written > threshold;
+        return thresholdExceeded;
     }
 
     /**
@@ -218,7 +223,7 @@ public class ThresholdingOutputStream extends OutputStream {
      * Indicates that the configured threshold has been reached, and that a subclass should take whatever action
      * necessary on this event. This may include changing the underlying output stream.
      *
-     * @throws IOException if an error occurs.
+     * @throws IOException Thrown if an error occurs.
      */
     protected void thresholdReached() throws IOException {
         thresholdConsumer.accept(this);
@@ -229,7 +234,7 @@ public class ThresholdingOutputStream extends OutputStream {
      *
      * @param b The array of bytes to be written.
      * @throws NullPointerException if the byte array is {@code null}.
-     * @throws IOException if an error occurs.
+     * @throws IOException Thrown if an error occurs.
      */
     @SuppressWarnings("resource") // the underlying stream is managed by a subclass.
     @Override
@@ -248,7 +253,7 @@ public class ThresholdingOutputStream extends OutputStream {
      * @param len The number of bytes to write.
      * @throws NullPointerException if the byte array is {@code null}.
      * @throws IndexOutOfBoundsException if {@code off} or {@code len} are negative, or if {@code off + len} is greater than {@code b.length}.
-     * @throws IOException if an error occurs.
+     * @throws IOException Thrown if an error occurs.
      */
     @SuppressWarnings("resource") // the underlying stream is managed by a subclass.
     @Override
@@ -266,7 +271,7 @@ public class ThresholdingOutputStream extends OutputStream {
      * Writes the specified byte to this output stream.
      *
      * @param b The byte to be written.
-     * @throws IOException if an error occurs.
+     * @throws IOException Thrown if an error occurs.
      */
     @SuppressWarnings("resource") // the underlying stream is managed by a subclass.
     @Override

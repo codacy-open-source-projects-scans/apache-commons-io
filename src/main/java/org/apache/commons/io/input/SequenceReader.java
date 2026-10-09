@@ -44,7 +44,7 @@ public class SequenceReader extends Reader {
     /**
      * Constructs a new instance with readers
      *
-     * @param readers the readers to read.
+     * @param readers The readers to read.
      */
     public SequenceReader(final Iterable<? extends Reader> readers) {
         this.readers = Objects.requireNonNull(readers, "readers").iterator();
@@ -54,7 +54,7 @@ public class SequenceReader extends Reader {
     /**
      * Constructs a new instance with readers
      *
-     * @param readers the readers to read.
+     * @param readers The readers to read.
      */
     public SequenceReader(final Reader... readers) {
         this(Arrays.asList(readers));
@@ -75,7 +75,7 @@ public class SequenceReader extends Reader {
     /**
      * Returns the next available reader or null if done.
      *
-     * @return the next available reader or null.
+     * @return The next available reader or null.
      * @throws IOException IOException  If an I/O error occurs.
      */
     private Reader nextReader() throws IOException {

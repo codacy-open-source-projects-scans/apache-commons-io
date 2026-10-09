@@ -39,8 +39,8 @@ public class DemuxOutputStream extends OutputStream {
     /**
      * Binds the specified stream to the current thread.
      *
-     * @param output the stream to bind.
-     * @return the OutputStream that was previously active.
+     * @param output The stream to bind.
+     * @return The OutputStream that was previously active.
      */
     public OutputStream bindStream(final OutputStream output) {
         final OutputStream stream = outputStreamThreadLocal.get();
@@ -51,7 +51,7 @@ public class DemuxOutputStream extends OutputStream {
     /**
      * Closes stream associated with current thread.
      *
-     * @throws IOException if an error occurs.
+     * @throws IOException Thrown if an error occurs.
      */
     @SuppressWarnings("resource") // we actually close the stream here
     @Override
@@ -62,13 +62,13 @@ public class DemuxOutputStream extends OutputStream {
     /**
      * Flushes stream associated with current thread.
      *
-     * @throws IOException if an error occurs.
+     * @throws IOException Thrown if an error occurs.
      */
     @Override
     public void flush() throws IOException {
         @SuppressWarnings("resource")
         final OutputStream output = outputStreamThreadLocal.get();
-        if (null != output) {
+        if (output != null) {
             output.flush();
         }
     }
@@ -76,14 +76,14 @@ public class DemuxOutputStream extends OutputStream {
     /**
      * Writes byte to stream associated with current thread.
      *
-     * @param ch the byte to write to stream.
-     * @throws IOException if an error occurs.
+     * @param ch The byte to write to stream.
+     * @throws IOException Thrown if an error occurs.
      */
     @Override
     public void write(final int ch) throws IOException {
         @SuppressWarnings("resource")
         final OutputStream output = outputStreamThreadLocal.get();
-        if (null != output) {
+        if (output != null) {
             output.write(ch);
         }
     }

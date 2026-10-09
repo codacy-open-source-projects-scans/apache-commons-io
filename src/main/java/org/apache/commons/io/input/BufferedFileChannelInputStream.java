@@ -41,7 +41,7 @@ import org.apache.commons.io.build.AbstractStreamBuilder;
  * @see Builder
  * @since 2.9.0
  */
-public final class BufferedFileChannelInputStream extends InputStream {
+public final class BufferedFileChannelInputStream extends AbstractInputStream {
 
     // @formatter:off
     /**
@@ -74,6 +74,8 @@ public final class BufferedFileChannelInputStream extends InputStream {
 
         private FileChannel fileChannel;
 
+        private boolean clean = true;
+
         /**
          * Constructs a new builder of {@link BufferedFileChannelInputStream}.
          */
@@ -95,7 +97,7 @@ public final class BufferedFileChannelInputStream extends InputStream {
          * <li>{@link #getBufferSize()}</li>
          * </ul>
          *
-         * @return a new instance.
+         * @return A new instance.
          * @throws IllegalStateException         if the {@code origin} is {@code null}.
          * @throws UnsupportedOperationException if the origin cannot be converted to a {@link Path}.
          * @throws IOException                   if an I/O error occurs converting to an {@link Path} using {@link #getPath()}.
@@ -109,12 +111,29 @@ public final class BufferedFileChannelInputStream extends InputStream {
         }
 
         /**
+         * Sets whether to do a complete clean of the internal ByteBuffer on close. Defaults to true.
+         * <p>
+         * Setting to false disables calling the low-level cleaner from the {@code sun.} packages that would be used on garbage collection. Leaving this value
+         * to the true defaults invokes this cleaner on close. Set to false to avoid deprecation warnings on Java version 23 and above, see
+         * <a href="https://openjdk.org/jeps/471">JEP 471: Deprecate the Memory-Access Methods in sun.misc.Unsafe for Removal</a>.
+         * </p>
+         *
+         * @param clean whether to attempt to clean ByteBuffer on close.
+         * @return {@code this} instance.
+         * @since 2.23.0
+         */
+        public Builder setClean(final boolean clean) {
+            this.clean = clean;
+            return this;
+        }
+
+        /**
          * Sets the file channel.
          * <p>
          * This setting takes precedence over all others.
          * </p>
          *
-         * @param fileChannel the file channel.
+         * @param fileChannel The file channel.
          * @return {@code this} instance.
          * @since 2.18.0
          */
@@ -125,17 +144,21 @@ public final class BufferedFileChannelInputStream extends InputStream {
 
     }
 
+    private static final ByteBuffer EMPTY_BUFFER = Input.emptyByteBuffer();
+
     /**
      * Constructs a new {@link Builder}.
      *
-     * @return a new {@link Builder}.
+     * @return A new {@link Builder}.
      * @since 2.12.0
      */
     public static Builder builder() {
         return new Builder();
     }
 
-    private final ByteBuffer byteBuffer;
+    private ByteBuffer byteBuffer;
+
+    private final boolean clean;
 
     private final FileChannel fileChannel;
 
@@ -144,6 +167,7 @@ public final class BufferedFileChannelInputStream extends InputStream {
         this.fileChannel = builder.fileChannel != null ? builder.fileChannel : FileChannel.open(builder.getPath(), StandardOpenOption.READ);
         this.byteBuffer = ByteBuffer.allocateDirect(builder.getBufferSize());
         this.byteBuffer.flip();
+        this.clean = builder.clean;
     }
 
     /**
@@ -162,7 +186,7 @@ public final class BufferedFileChannelInputStream extends InputStream {
      * Constructs a new instance for the given File and buffer size.
      *
      * @param file       The file to stream.
-     * @param bufferSize buffer size.
+     * @param bufferSize Buffer size.
      * @throws IOException If an I/O error occurs.
      * @deprecated Use {@link #builder()}, {@link Builder}, and {@link Builder#get()}
      */
@@ -187,7 +211,7 @@ public final class BufferedFileChannelInputStream extends InputStream {
      * Constructs a new instance for the given Path and buffer size.
      *
      * @param path       The path to stream.
-     * @param bufferSize buffer size.
+     * @param bufferSize Buffer size.
      * @throws IOException If an I/O error occurs.
      * @deprecated Use {@link #builder()}, {@link Builder}, and {@link Builder#get()}
      */
@@ -205,39 +229,39 @@ public final class BufferedFileChannelInputStream extends InputStream {
     }
 
     /**
-     * Attempts to clean up a ByteBuffer if it is direct or memory-mapped. This uses an *unsafe* Sun API that will cause errors if one attempts to read from the
-     * disposed buffer. However, neither the bytes allocated to direct buffers nor file descriptors opened for memory-mapped buffers put pressure on the garbage
-     * collector. Waiting for garbage collection may lead to the depletion of off-heap memory or huge numbers of open files. There's unfortunately no standard
-     * API to manually dispose of these kinds of buffers.
-     *
-     * @param buffer the buffer to clean.
-     */
-    private void clean(final ByteBuffer buffer) {
-        if (buffer.isDirect()) {
-            cleanDirectBuffer(buffer);
-        }
-    }
-
-    /**
+     * Cleans up the byte buffer.
+     * <p>
+     * If the buffer is writable, it is zeroed out.
+     * </p>
+     * <p>
+     * If the buffer is direct and {@code clean} is true, it cleaned using the "sun." package.
+     * </p>
+     * <p>
+     * If {@code clean} is true, this uses an unsafe Sun API that will cause errors if one attempts to read from the disposed buffer. However, neither the bytes
+     * allocated to direct buffers nor file descriptors opened for memory-mapped buffers put pressure on the garbage collector. Waiting for garbage collection
+     * may lead to the depletion of off-heap memory or huge numbers of open files. There's unfortunately no standard API to manually dispose of these kinds of
+     * buffers.
+     * <p>
      * In Java 8, the type of {@code sun.nio.ch.DirectBuffer.cleaner()} was {@code sun.misc.Cleaner}, and it was possible to access the method
      * {@code sun.misc.Cleaner.clean()} to invoke it. The type changed to {@code jdk.internal.ref.Cleaner} in later JDKs, and the {@code clean()} method is not
      * accessible even with reflection. However {@code sun.misc.Unsafe} added an {@code invokeCleaner()} method in JDK 9+ and this is still accessible with
      * reflection.
-     *
-     * @param buffer the buffer to clean. must be a DirectBuffer.
+     * </p>
      */
-    private void cleanDirectBuffer(final ByteBuffer buffer) {
-        if (ByteBufferCleaner.isSupported()) {
-            ByteBufferCleaner.clean(buffer);
-        }
+    private void cleanBuffer() {
+        ByteBufferCleaner.clean(byteBuffer, clean);
     }
 
     @Override
     public synchronized void close() throws IOException {
-        try {
-            fileChannel.close();
-        } finally {
-            clean(byteBuffer);
+        if (!isClosed()) {
+            try {
+                fileChannel.close();
+            } finally {
+                cleanBuffer();
+                byteBuffer = EMPTY_BUFFER;
+                super.close();
+            }
         }
     }
 
@@ -267,7 +291,7 @@ public final class BufferedFileChannelInputStream extends InputStream {
      * Checks whether data is left to be read from the input stream.
      *
      * @return true if data is left, false otherwise.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     private boolean refill() throws IOException {
         Input.checkOpen(fileChannel.isOpen());
@@ -300,6 +324,7 @@ public final class BufferedFileChannelInputStream extends InputStream {
         byteBuffer.flip();
         return skippedFromBuffer + skipFromFileChannel(toSkipFromFileChannel);
     }
+
 
     private long skipFromFileChannel(final long n) throws IOException {
         final long currentFilePosition = fileChannel.position();

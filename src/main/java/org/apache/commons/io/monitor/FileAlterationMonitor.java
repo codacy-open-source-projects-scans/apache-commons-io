@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.apache.commons.io.monitor;
 
 import java.time.Duration;
@@ -29,8 +30,7 @@ import java.util.stream.Stream;
 import org.apache.commons.io.ThreadUtils;
 
 /**
- * A runnable that spawns a monitoring thread triggering any
- * registered {@link FileAlterationObserver} at a specified interval.
+ * A runnable that spawns a monitoring thread triggering any registered {@link FileAlterationObserver} at a specified interval.
  *
  * @see FileAlterationObserver
  * @since 2.0
@@ -40,9 +40,13 @@ public final class FileAlterationMonitor implements Runnable {
     private static final FileAlterationObserver[] EMPTY_ARRAY = {};
 
     private final long intervalMillis;
+
     private final List<FileAlterationObserver> observers = new CopyOnWriteArrayList<>();
+
     private Thread thread;
+
     private ThreadFactory threadFactory;
+
     private volatile boolean running;
 
     /**
@@ -55,8 +59,7 @@ public final class FileAlterationMonitor implements Runnable {
     /**
      * Constructs a monitor with the specified interval.
      *
-     * @param intervalMillis The amount of time in milliseconds to wait between
-     * checks of the file system.
+     * @param intervalMillis The amount of time in milliseconds to wait between checks of the file system.
      */
     public FileAlterationMonitor(final long intervalMillis) {
         this.intervalMillis = intervalMillis;
@@ -65,8 +68,7 @@ public final class FileAlterationMonitor implements Runnable {
     /**
      * Constructs a monitor with the specified interval and collection of observers.
      *
-     * @param interval The amount of time in milliseconds to wait between
-     * checks of the file system.
+     * @param interval  The amount of time in milliseconds to wait between checks of the file system.
      * @param observers The collection of observers to add to the monitor.
      * @since 2.9.0
      */
@@ -84,8 +86,7 @@ public final class FileAlterationMonitor implements Runnable {
     /**
      * Constructs a monitor with the specified interval and set of observers.
      *
-     * @param interval The amount of time in milliseconds to wait between
-     * checks of the file system.
+     * @param interval  The amount of time in milliseconds to wait between checks of the file system.
      * @param observers The set of observers to add to the monitor.
      */
     public FileAlterationMonitor(final long interval, final FileAlterationObserver... observers) {
@@ -106,20 +107,29 @@ public final class FileAlterationMonitor implements Runnable {
         }
     }
 
+    void checkAndNotify() {
+        observers.forEach(foa -> {
+            try {
+                foa.checkAndNotify();
+            } catch (final Exception e) {
+                // Allow other observers to be notified even if one fails.
+            }
+        });
+    }
+
     /**
-     * Returns the interval.
+     * Gets the interval.
      *
-     * @return the interval.
+     * @return The interval.
      */
     public long getInterval() {
         return intervalMillis;
     }
 
     /**
-     * Returns the set of {@link FileAlterationObserver} registered with
-     * this monitor.
+     * Gets a shallow copy of the list of {@link FileAlterationObserver} registered with this monitor.
      *
-     * @return The set of {@link FileAlterationObserver}
+     * @return The set of {@link FileAlterationObserver}.
      */
     public Iterable<FileAlterationObserver> getObservers() {
         return new ArrayList<>(observers);
@@ -142,7 +152,7 @@ public final class FileAlterationMonitor implements Runnable {
     @Override
     public void run() {
         while (running) {
-            observers.forEach(FileAlterationObserver::checkAndNotify);
+            checkAndNotify();
             if (!running) {
                 break;
             }
@@ -157,7 +167,7 @@ public final class FileAlterationMonitor implements Runnable {
     /**
      * Sets the thread factory.
      *
-     * @param threadFactory the thread factory.
+     * @param threadFactory The thread factory.
      */
     public synchronized void setThreadFactory(final ThreadFactory threadFactory) {
         this.threadFactory = threadFactory;
@@ -166,7 +176,7 @@ public final class FileAlterationMonitor implements Runnable {
     /**
      * Starts monitoring.
      *
-     * @throws Exception if an error occurs initializing the observer.
+     * @throws Exception Thrown if an error occurs initializing the observer.
      */
     public synchronized void start() throws Exception {
         if (running) {
@@ -187,7 +197,7 @@ public final class FileAlterationMonitor implements Runnable {
     /**
      * Stops monitoring.
      *
-     * @throws Exception if an error occurs initializing the observer.
+     * @throws Exception Thrown if an error occurs initializing the observer.
      */
     public synchronized void stop() throws Exception {
         stop(intervalMillis);
@@ -196,9 +206,9 @@ public final class FileAlterationMonitor implements Runnable {
     /**
      * Stops monitoring.
      *
-     * @param stopInterval the amount of time in milliseconds to wait for the thread to finish.
-     * A value of zero will wait until the thread is finished (see {@link Thread#join(long)}).
-     * @throws Exception if an error occurs initializing the observer.
+     * @param stopInterval The amount of time in milliseconds to wait for the thread to finish. A value of zero will wait until the thread is finished (see
+     *                     {@link Thread#join(long)}).
+     * @throws Exception Thrown if an error occurs initializing the observer.
      * @since 2.1
      */
     public synchronized void stop(final long stopInterval) throws Exception {

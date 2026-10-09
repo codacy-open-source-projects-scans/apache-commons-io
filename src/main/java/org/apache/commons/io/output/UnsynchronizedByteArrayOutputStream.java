@@ -82,7 +82,7 @@ public final class UnsynchronizedByteArrayOutputStream extends AbstractByteArray
          * <li>{@link #getBufferSize()}</li>
          * </ul>
          *
-         * @return a new instance.
+         * @return A new instance.
          * @see AbstractOrigin#getByteArray()
          * @see #getUnchecked()
          */
@@ -96,7 +96,7 @@ public final class UnsynchronizedByteArrayOutputStream extends AbstractByteArray
     /**
      * Constructs a new {@link Builder}.
      *
-     * @return a new {@link Builder}.
+     * @return A new {@link Builder}.
      */
     public static Builder builder() {
         return new Builder();
@@ -121,7 +121,7 @@ public final class UnsynchronizedByteArrayOutputStream extends AbstractByteArray
      *
      * @param input Stream to be fully buffered.
      * @return A fully buffered stream.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     public static InputStream toBufferedInputStream(final InputStream input) throws IOException {
         return toBufferedInputStream(input, DEFAULT_SIZE);
@@ -145,9 +145,9 @@ public final class UnsynchronizedByteArrayOutputStream extends AbstractByteArray
      * </p>
      *
      * @param input Stream to be fully buffered.
-     * @param size the initial buffer size.
+     * @param size The initial buffer size.
      * @return A fully buffered stream.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     public static InputStream toBufferedInputStream(final InputStream input, final int size) throws IOException {
         // It does not matter if a ByteArrayOutputStream is not closed as close() is a no-op
@@ -176,7 +176,7 @@ public final class UnsynchronizedByteArrayOutputStream extends AbstractByteArray
     /**
      * Constructs a new byte array output stream, with a buffer capacity of the specified size, in bytes.
      *
-     * @param size the initial size.
+     * @param size The initial size.
      * @throws IllegalArgumentException if size is negative.
      * @deprecated Use {@link #builder()}, {@link Builder}, and {@link Builder#get()}. Will be private in 3.0.0.
      */

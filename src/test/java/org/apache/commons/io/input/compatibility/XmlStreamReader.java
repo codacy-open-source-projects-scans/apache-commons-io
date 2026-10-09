@@ -174,7 +174,7 @@ public class XmlStreamReader extends Reader {
      * <p>
      * If it is null the content-type based rules are used.
      *
-     * @return the default encoding to use.
+     * @return The default encoding to use.
      */
     public static String getDefaultEncoding() {
         return staticDefaultEncoding;
@@ -455,7 +455,7 @@ public class XmlStreamReader extends Reader {
      *        the charset encoding.
      * @param lenient indicates if the charset encoding detection should be
      *        relaxed.
-     * @param defaultEncoding the default encoding to use.
+     * @param defaultEncoding The default encoding to use.
      * @throws IOException thrown if there is a problem reading the file.
      * @throws XmlStreamReaderException thrown if the charset encoding could not
      *         be determined according to the specification.

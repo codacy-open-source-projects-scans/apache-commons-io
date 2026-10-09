@@ -49,7 +49,7 @@ public class BoundedReader extends ProxyReader {
     private final int maxCharsFromTargetReader;
 
     /**
-     * Constructs a bounded reader
+     * Constructs a bounded reader.
      *
      * @param target                   The target stream that will be used.
      * @param maxCharsFromTargetReader The maximum number of characters that can be read from target.
@@ -60,7 +60,7 @@ public class BoundedReader extends ProxyReader {
     }
 
     /**
-     * marks the target stream
+     * marks the target stream.
      *
      * @param readAheadLimit The number of characters that can be read while still retaining the ability to do #reset().
      *                       Note that this parameter is not validated with respect to maxCharsFromTargetReader. There
@@ -77,7 +77,7 @@ public class BoundedReader extends ProxyReader {
     }
 
     /**
-     * Reads a single character
+     * Reads a single character.
      *
      * @return -1 on EOF or the character read.
      * @throws IOException If an I/O error occurs while calling the underlying reader's read method.
@@ -93,12 +93,12 @@ public class BoundedReader extends ProxyReader {
     }
 
     /**
-     * Reads into an array
+     * Reads into an array.
      *
      * @param cbuf The buffer to fill.
      * @param off  The offset.
      * @param len  The number of chars to read.
-     * @return the number of chars read.
+     * @return The number of chars read.
      * @throws NullPointerException if the buffer is {@code null}.
      * @throws IndexOutOfBoundsException if {@code off} or {@code len} are negative, or if {@code off + len} is greater than {@code cbuf.length}.
      * @throws IOException If an I/O error occurs while calling the underlying reader's read method.
@@ -119,7 +119,7 @@ public class BoundedReader extends ProxyReader {
     }
 
     /**
-     * Resets the target to the latest mark,
+     * Resets the target to the latest mark.
      *
      * @throws IOException If an I/O error occurs while calling the underlying reader's reset method.
      * @see Reader#reset()
@@ -132,7 +132,15 @@ public class BoundedReader extends ProxyReader {
 
     @Override
     public long skip(final long n) throws IOException {
-        charsRead += n;
-        return super.skip(n);
+        if (n <= 0) {
+            return super.skip(n);
+        }
+        final int remaining = maxCharsFromTargetReader - charsRead;
+        if (remaining <= 0) {
+            return 0;
+        }
+        final long skipped = super.skip(Math.min(n, remaining));
+        charsRead += (int) skipped;
+        return skipped;
     }
 }

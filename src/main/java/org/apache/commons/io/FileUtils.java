@@ -230,8 +230,8 @@ public class FileUtils {
      * Similarly for the 1MB and 1KB boundaries.
      * </p>
      *
-     * @param size the number of bytes.
-     * @return a human-readable display value (includes units - QB, RB, YB, ZB, EB, PB, TB, GB, MB, KB or bytes).
+     * @param size The number of bytes.
+     * @return A human-readable display value (includes units - QB, RB, YB, ZB, EB, PB, TB, GB, MB, KB or bytes).
      * @throws NullPointerException if the given {@link BigInteger} is {@code null}.
      * @see <a href="https://issues.apache.org/jira/browse/IO-226">IO-226 - should the rounding be changed?</a>
      * @since 2.4
@@ -276,8 +276,8 @@ public class FileUtils {
      * Similarly for the 1MB and 1KB boundaries.
      * </p>
      *
-     * @param size the number of bytes.
-     * @return a human-readable display value (includes units - EB, PB, TB, GB, MB, KB or bytes).
+     * @param size The number of bytes.
+     * @return A human-readable display value (includes units - EB, PB, TB, GB, MB, KB or bytes).
      * @see <a href="https://issues.apache.org/jira/browse/IO-226">IO-226 - should the rounding be changed?</a>
      */
     // See https://issues.apache.org/jira/browse/IO-226 - should the rounding be changed?
@@ -295,8 +295,8 @@ public class FileUtils {
      * Similarly for the 1MB and 1KB boundaries.
      * </p>
      *
-     * @param size the number of bytes.
-     * @return a human-readable display value (includes units - EB, PB, TB, GB, MB, KB or bytes).
+     * @param size The number of bytes.
+     * @return A human-readable display value (includes units - EB, PB, TB, GB, MB, KB or bytes).
      * @see <a href="https://issues.apache.org/jira/browse/IO-226">IO-226 - should the rounding be changed?</a>
      * @since 2.12.0
      */
@@ -355,14 +355,14 @@ public class FileUtils {
      * long checksum = FileUtils.checksum(file, new CRC32()).getValue();
      * </pre>
      *
-     * @param file the file to checksum, must not be {@code null}
-     * @param checksum the checksum object to be used, must not be {@code null}
-     * @return the checksum specified, updated with the content of the file.
+     * @param file The file to checksum, must not be {@code null}
+     * @param checksum The checksum object to be used, must not be {@code null}
+     * @return The checksum specified, updated with the content of the file.
      * @throws NullPointerException if the given {@link File} is {@code null}.
      * @throws NullPointerException if the given {@link Checksum} is {@code null}.
      * @throws IllegalArgumentException if the given {@link File} is not a file.
      * @throws FileNotFoundException if the file does not exist.
-     * @throws IOException if an IO error occurs reading the file.
+     * @throws IOException Thrown if an IO error occurs reading the file.
      * @since 1.3
      */
     public static Checksum checksum(final File file, final Checksum checksum) throws IOException {
@@ -378,8 +378,8 @@ public class FileUtils {
      * Computes the checksum of a file using the CRC32 checksum routine.
      * The value of the checksum is returned.
      *
-     * @param file the file to checksum, must not be {@code null}
-     * @return the checksum value.
+     * @param file The file to checksum, must not be {@code null}
+     * @return The checksum value.
      * @throws NullPointerException if the {@code file} is {@code null}.
      * @throws IllegalArgumentException if the {@code file} does not exist or is not a file.
      * @throws IOException              if an IO error occurs reading the file.
@@ -395,7 +395,7 @@ public class FileUtils {
      * @param directory directory to clean.
      * @throws NullPointerException if the given {@link File} is {@code null}.
      * @throws IllegalArgumentException if the {@code directory} does not exist or is not a directory.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      * @see #forceDelete(File)
      */
     public static void cleanDirectory(final File directory) throws IOException {
@@ -408,7 +408,7 @@ public class FileUtils {
      * @param directory directory to clean, must not be {@code null}
      * @throws NullPointerException if the given {@link File} is {@code null}.
      * @throws IllegalArgumentException if the {@code directory} does not exist or is not a directory.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      * @see #forceDeleteOnExit(File)
      */
     private static void cleanDirectoryOnExit(final File directory) throws IOException {
@@ -422,8 +422,8 @@ public class FileUtils {
      * resorting to byte-by-byte comparison of the contents.
      * </p>
      *
-     * @param file1 the first file.
-     * @param file2 the second file.
+     * @param file1 The first file.
+     * @param file2 The second file.
      * @return true if the content of the files are equal or they both don't exist, false otherwise.
      * @throws IllegalArgumentException when an input is not a file.
      * @throws IOException If an I/O error occurs.
@@ -464,9 +464,9 @@ public class FileUtils {
      * before resorting to line-by-line comparison of the contents.
      * </p>
      *
-     * @param file1       the first file.
-     * @param file2       the second file.
-     * @param charsetName the name of the requested charset.
+     * @param file1       The first file.
+     * @param file2       The second file.
+     * @param charsetName The name of the requested charset.
      *                    May be null, in which case the platform default is used.
      * @return true if the content of the files are equal or neither exists,
      * false otherwise.
@@ -509,8 +509,8 @@ public class FileUtils {
      * representation. This is to account for the difference between
      * File.listFiles() and FileUtils.listFiles().
      *
-     * @param files a Collection containing {@link File} instances.
-     * @return an array of {@link File}
+     * @param files A Collection containing {@link File} instances.
+     * @return An array of {@link File}
      */
     public static File[] convertFileCollectionToFileArray(final Collection<File> files) {
         return files.toArray(EMPTY_FILE_ARRAY);
@@ -541,13 +541,13 @@ public class FileUtils {
      * newly created copy of the target.
      * </p>
      *
-     * @param srcDir an existing directory to copy, must not be {@code null}.
-     * @param destDir the new directory, must not be {@code null}.
+     * @param srcDir An existing directory to copy, must not be {@code null}.
+     * @param destDir The new directory, must not be {@code null}.
      * @throws NullPointerException if any of the given {@link File}s are {@code null}.
      * @throws IllegalArgumentException if {@code srcDir} exists but is not a directory,
      *     the source and the destination directory are the same.
      * @throws FileNotFoundException if the source does not exist.
-     * @throws IOException if an error occurs, the destination is not writable, or setting the last-modified time didn't succeed.
+     * @throws IOException Thrown if an error occurs, the destination is not writable, or setting the last-modified time didn't succeed.
      * @since 1.1
      */
     public static void copyDirectory(final File srcDir, final File destDir) throws IOException {
@@ -569,13 +569,13 @@ public class FileUtils {
      * will succeed. If the modification operation fails, the method throws IOException.
      * </p>
      *
-     * @param srcDir an existing directory to copy, must not be {@code null}.
-     * @param destDir the new directory, must not be {@code null}.
+     * @param srcDir An existing directory to copy, must not be {@code null}.
+     * @param destDir The new directory, must not be {@code null}.
      * @param preserveFileDate true if the file date of the copy should be the same as the original.
      * @throws IllegalArgumentException if {@code srcDir} exists but is not a directory, or
      *     the source and the destination directory are the same.
      * @throws FileNotFoundException if the source does not exist.
-     * @throws IOException if an error occurs, the destination is not writable, or setting the last-modified time didn't succeed.
+     * @throws IOException Thrown if an error occurs, the destination is not writable, or setting the last-modified time didn't succeed.
      * @since 1.1
      */
     public static void copyDirectory(final File srcDir, final File destDir, final boolean preserveFileDate)
@@ -618,14 +618,14 @@ public class FileUtils {
      * FileUtils.copyDirectory(srcDir, destDir, filter);
      * </pre>
      *
-     * @param srcDir an existing directory to copy, must not be {@code null}.
-     * @param destDir the new directory, must not be {@code null}.
-     * @param filter the filter to apply, null means copy all directories and files should be the same as the original.
+     * @param srcDir An existing directory to copy, must not be {@code null}.
+     * @param destDir The new directory, must not be {@code null}.
+     * @param filter The filter to apply, null means copy all directories and files should be the same as the original.
      * @throws NullPointerException if any of the given {@link File}s are {@code null}.
      * @throws IllegalArgumentException if {@code srcDir} exists but is not a directory, or
      *     the source and the destination directory are the same.
      * @throws FileNotFoundException if the source does not exist.
-     * @throws IOException if an error occurs, the destination is not writable, or setting the last-modified time didn't succeed.
+     * @throws IOException Thrown if an error occurs, the destination is not writable, or setting the last-modified time didn't succeed.
      * @since 1.4
      */
     public static void copyDirectory(final File srcDir, final File destDir, final FileFilter filter)
@@ -669,15 +669,15 @@ public class FileUtils {
      * FileUtils.copyDirectory(srcDir, destDir, filter, false);
      * </pre>
      *
-     * @param srcDir an existing directory to copy, must not be {@code null}.
-     * @param destDir the new directory, must not be {@code null}.
-     * @param filter the filter to apply, null means copy all directories and files.
+     * @param srcDir An existing directory to copy, must not be {@code null}.
+     * @param destDir The new directory, must not be {@code null}.
+     * @param filter The filter to apply, null means copy all directories and files.
      * @param preserveFileDate true if the file date of the copy should be the same as the original.
      * @throws NullPointerException if any of the given {@link File}s are {@code null}.
      * @throws IllegalArgumentException if {@code srcDir} exists but is not a directory,
      *     the source and the destination directory are the same, or the destination is not writable.
      * @throws FileNotFoundException if the source does not exist.
-     * @throws IOException if an error occurs or setting the last-modified time didn't succeed.
+     * @throws IOException Thrown if an error occurs or setting the last-modified time didn't succeed.
      * @since 1.4
      */
     public static void copyDirectory(final File srcDir, final File destDir, final FileFilter filter, final boolean preserveFileDate) throws IOException {
@@ -720,16 +720,16 @@ public class FileUtils {
      * FileUtils.copyDirectory(srcDir, destDir, filter, false);
      * </pre>
      *
-     * @param srcDir an existing directory to copy, must not be {@code null}
-     * @param destDir the new directory, must not be {@code null}
-     * @param fileFilter the filter to apply, null means copy all directories and files.
+     * @param srcDir An existing directory to copy, must not be {@code null}
+     * @param destDir The new directory, must not be {@code null}
+     * @param fileFilter The filter to apply, null means copy all directories and files.
      * @param preserveFileDate true if the file date of the copy should be the same as the original.
      * @param copyOptions options specifying how the copy should be done, for example {@link StandardCopyOption}.
      * @throws NullPointerException if any of the given {@link File}s are {@code null}.
      * @throws IllegalArgumentException if {@code srcDir} exists but is not a directory, or
      *     the source and the destination directory are the same.
      * @throws FileNotFoundException if the source does not exist.
-     * @throws IOException if an error occurs, the destination is not writable, or setting the last-modified time didn't succeed.
+     * @throws IOException Thrown if an error occurs, the destination is not writable, or setting the last-modified time didn't succeed.
      * @since 2.8.0
      */
     public static void copyDirectory(final File srcDir, final File destDir, final FileFilter fileFilter, final boolean preserveFileDate,
@@ -770,12 +770,12 @@ public class FileUtils {
      * {@link File#setLastModified(long)} and if that fails, the method throws IOException.
      * </p>
      *
-     * @param sourceDir an existing directory to copy, must not be {@code null}.
-     * @param destinationDir the directory to place the copy in, must not be {@code null}.
+     * @param sourceDir An existing directory to copy, must not be {@code null}.
+     * @param destinationDir The directory to place the copy in, must not be {@code null}.
      * @throws NullPointerException if any of the given {@link File}s are {@code null}.
      * @throws IllegalArgumentException if the source or destination is invalid.
      * @throws FileNotFoundException if the source does not exist.
-     * @throws IOException if an error occurs, the destination is not writable, or setting the last-modified time didn't succeed.
+     * @throws IOException Thrown if an error occurs, the destination is not writable, or setting the last-modified time didn't succeed.
      * @since 1.2
      */
     public static void copyDirectoryToDirectory(final File sourceDir, final File destinationDir) throws IOException {
@@ -798,12 +798,12 @@ public class FileUtils {
      * {@link File#setLastModified(long)}, and if that fails, the method throws IOException.
      * </p>
      *
-     * @param srcFile an existing file to copy, must not be {@code null}.
-     * @param destFile the new file, must not be {@code null}.
+     * @param srcFile An existing file to copy, must not be {@code null}.
+     * @param destFile The new file, must not be {@code null}.
      * @throws NullPointerException if any of the given {@link File}s are {@code null}.
-     * @throws IOException if source or destination is invalid.
-     * @throws IOException if an error occurs or setting the last-modified time didn't succeed.
-     * @throws IOException if the output file length is not the same as the input file length after the copy completes.
+     * @throws IOException Thrown if source or destination is invalid.
+     * @throws IOException Thrown if an error occurs or setting the last-modified time didn't succeed.
+     * @throws IOException Thrown if the output file length is not the same as the input file length after the copy completes.
      * @see #copyFileToDirectory(File, File)
      * @see #copyFile(File, File, boolean)
      */
@@ -825,13 +825,13 @@ public class FileUtils {
      * {@link File#setLastModified(long)}, and if that fails, the method throws IOException.
      * </p>
      *
-     * @param srcFile an existing file to copy, must not be {@code null}.
-     * @param destFile the new file, must not be {@code null}.
+     * @param srcFile An existing file to copy, must not be {@code null}.
+     * @param destFile The new file, must not be {@code null}.
      * @param preserveFileDate true if the file date of the copy should be the same as the original.
      * @throws NullPointerException if any of the given {@link File}s are {@code null}.
-     * @throws IOException if source or destination is invalid.
-     * @throws IOException if an error occurs or setting the last-modified time didn't succeed.
-     * @throws IOException if the output file length is not the same as the input file length after the copy completes.
+     * @throws IOException Thrown if source or destination is invalid.
+     * @throws IOException Thrown if an error occurs or setting the last-modified time didn't succeed.
+     * @throws IOException Thrown if the output file length is not the same as the input file length after the copy completes.
      * @see #copyFile(File, File, boolean, CopyOption...)
      */
     public static void copyFile(final File srcFile, final File destFile, final boolean preserveFileDate) throws IOException {
@@ -858,15 +858,15 @@ public class FileUtils {
      * {@link File#setLastModified(long)}, and if that fails, the method throws IOException.
      * </p>
      *
-     * @param srcFile an existing file to copy, must not be {@code null}.
-     * @param destFile the new file, must not be {@code null}.
+     * @param srcFile An existing file to copy, must not be {@code null}.
+     * @param destFile The new file, must not be {@code null}.
      * @param preserveFileDate true if the file date of the copy should be the same as the original.
      * @param copyOptions options specifying how the copy should be done, for example {@link StandardCopyOption}.
      * @throws NullPointerException if any of the given {@link File}s are {@code null}.
      * @throws FileNotFoundException if the source does not exist.
      * @throws IllegalArgumentException if {@code srcFile} or {@code destFile} is not a file.
-     * @throws IOException if the output file length is not the same as the input file length after the copy completes.
-     * @throws IOException if an I/O error occurs, setting the last-modified time didn't succeed,
+     * @throws IOException Thrown if the output file length is not the same as the input file length after the copy completes.
+     * @throws IOException Thrown if an I/O error occurs, setting the last-modified time didn't succeed,
      *     or the destination is not writable.
      * @see #copyFileToDirectory(File, File, boolean)
      * @since 2.8.0
@@ -895,13 +895,13 @@ public class FileUtils {
      * it if you use {@link StandardCopyOption#REPLACE_EXISTING}.
      * </p>
      *
-     * @param srcFile an existing file to copy, must not be {@code null}.
-     * @param destFile the new file, must not be {@code null}.
+     * @param srcFile An existing file to copy, must not be {@code null}.
+     * @param destFile The new file, must not be {@code null}.
      * @param copyOptions options specifying how the copy should be done, for example {@link StandardCopyOption}.
      * @throws NullPointerException if any of the given {@link File}s are {@code null}.
      * @throws FileNotFoundException if the source does not exist.
      * @throws IllegalArgumentException if source is not a file.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      * @see StandardCopyOption
      * @since 2.9.0
      */
@@ -915,9 +915,9 @@ public class FileUtils {
      * This method buffers the input internally, so there is no need to use a {@link BufferedInputStream}.
      * </p>
      *
-     * @param input  the {@link File} to read.
-     * @param output the {@link OutputStream} to write.
-     * @return the number of bytes copied.
+     * @param input  The {@link File} to read.
+     * @param output The {@link OutputStream} to write.
+     * @return The number of bytes copied.
      * @throws NullPointerException if the File is {@code null}.
      * @throws NullPointerException if the OutputStream is {@code null}.
      * @throws IOException          if an I/O error occurs.
@@ -943,11 +943,11 @@ public class FileUtils {
      * {@link File#setLastModified(long)} and if that fails, the method throws IOException.
      * </p>
      *
-     * @param srcFile an existing file to copy, must not be {@code null}.
-     * @param destDir the directory to place the copy in, must not be {@code null}.
+     * @param srcFile An existing file to copy, must not be {@code null}.
+     * @param destDir The directory to place the copy in, must not be {@code null}.
      * @throws NullPointerException if any of the given {@link File}s are {@code null}.
      * @throws IllegalArgumentException if source or destination is invalid.
-     * @throws IOException if an error occurs or setting the last-modified time didn't succeed.
+     * @throws IOException Thrown if an error occurs or setting the last-modified time didn't succeed.
      * @see #copyFile(File, File, boolean)
      */
     public static void copyFileToDirectory(final File srcFile, final File destDir) throws IOException {
@@ -968,12 +968,12 @@ public class FileUtils {
      * {@link File#setLastModified(long)} and if that fails, the method throws IOException.
      * </p>
      *
-     * @param sourceFile an existing file to copy, must not be {@code null}.
-     * @param destinationDir the directory to place the copy in, must not be {@code null}.
+     * @param sourceFile An existing file to copy, must not be {@code null}.
+     * @param destinationDir The directory to place the copy in, must not be {@code null}.
      * @param preserveFileDate true if the file date of the copy should be the same as the original.
      * @throws NullPointerException if any of the given {@link File}s are {@code null}.
-     * @throws IOException if an error occurs or setting the last-modified time didn't succeed.
-     * @throws IOException if the output file length is not the same as the input file length after the copy completes.
+     * @throws IOException Thrown if an error occurs or setting the last-modified time didn't succeed.
+     * @throws IOException Thrown if the output file length is not the same as the input file length after the copy completes.
      * @see #copyFile(File, File, CopyOption...)
      * @since 1.3
      */
@@ -995,13 +995,13 @@ public class FileUtils {
      * See {@link #copyToFile(InputStream, File)} for a method that does not close the input stream.
      * </p>
      *
-     * @param source      the {@link InputStream} to copy bytes from, must not be {@code null}, will be closed.
-     * @param destination the non-directory {@link File} to write bytes to
+     * @param source      The {@link InputStream} to copy bytes from, must not be {@code null}, will be closed.
+     * @param destination The non-directory {@link File} to write bytes to
      *                    (possibly overwriting), must not be {@code null}
-     * @throws IOException if {@code destination} is a directory.
-     * @throws IOException if {@code destination} cannot be written.
-     * @throws IOException if {@code destination} needs creating but can't be.
-     * @throws IOException if an IO error occurs during copying.
+     * @throws IOException Thrown if {@code destination} is a directory.
+     * @throws IOException Thrown if {@code destination} cannot be written.
+     * @throws IOException Thrown if {@code destination} needs creating but can't be.
+     * @throws IOException Thrown if an IO error occurs during copying.
      * @since 2.0
      */
     public static void copyInputStreamToFile(final InputStream source, final File destination) throws IOException {
@@ -1027,12 +1027,12 @@ public class FileUtils {
      * {@link File#setLastModified(long)} and if that fails, the method throws IOException.
      * </p>
      *
-     * @param sourceFile an existing file or directory to copy, must not be {@code null}.
-     * @param destinationDir the directory to place the copy in, must not be {@code null}.
+     * @param sourceFile An existing file or directory to copy, must not be {@code null}.
+     * @param destinationDir The directory to place the copy in, must not be {@code null}.
      * @throws NullPointerException if any of the given {@link File}s are {@code null}.
      * @throws IllegalArgumentException if the source or destination is invalid.
      * @throws FileNotFoundException if the source does not exist.
-     * @throws IOException if an error occurs or setting the last-modified time didn't succeed.
+     * @throws IOException Thrown if an error occurs or setting the last-modified time didn't succeed.
      * @see #copyDirectoryToDirectory(File, File)
      * @see #copyFileToDirectory(File, File)
      * @since 2.6
@@ -1064,10 +1064,10 @@ public class FileUtils {
      * </p>
      *
      * @param sourceIterable  existing files to copy, must not be {@code null}.
-     * @param destinationDir  the directory to place the copies in, must not be {@code null}.
+     * @param destinationDir  The directory to place the copies in, must not be {@code null}.
      * @throws NullPointerException if any of the given {@link File}s are {@code null}.
-     * @throws IOException if source or destination is invalid.
-     * @throws IOException if an error occurs or setting the last-modified time didn't succeed.
+     * @throws IOException Thrown if source or destination is invalid.
+     * @throws IOException Thrown if an error occurs or setting the last-modified time didn't succeed.
      * @see #copyFileToDirectory(File, File)
      * @since 2.6
      */
@@ -1085,15 +1085,15 @@ public class FileUtils {
      * {@link java.util.zip.ZipInputStream ZipInputStream}. See {@link #copyInputStreamToFile(InputStream, File)} for a
      * method that closes the input stream.
      *
-     * @param inputStream the {@link InputStream} to copy bytes from, must not be {@code null}
-     * @param file the non-directory {@link File} to write bytes to (possibly overwriting), must not be
+     * @param inputStream The {@link InputStream} to copy bytes from, must not be {@code null}
+     * @param file The non-directory {@link File} to write bytes to (possibly overwriting), must not be
      *        {@code null}
      * @throws NullPointerException if the InputStream is {@code null}.
      * @throws NullPointerException if the File is {@code null}.
      * @throws IllegalArgumentException if the file object is a directory.
      * @throws IllegalArgumentException if the file is not writable.
-     * @throws IOException if the directories could not be created.
-     * @throws IOException if an IO error occurs during copying.
+     * @throws IOException Thrown if the directories could not be created.
+     * @throws IOException Thrown if an IO error occurs during copying.
      * @since 2.5
      */
     public static void copyToFile(final InputStream inputStream, final File file) throws IOException {
@@ -1113,14 +1113,14 @@ public class FileUtils {
      * with reasonable timeouts to prevent this.
      * </p>
      *
-     * @param source      the {@link URL} to copy bytes from, must not be {@code null}
-     * @param destination the non-directory {@link File} to write bytes to
+     * @param source      The {@link URL} to copy bytes from, must not be {@code null}
+     * @param destination The non-directory {@link File} to write bytes to
      *                    (possibly overwriting), must not be {@code null}
-     * @throws IOException if {@code source} URL cannot be opened.
-     * @throws IOException if {@code destination} is a directory.
-     * @throws IOException if {@code destination} cannot be written.
-     * @throws IOException if {@code destination} needs creating but can't be.
-     * @throws IOException if an IO error occurs during copying.
+     * @throws IOException Thrown if {@code source} URL cannot be opened.
+     * @throws IOException Thrown if {@code destination} is a directory.
+     * @throws IOException Thrown if {@code destination} cannot be written.
+     * @throws IOException Thrown if {@code destination} needs creating but can't be.
+     * @throws IOException Thrown if an IO error occurs during copying.
      */
     public static void copyURLToFile(final URL source, final File destination) throws IOException {
         final Path path = destination.toPath();
@@ -1133,18 +1133,18 @@ public class FileUtils {
      * {@code destination} will be created if they don't already exist. {@code destination} will be
      * overwritten if it already exists.
      *
-     * @param source the {@link URL} to copy bytes from, must not be {@code null}
-     * @param destination the non-directory {@link File} to write bytes to (possibly overwriting), must not be
+     * @param source The {@link URL} to copy bytes from, must not be {@code null}
+     * @param destination The non-directory {@link File} to write bytes to (possibly overwriting), must not be
      *        {@code null}
-     * @param connectionTimeoutMillis the number of milliseconds until this method will time out if no connection could
+     * @param connectionTimeoutMillis The number of milliseconds until this method will time out if no connection could
      *        be established to the {@code source}
-     * @param readTimeoutMillis the number of milliseconds until this method will time out if no data could be read from
+     * @param readTimeoutMillis The number of milliseconds until this method will time out if no data could be read from
      *        the {@code source}
-     * @throws IOException if {@code source} URL cannot be opened.
-     * @throws IOException if {@code destination} is a directory.
-     * @throws IOException if {@code destination} cannot be written.
-     * @throws IOException if {@code destination} needs creating but can't be.
-     * @throws IOException if an IO error occurs during copying.
+     * @throws IOException Thrown if {@code source} URL cannot be opened.
+     * @throws IOException Thrown if {@code destination} is a directory.
+     * @throws IOException Thrown if {@code destination} cannot be written.
+     * @throws IOException Thrown if {@code destination} needs creating but can't be.
+     * @throws IOException Thrown if an IO error occurs during copying.
      * @since 2.0
      */
     public static void copyURLToFile(final URL source, final File destination, final int connectionTimeoutMillis, final int readTimeoutMillis)
@@ -1162,7 +1162,7 @@ public class FileUtils {
      * Creates all parent directories for a File object, including any necessary but non-existent parent directories. If a parent directory already exists or
      * is null, nothing happens.
      *
-     * @param file the File that may need parents, may be null.
+     * @param file The File that may need parents, may be null.
      * @return The parent directory, or {@code null} if the given File does have a parent.
      * @throws IOException       if the directory was not created along with all its parent directories.
      * @throws SecurityException See {@link File#mkdirs()}.
@@ -1175,7 +1175,7 @@ public class FileUtils {
     /**
      * Gets the current directory.
      *
-     * @return the current directory.
+     * @return The current directory.
      * @since 2.12.0
      */
     public static File current() {
@@ -1234,7 +1234,7 @@ public class FileUtils {
      * boolean.
      *
      * @param file The file to delete.
-     * @return the given file.
+     * @return The given file.
      * @throws NullPointerException     if the parameter is {@code null}.
      * @throws IOException              if the file cannot be deleted.
      * @see File#delete()
@@ -1329,8 +1329,8 @@ public class FileUtils {
      * <li>A null child file is not contained in any parent: return false</li>
      * </ul>
      *
-     * @param directory the file to consider as the parent.
-     * @param child     the file to consider as the child.
+     * @param directory The file to consider as the parent.
+     * @param child     The file to consider as the child.
      * @return true is the candidate leaf is under by the specified composite. False otherwise.
      * @throws IOException              if an IO error occurs while checking the files.
      * @throws NullPointerException if the parent is {@code null}.
@@ -1353,13 +1353,13 @@ public class FileUtils {
      * Internal copy directory method. Creates all destination parent directories,
      * including any necessary but non-existent parent directories.
      *
-     * @param srcDir the validated source directory, must not be {@code null}.
-     * @param destDir the validated destination directory, must not be {@code null}.
-     * @param fileFilter the filter to apply, null means copy all directories and files.
+     * @param srcDir The validated source directory, must not be {@code null}.
+     * @param destDir The validated destination directory, must not be {@code null}.
+     * @param fileFilter The filter to apply, null means copy all directories and files.
      * @param exclusionList List of files and directories to exclude from the copy, may be null.
      * @param preserveDirDate preserve the directories last modified dates.
      * @param copyOptions options specifying how the copy should be done, see {@link StandardCopyOption}.
-     * @throws IOException if the directory was not created along with all its parent directories.
+     * @throws IOException Thrown if the directory was not created along with all its parent directories.
      * @throws IllegalArgumentException if {@code destDir} is not writable.
      * @throws SecurityException See {@link File#mkdirs()}.
      */
@@ -1463,7 +1463,7 @@ public class FileUtils {
      * Calls {@link File#mkdirs()} and throws an {@link IOException} on failure.
      * </p>
      *
-     * @param directory the receiver for {@code mkdirs()}. If the {@code directory} already exists or is null, nothing happens.
+     * @param directory The receiver for {@code mkdirs()}. If the {@code directory} already exists or is null, nothing happens.
      * @throws IOException       if the directory was not created along with all its parent directories.
      * @throws IOException       if the given file object is not a directory.
      * @throws SecurityException See {@link File#mkdirs()}.
@@ -1494,9 +1494,9 @@ public class FileUtils {
     /**
      * Constructs a file from the set of name elements.
      *
-     * @param directory the parent directory.
-     * @param names the name elements.
-     * @return the new file.
+     * @param directory The parent directory.
+     * @param names The name elements.
+     * @return The new file.
      * @since 2.1
      */
     public static File getFile(final File directory, final String... names) {
@@ -1512,8 +1512,8 @@ public class FileUtils {
     /**
      * Constructs a file from the set of name elements.
      *
-     * @param names the name elements.
-     * @return the file.
+     * @param names The name elements.
+     * @return The file.
      * @since 2.1
      */
     public static File getFile(final String... names) {
@@ -1542,7 +1542,7 @@ public class FileUtils {
     /**
      * Gets a {@link File} representing the system temporary directory based on the Java system property {@code java.io.tmpdir}.
      *
-     * @return the system temporary directory as a File.
+     * @return The system temporary directory as a File.
      * @since 2.0
      */
     public static File getTempDirectory() {
@@ -1556,7 +1556,7 @@ public class FileUtils {
      * that uses String processing to manipulate pathnames rather than the standard library methods in classes such as {@link File}.
      * </p>
      *
-     * @return the path to the system temporary directory as a String.
+     * @return The path to the system temporary directory as a String.
      * @since 2.0
      */
     public static String getTempDirectoryPath() {
@@ -1566,7 +1566,7 @@ public class FileUtils {
     /**
      * Gets a {@link File} representing the user's home directory based on the Java system property {@code user.home}.
      *
-     * @return the user's home directory.
+     * @return The user's home directory.
      * @since 2.0
      */
     public static File getUserDirectory() {
@@ -1576,7 +1576,7 @@ public class FileUtils {
     /**
      * Gets the path to the user's home directory based on the Java system property {@code user.home}.
      *
-     * @return the path to the user's home directory.
+     * @return The path to the user's home directory.
      * @since 2.0
      */
     public static String getUserDirectoryPath() {
@@ -1604,9 +1604,9 @@ public class FileUtils {
     /**
      * Tests whether the directory is empty.
      *
-     * @param directory the directory to query.
+     * @param directory The directory to query.
      * @return whether the directory is empty.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      * @throws NotDirectoryException if the file could not otherwise be opened because it is not a directory
      *                               <em>(optional specific exception)</em>.
      * @since 2.9.0
@@ -1627,8 +1627,8 @@ public class FileUtils {
      * {@code zoneId} is a valid {@link ZoneId}.
      * </p>
      *
-     * @param file            the {@link File} of which the modification date must be compared.
-     * @param chronoLocalDate the date reference.
+     * @param file            The {@link File} of which the modification date must be compared.
+     * @param chronoLocalDate The date reference.
      * @return true if the {@link File} exists and has been modified after the given
      * {@link ChronoLocalDate} at the current time.
      * @throws UncheckedIOException if an I/O error occurs.
@@ -1650,9 +1650,9 @@ public class FileUtils {
      * {@link ZoneId}.
      * </p>
      *
-     * @param file            the {@link File} of which the modification date must be compared.
-     * @param chronoLocalDate the date reference.
-     * @param localTime       the time reference.
+     * @param file            The {@link File} of which the modification date must be compared.
+     * @param chronoLocalDate The date reference.
+     * @param localTime       The time reference.
      * @return true if the {@link File} exists and has been modified after the given
      * {@link ChronoLocalDate} at the given time.
      * @throws UncheckedIOException if an I/O error occurs.
@@ -1669,9 +1669,9 @@ public class FileUtils {
      * Tests if the specified {@link File} is newer than the specified {@link ChronoLocalDate} at the specified
      * {@link OffsetTime}.
      *
-     * @param file the {@link File} of which the modification date must be compared.
-     * @param chronoLocalDate the date reference.
-     * @param offsetTime the time reference.
+     * @param file The {@link File} of which the modification date must be compared.
+     * @param chronoLocalDate The date reference.
+     * @param offsetTime The time reference.
      * @return true if the {@link File} exists and has been modified after the given {@link ChronoLocalDate} at the given
      *         {@link OffsetTime}.
      * @throws UncheckedIOException if an I/O error occurs.
@@ -1695,8 +1695,8 @@ public class FileUtils {
      * {@link ZoneId}.
      * </p>
      *
-     * @param file                the {@link File} of which the modification date must be compared.
-     * @param chronoLocalDateTime the date reference.
+     * @param file                The {@link File} of which the modification date must be compared.
+     * @param chronoLocalDateTime The date reference.
      * @return true if the {@link File} exists and has been modified after the given
      * {@link ChronoLocalDateTime} at the system-default time zone.
      * @throws UncheckedIOException if an I/O error occurs.
@@ -1711,9 +1711,9 @@ public class FileUtils {
      * Tests if the specified {@link File} is newer than the specified {@link ChronoLocalDateTime}
      * at the specified {@link ZoneId}.
      *
-     * @param file                the {@link File} of which the modification date must be compared.
-     * @param chronoLocalDateTime the date reference.
-     * @param zoneId              the time zone.
+     * @param file                The {@link File} of which the modification date must be compared.
+     * @param chronoLocalDateTime The date reference.
+     * @param zoneId              The time zone.
      * @return true if the {@link File} exists and has been modified after the given
      * {@link ChronoLocalDateTime} at the given {@link ZoneId}.
      * @throws UncheckedIOException if an I/O error occurs.
@@ -1729,8 +1729,8 @@ public class FileUtils {
     /**
      * Tests if the specified {@link File} is newer than the specified {@link ChronoZonedDateTime}.
      *
-     * @param file                the {@link File} of which the modification date must be compared.
-     * @param chronoZonedDateTime the date reference.
+     * @param file                The {@link File} of which the modification date must be compared.
+     * @param chronoZonedDateTime The date reference.
      * @return true if the {@link File} exists and has been modified after the given
      * {@link ChronoZonedDateTime}.
      * @throws NullPointerException if the file or zoned date time is {@code null}.
@@ -1746,8 +1746,8 @@ public class FileUtils {
     /**
      * Tests if the specified {@link File} is newer than the specified {@link Date}.
      *
-     * @param file the {@link File} of which the modification date must be compared.
-     * @param date the date reference.
+     * @param file The {@link File} of which the modification date must be compared.
+     * @param date The date reference.
      * @return true if the {@link File} exists and has been modified
      * after the given {@link Date}.
      * @throws UncheckedIOException if an I/O error occurs.
@@ -1761,8 +1761,8 @@ public class FileUtils {
     /**
      * Tests if the specified {@link File} is newer than the reference {@link File}.
      *
-     * @param file      the {@link File} of which the modification date must be compared.
-     * @param reference the {@link File} of which the modification date is used.
+     * @param file      The {@link File} of which the modification date must be compared.
+     * @param reference The {@link File} of which the modification date is used.
      * @return true if the {@link File} exists and has been modified more
      * recently than the reference {@link File}.
      * @throws NullPointerException if the file or reference file is {@code null}.
@@ -1775,10 +1775,10 @@ public class FileUtils {
     /**
      * Tests if the specified {@link File} is newer than the specified {@link FileTime}.
      *
-     * @param file the {@link File} of which the modification date must be compared.
-     * @param fileTime the file time reference.
+     * @param file The {@link File} of which the modification date must be compared.
+     * @param fileTime The file time reference.
      * @return true if the {@link File} exists and has been modified after the given {@link FileTime}.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      * @throws NullPointerException if the file or local date is {@code null}.
      * @since 2.12.0
      */
@@ -1790,8 +1790,8 @@ public class FileUtils {
     /**
      * Tests if the specified {@link File} is newer than the specified {@link Instant}.
      *
-     * @param file the {@link File} of which the modification date must be compared.
-     * @param instant the date reference.
+     * @param file The {@link File} of which the modification date must be compared.
+     * @param instant The date reference.
      * @return true if the {@link File} exists and has been modified after the given {@link Instant}.
      * @throws NullPointerException if the file or instant is {@code null}.
      * @throws UncheckedIOException if an I/O error occurs.
@@ -1805,8 +1805,8 @@ public class FileUtils {
     /**
      * Tests if the specified {@link File} is newer than the specified time reference.
      *
-     * @param file       the {@link File} of which the modification date must be compared.
-     * @param timeMillis the time reference measured in milliseconds since the
+     * @param file       The {@link File} of which the modification date must be compared.
+     * @param timeMillis The time reference measured in milliseconds since the
      *                   epoch (00:00:00 GMT, January 1, 1970).
      * @return true if the {@link File} exists and has been modified after the given time reference.
      * @throws UncheckedIOException if an I/O error occurs.
@@ -1820,8 +1820,8 @@ public class FileUtils {
     /**
      * Tests if the specified {@link File} is newer than the specified {@link OffsetDateTime}.
      *
-     * @param file the {@link File} of which the modification date must be compared.
-     * @param offsetDateTime the date reference.
+     * @param file The {@link File} of which the modification date must be compared.
+     * @param offsetDateTime The date reference.
      * @return true if the {@link File} exists and has been modified before the given {@link OffsetDateTime}.
      * @throws UncheckedIOException if an I/O error occurs.
      * @throws NullPointerException if the file or zoned date time is {@code null}.
@@ -1844,8 +1844,8 @@ public class FileUtils {
      * {@code zoneId} is a valid {@link ZoneId}.
      * </p>
      *
-     * @param file            the {@link File} of which the modification date must be compared.
-     * @param chronoLocalDate the date reference.
+     * @param file            The {@link File} of which the modification date must be compared.
+     * @param chronoLocalDate The date reference.
      * @return true if the {@link File} exists and has been modified before the given
      * {@link ChronoLocalDate} at the current time.
      * @throws NullPointerException if the file or local date is {@code null}.
@@ -1869,9 +1869,9 @@ public class FileUtils {
      * {@link ZoneId}.
      * </p>
      *
-     * @param file            the {@link File} of which the modification date must be compared.
-     * @param chronoLocalDate the date reference.
-     * @param localTime       the time reference.
+     * @param file            The {@link File} of which the modification date must be compared.
+     * @param chronoLocalDate The date reference.
+     * @param localTime       The time reference.
      * @return true if the {@link File} exists and has been modified before the
      * given {@link ChronoLocalDate} at the specified time.
      * @throws UncheckedIOException if an I/O error occurs.
@@ -1889,9 +1889,9 @@ public class FileUtils {
      * Tests if the specified {@link File} is older than the specified {@link ChronoLocalDate} at the specified
      * {@link OffsetTime}.
      *
-     * @param file the {@link File} of which the modification date must be compared.
-     * @param chronoLocalDate the date reference.
-     * @param offsetTime the time reference.
+     * @param file The {@link File} of which the modification date must be compared.
+     * @param chronoLocalDate The date reference.
+     * @param offsetTime The time reference.
      * @return true if the {@link File} exists and has been modified after the given {@link ChronoLocalDate} at the given
      *         {@link OffsetTime}.
      * @throws NullPointerException if the file, local date or zone ID is {@code null}.
@@ -1915,8 +1915,8 @@ public class FileUtils {
      * {@link ZoneId}.
      * </p>
      *
-     * @param file                the {@link File} of which the modification date must be compared.
-     * @param chronoLocalDateTime the date reference.
+     * @param file                The {@link File} of which the modification date must be compared.
+     * @param chronoLocalDateTime The date reference.
      * @return true if the {@link File} exists and has been modified before the given
      * {@link ChronoLocalDateTime} at the system-default time zone.
      * @throws NullPointerException if the file or local date time is {@code null}.
@@ -1932,9 +1932,9 @@ public class FileUtils {
      * Tests if the specified {@link File} is older than the specified {@link ChronoLocalDateTime}
      * at the specified {@link ZoneId}.
      *
-     * @param file          the {@link File} of which the modification date must be compared.
-     * @param chronoLocalDateTime the date reference.
-     * @param zoneId        the time zone.
+     * @param file          The {@link File} of which the modification date must be compared.
+     * @param chronoLocalDateTime The date reference.
+     * @param zoneId        The time zone.
      * @return true if the {@link File} exists and has been modified before the given
      * {@link ChronoLocalDateTime} at the given {@link ZoneId}.
      * @throws NullPointerException if the file, local date time or zone ID is {@code null}.
@@ -1950,8 +1950,8 @@ public class FileUtils {
     /**
      * Tests if the specified {@link File} is older than the specified {@link ChronoZonedDateTime}.
      *
-     * @param file                the {@link File} of which the modification date must be compared.
-     * @param chronoZonedDateTime the date reference.
+     * @param file                The {@link File} of which the modification date must be compared.
+     * @param chronoZonedDateTime The date reference.
      * @return true if the {@link File} exists and has been modified before the given
      * {@link ChronoZonedDateTime}.
      * @throws NullPointerException if the file or zoned date time is {@code null}.
@@ -1966,8 +1966,8 @@ public class FileUtils {
     /**
      * Tests if the specified {@link File} is older than the specified {@link Date}.
      *
-     * @param file the {@link File} of which the modification date must be compared.
-     * @param date the date reference.
+     * @param file The {@link File} of which the modification date must be compared.
+     * @param date The date reference.
      * @return true if the {@link File} exists and has been modified before the given {@link Date}.
      * @throws NullPointerException if the file or date is {@code null}.
      * @throws UncheckedIOException if an I/O error occurs.
@@ -1980,8 +1980,8 @@ public class FileUtils {
     /**
      * Tests if the specified {@link File} is older than the reference {@link File}.
      *
-     * @param file      the {@link File} of which the modification date must be compared.
-     * @param reference the {@link File} of which the modification date is used.
+     * @param file      The {@link File} of which the modification date must be compared.
+     * @param reference The {@link File} of which the modification date is used.
      * @return true if the {@link File} exists and has been modified before the reference {@link File}.
      * @throws NullPointerException if the file or reference file is {@code null}.
      * @throws FileNotFoundException if the reference file doesn't exist.
@@ -1994,10 +1994,10 @@ public class FileUtils {
     /**
      * Tests if the specified {@link File} is older than the specified {@link FileTime}.
      *
-     * @param file the {@link File} of which the modification date must be compared.
-     * @param fileTime the file time reference.
+     * @param file The {@link File} of which the modification date must be compared.
+     * @param fileTime The file time reference.
      * @return true if the {@link File} exists and has been modified before the given {@link FileTime}.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      * @throws NullPointerException if the file or local date is {@code null}.
      * @since 2.12.0
      */
@@ -2009,8 +2009,8 @@ public class FileUtils {
     /**
      * Tests if the specified {@link File} is older than the specified {@link Instant}.
      *
-     * @param file    the {@link File} of which the modification date must be compared.
-     * @param instant the date reference.
+     * @param file    The {@link File} of which the modification date must be compared.
+     * @param instant The date reference.
      * @return true if the {@link File} exists and has been modified before the given {@link Instant}.
      * @throws NullPointerException if the file or instant is {@code null}.
      * @since 2.8.0
@@ -2023,8 +2023,8 @@ public class FileUtils {
     /**
      * Tests if the specified {@link File} is older than the specified time reference.
      *
-     * @param file       the {@link File} of which the modification date must be compared.
-     * @param timeMillis the time reference measured in milliseconds since the
+     * @param file       The {@link File} of which the modification date must be compared.
+     * @param timeMillis The time reference measured in milliseconds since the
      *                   epoch (00:00:00 GMT, January 1, 1970).
      * @return true if the {@link File} exists and has been modified before the given time reference.
      * @throws NullPointerException if the file is {@code null}.
@@ -2038,8 +2038,8 @@ public class FileUtils {
     /**
      * Tests if the specified {@link File} is older than the specified {@link OffsetDateTime}.
      *
-     * @param file the {@link File} of which the modification date must be compared.
-     * @param offsetDateTime the date reference.
+     * @param file The {@link File} of which the modification date must be compared.
+     * @param offsetDateTime The date reference.
      * @return true if the {@link File} exists and has been modified before the given {@link OffsetDateTime}.
      * @throws NullPointerException if the file or zoned date time is {@code null}
      * @since 2.12.0
@@ -2083,7 +2083,7 @@ public class FileUtils {
      * This method delegates to {@link Files#isSymbolicLink(Path path)}
      * </p>
      *
-     * @param file the file to test, may be null.
+     * @param file The file to test, may be null.
      * @return true if the file is a symbolic link, see {@link Files#isSymbolicLink(Path path)}.
      * @since 2.0
      * @see Files#isSymbolicLink(Path)
@@ -2107,7 +2107,7 @@ public class FileUtils {
      * @param dirFilter  optional filter to apply when finding subdirectories.
      *                   If this parameter is {@code null}, subdirectories will not be included in the
      *                   search. Use TrueFileFilter.INSTANCE to match all directories.
-     * @return an iterator of {@link File} for the matching files.
+     * @return An iterator of {@link File} for the matching files.
      * @see org.apache.commons.io.filefilter.FileFilterUtils
      * @see org.apache.commons.io.filefilter.NameFileFilter
      * @since 1.2
@@ -2124,10 +2124,10 @@ public class FileUtils {
      * </p>
      *
      * @param directory  The directory to search.
-     * @param extensions an array of extensions, for example, <code>{"java", "xml"}</code>. If this
+     * @param extensions An array of extensions, for example, <code>{"java", "xml"}</code>. If this
      *                   parameter is {@code null}, all files are returned.
      * @param recursive  if true all subdirectories are searched as well.
-     * @return an iterator of {@link File} with the matching files.
+     * @return An iterator of {@link File} with the matching files.
      * @since 1.2
      */
     public static Iterator<File> iterateFiles(final File directory, final String[] extensions, final boolean recursive) {
@@ -2152,7 +2152,7 @@ public class FileUtils {
      * @param dirFilter  optional filter to apply when finding subdirectories.
      *                   If this parameter is {@code null}, subdirectories will not be included in the
      *                   search. Use TrueFileFilter.INSTANCE to match all directories.
-     * @return an iterator of {@link File} for the matching files.
+     * @return An iterator of {@link File} for the matching files.
      * @see org.apache.commons.io.filefilter.FileFilterUtils
      * @see org.apache.commons.io.filefilter.NameFileFilter
      * @since 2.2
@@ -2175,7 +2175,7 @@ public class FileUtils {
      *
      * @param file The File to query.
      * @return See {@link java.nio.file.attribute.FileTime#toMillis()}.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      * @since 2.9.0
      */
     public static long lastModified(final File file) throws IOException {
@@ -2196,7 +2196,7 @@ public class FileUtils {
      *
      * @param file The File to query.
      * @return See {@link java.nio.file.Files#getLastModifiedTime(Path, LinkOption...)}.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      * @since 2.12.0
      */
     public static FileTime lastModifiedFileTime(final File file) throws IOException {
@@ -2233,12 +2233,12 @@ public class FileUtils {
     /**
      * Returns an Iterator for the lines in a {@link File} using the default encoding for the VM.
      *
-     * @param file the file to open for input, must not be {@code null}.
-     * @return an Iterator of the lines in the file, never {@code null}.
+     * @param file The file to open for input, must not be {@code null}.
+     * @return An Iterator of the lines in the file, never {@code null}.
      * @throws NullPointerException if file is {@code null}.
      * @throws FileNotFoundException if the file does not exist, is a directory rather than a regular file, or for some
      *         other reason cannot be opened for reading.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      * @see #lineIterator(File, String)
      * @since 1.3
      */
@@ -2273,13 +2273,13 @@ public class FileUtils {
      * underlying stream is closed.
      * </p>
      *
-     * @param file     the file to open for input, must not be {@code null}.
-     * @param charsetName the name of the requested charset, {@code null} means platform default.
-     * @return a LineIterator for lines in the file, never {@code null}; MUST be closed by the caller.
+     * @param file     The file to open for input, must not be {@code null}.
+     * @param charsetName The name of the requested charset, {@code null} means platform default.
+     * @return A LineIterator for lines in the file, never {@code null}; MUST be closed by the caller.
      * @throws NullPointerException if file is {@code null}.
      * @throws FileNotFoundException if the file does not exist, is a directory rather than a regular file, or for some
      *         other reason cannot be opened for reading.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      * @since 1.2
      */
     @SuppressWarnings("resource") // Caller closes the result LineIterator.
@@ -2362,7 +2362,7 @@ public class FileUtils {
      * @param dirFilter  optional filter to apply when finding subdirectories.
      *                   If this parameter is {@code null}, subdirectories will not be included in the
      *                   search. Use {@link TrueFileFilter#INSTANCE} to match all directories.
-     * @return a collection of {@link File} with the matching files.
+     * @return A collection of {@link File} with the matching files.
      * @see org.apache.commons.io.filefilter.FileFilterUtils
      * @see org.apache.commons.io.filefilter.NameFileFilter
      */
@@ -2406,10 +2406,10 @@ public class FileUtils {
      * which match an array of extensions.
      *
      * @param directory  The directory to search.
-     * @param extensions an array of extensions, for example, <code>{"java", "xml"}</code>. If this
+     * @param extensions An array of extensions, for example, <code>{"java", "xml"}</code>. If this
      *                   parameter is {@code null}, all files are returned.
      * @param recursive  if true all subdirectories are searched as well.
-     * @return a collection of {@link File} with the matching files.
+     * @return A collection of {@link File} with the matching files.
      */
     public static Collection<File> listFiles(final File directory, final String[] extensions, final boolean recursive) {
         return listFiles(directory, new ArrayList<>(), recursive, extensions != null ? toSuffixFileFilter(extensions) : TrueFileFilter.INSTANCE);
@@ -2428,7 +2428,7 @@ public class FileUtils {
      * @param dirFilter  optional filter to apply when finding subdirectories.
      *                   If this parameter is {@code null}, subdirectories will not be included in the
      *                   search. Use TrueFileFilter.INSTANCE to match all directories.
-     * @return a collection of {@link File} with the matching files.
+     * @return A collection of {@link File} with the matching files.
      * @see org.apache.commons.io.FileUtils#listFiles
      * @see org.apache.commons.io.filefilter.FileFilterUtils
      * @see org.apache.commons.io.filefilter.NameFileFilter
@@ -2449,8 +2449,8 @@ public class FileUtils {
      * null, nothing happens.
      * </p>
      *
-     * @param directory the receiver for {@code mkdirs()}. If the {@code directory} already exists or is null, nothing happens.
-     * @return the given directory.
+     * @param directory The receiver for {@code mkdirs()}. If the {@code directory} already exists or is null, nothing happens.
+     * @return The given directory.
      * @throws IOException       if the directory was not created along with all its parent directories.
      * @throws IOException       if the given file object is not a directory.
      * @throws SecurityException See {@link File#mkdirs()}.
@@ -2469,12 +2469,12 @@ public class FileUtils {
      * When the destination directory is on another file system, do a "copy and delete".
      * </p>
      *
-     * @param srcDir the directory to be moved.
-     * @param destDir the destination directory.
+     * @param srcDir The directory to be moved.
+     * @param destDir The destination directory.
      * @throws NullPointerException if any of the given {@link File}s are {@code null}.
      * @throws IllegalArgumentException if {@code srcDir} exists but is not a directory.
      * @throws FileNotFoundException if the source does not exist.
-     * @throws IOException if an error occurs or setting the last-modified time didn't succeed.
+     * @throws IOException Thrown if an error occurs or setting the last-modified time didn't succeed.
      * @since 1.4
      */
     public static void moveDirectory(final File srcDir, final File destDir) throws IOException {
@@ -2500,15 +2500,15 @@ public class FileUtils {
      * If {@code createDestDir} is true, creates all destination parent directories, including any necessary but non-existent parent directories.
      * </p>
      *
-     * @param source the directory to be moved.
-     * @param destDir the destination file.
+     * @param source The directory to be moved.
+     * @param destDir The destination file.
      * @param createDestDir If {@code true} create the destination directory, otherwise if {@code false} throw an
      *        IOException.
      * @throws NullPointerException if any of the given {@link File}s are {@code null}.
      * @throws IllegalArgumentException if the source or destination is invalid.
      * @throws FileNotFoundException if the source does not exist.
-     * @throws IOException if the directory was not created along with all its parent directories, if enabled.
-     * @throws IOException if an error occurs or setting the last-modified time didn't succeed.
+     * @throws IOException Thrown if the directory was not created along with all its parent directories, if enabled.
+     * @throws IOException Thrown if an error occurs or setting the last-modified time didn't succeed.
      * @throws SecurityException See {@link File#mkdirs()}.
      * @since 1.4
      */
@@ -2535,13 +2535,13 @@ public class FileUtils {
      * When the destination file is on another file system, do a "copy and delete".
      * </p>
      *
-     * @param srcFile the file to be moved.
-     * @param destFile the destination file.
+     * @param srcFile The file to be moved.
+     * @param destFile The destination file.
      * @throws NullPointerException if any of the given {@link File}s are {@code null}.
      * @throws FileExistsException if the destination file exists.
      * @throws FileNotFoundException if the source file does not exist.
      * @throws IllegalArgumentException if {@code srcFile} is a directory.
-     * @throws IOException if an error occurs.
+     * @throws IOException Thrown if an error occurs.
      * @since 1.4
      */
     public static void moveFile(final File srcFile, final File destFile) throws IOException {
@@ -2554,14 +2554,14 @@ public class FileUtils {
      * When the destination file is on another file system, do a "copy and delete".
      * </p>
      *
-     * @param srcFile the file to be moved.
-     * @param destFile the destination file.
+     * @param srcFile The file to be moved.
+     * @param destFile The destination file.
      * @param copyOptions Copy options.
      * @throws NullPointerException if any of the given {@link File}s are {@code null}.
      * @throws FileExistsException if the destination file exists.
      * @throws FileNotFoundException if the source file does not exist.
      * @throws IllegalArgumentException if {@code srcFile} is a directory.
-     * @throws IOException if an error occurs or setting the last-modified time didn't succeed.
+     * @throws IOException Thrown if an error occurs or setting the last-modified time didn't succeed.
      * @since 2.9.0
      */
     public static void moveFile(final File srcFile, final File destFile, final CopyOption... copyOptions) throws IOException {
@@ -2585,16 +2585,16 @@ public class FileUtils {
      * If {@code createDestDir} is true, creates all destination parent directories, including any necessary but non-existent parent directories.
      * </p>
      *
-     * @param srcFile the file to be moved.
-     * @param destDir the directory to move the file into.
+     * @param srcFile The file to be moved.
+     * @param destDir The directory to move the file into.
      * @param createDestDir if {@code true} create the destination directory. If {@code false} throw an
      *        IOException if the destination directory does not already exist.
      * @throws NullPointerException if any of the given {@link File}s are {@code null}.
      * @throws FileExistsException if the destination file exists.
      * @throws FileNotFoundException if the source file does not exist.
-     * @throws IOException if source or destination is invalid.
-     * @throws IOException if the directory was not created along with all its parent directories, if enabled.
-     * @throws IOException if an error occurs or setting the last-modified time didn't succeed.
+     * @throws IOException Thrown if source or destination is invalid.
+     * @throws IOException Thrown if the directory was not created along with all its parent directories, if enabled.
+     * @throws IOException Thrown if an error occurs or setting the last-modified time didn't succeed.
      * @throws SecurityException See {@link File#mkdirs()}.
      * @throws IllegalArgumentException if {@code destDir} exists but is not a directory.
      * @since 1.4
@@ -2617,8 +2617,8 @@ public class FileUtils {
      * When the destination is on another file system, do a "copy and delete".
      * </p>
      *
-     * @param src           the file or directory to be moved.
-     * @param destDir       the destination directory.
+     * @param src           The file or directory to be moved.
+     * @param destDir       The destination directory.
      * @param createDestDir if {@code true} create the destination directory. If {@code false} throw an
      *        IOException if the destination directory does not already exist.
      * @throws NullPointerException  if any of the given {@link File}s are {@code null}.
@@ -2642,9 +2642,9 @@ public class FileUtils {
      * to the file.
      *
      * @param append Whether or not to append.
-     * @param file the File.
-     * @return a new OutputStream.
-     * @throws IOException if an I/O error occurs.
+     * @param file The File.
+     * @return A new OutputStream.
+     * @throws IOException Thrown if an I/O error occurs.
      * @see PathUtils#newOutputStream(Path, boolean)
      * @since 2.12.0
      */
@@ -2663,8 +2663,8 @@ public class FileUtils {
      * directory. An exception is thrown if the file exists but cannot be read.
      * </p>
      *
-     * @param file the file to open for input, must not be {@code null}.
-     * @return a new {@link FileInputStream} for the specified file.
+     * @param file The file to open for input, must not be {@code null}.
+     * @return A new {@link FileInputStream} for the specified file.
      * @throws NullPointerException if file is {@code null}.
      * @throws FileNotFoundException if the file does not exist, is a directory rather than a regular file, or for some
      *         other reason cannot be opened for reading.
@@ -2691,12 +2691,12 @@ public class FileUtils {
      * An exception is thrown if the parent directory cannot be created.
      * </p>
      *
-     * @param file the file to open for output, must not be {@code null}.
-     * @return a new {@link FileOutputStream} for the specified file.
+     * @param file The file to open for output, must not be {@code null}.
+     * @return A new {@link FileOutputStream} for the specified file.
      * @throws NullPointerException if the file object is {@code null}.
      * @throws IllegalArgumentException if the file object is a directory.
      * @throws IllegalArgumentException if the file is not writable.
-     * @throws IOException if the directories could not be created.
+     * @throws IOException Thrown if the directories could not be created.
      * @since 1.3
      */
     public static FileOutputStream openOutputStream(final File file) throws IOException {
@@ -2718,13 +2718,13 @@ public class FileUtils {
      * An exception is thrown if the parent directory cannot be created.
      * </p>
      *
-     * @param file   the file to open for output, must not be {@code null}.
+     * @param file   The file to open for output, must not be {@code null}.
      * @param append if {@code true}, then bytes will be added to the
      *               end of the file rather than overwriting.
-     * @return a new {@link FileOutputStream} for the specified file.
+     * @return A new {@link FileOutputStream} for the specified file.
      * @throws NullPointerException if the file object is {@code null}.
      * @throws IllegalArgumentException if the file object is a directory.
-     * @throws IOException if the directories could not be created, or the file is not writable.
+     * @throws IOException Thrown if the directories could not be created, or the file is not writable.
      * @since 2.1
      */
     public static FileOutputStream openOutputStream(final File file, final boolean append) throws IOException {
@@ -2741,10 +2741,10 @@ public class FileUtils {
      * Reads the contents of a file into a byte array.
      * The file is always closed.
      *
-     * @param file the file to read, must not be {@code null}.
-     * @return the file contents, never {@code null}.
+     * @param file The file to read, must not be {@code null}.
+     * @return The file contents, never {@code null}.
      * @throws NullPointerException if file is {@code null}.
-     * @throws IOException if an I/O error occurs, including when the file does not exist, is a directory rather than a
+     * @throws IOException Thrown if an I/O error occurs, including when the file does not exist, is a directory rather than a
      *         regular file, or for some other reason why the file cannot be opened for reading.
      * @since 1.1
      */
@@ -2757,8 +2757,8 @@ public class FileUtils {
      * Reads the contents of a file into a String using the virtual machine's {@linkplain Charset#defaultCharset() default charset}. The
      * file is always closed.
      *
-     * @param file the file to read, must not be {@code null}.
-     * @return the file contents, never {@code null}.
+     * @param file The file to read, must not be {@code null}.
+     * @return The file contents, never {@code null}.
      * @throws NullPointerException if file is {@code null}.
      * @throws IOException          if an I/O error occurs, including when the file does not exist, is a directory rather than a regular file, or for some other
      *                              reason why the file cannot be opened for reading.
@@ -2774,11 +2774,11 @@ public class FileUtils {
      * Reads the contents of a file into a String.
      * The file is always closed.
      *
-     * @param file     the file to read, must not be {@code null}.
-     * @param charsetName the name of the requested charset, {@code null} means platform default.
-     * @return the file contents, never {@code null}.
+     * @param file     The file to read, must not be {@code null}.
+     * @param charsetName The name of the requested charset, {@code null} means platform default.
+     * @return The file contents, never {@code null}.
      * @throws NullPointerException if file is {@code null}.
-     * @throws IOException if an I/O error occurs, including when the file does not exist, is a directory rather than a
+     * @throws IOException Thrown if an I/O error occurs, including when the file does not exist, is a directory rather than a
      *         regular file, or for some other reason why the file cannot be opened for reading.
      * @since 2.3
      */
@@ -2789,11 +2789,11 @@ public class FileUtils {
     /**
      * Reads the contents of a file into a String. The file is always closed.
      *
-     * @param file     the file to read, must not be {@code null}.
-     * @param charsetName the name of the requested charset, {@code null} means platform default.
-     * @return the file contents, never {@code null}.
+     * @param file     The file to read, must not be {@code null}.
+     * @param charsetName The name of the requested charset, {@code null} means platform default.
+     * @return The file contents, never {@code null}.
      * @throws NullPointerException if file is {@code null}.
-     * @throws IOException if an I/O error occurs, including when the file does not exist, is a directory rather than a
+     * @throws IOException Thrown if an I/O error occurs, including when the file does not exist, is a directory rather than a
      *         regular file, or for some other reason why the file cannot be opened for reading.
      * @throws java.nio.charset.UnsupportedCharsetException if the named charset is unavailable.
      * @since 2.3
@@ -2806,8 +2806,8 @@ public class FileUtils {
      * Reads the contents of a file line by line to a List of Strings using the virtual machine's {@linkplain Charset#defaultCharset() default charset}.
      * The file is always closed.
      *
-     * @param file the file to read, must not be {@code null}.
-     * @return the list of Strings representing each line in the file, never {@code null}.
+     * @param file The file to read, must not be {@code null}.
+     * @return The list of Strings representing each line in the file, never {@code null}.
      * @throws NullPointerException if file is {@code null}.
      * @throws IOException          if an I/O error occurs, including when the file does not exist, is a directory rather than a regular file, or for some other
      *                              reason why the file cannot be opened for reading.
@@ -2823,11 +2823,11 @@ public class FileUtils {
      * Reads the contents of a file line by line to a List of Strings.
      * The file is always closed.
      *
-     * @param file     the file to read, must not be {@code null}.
-     * @param charset the charset to use, {@code null} means platform default.
-     * @return the list of Strings representing each line in the file, never {@code null}.
+     * @param file     The file to read, must not be {@code null}.
+     * @param charset The charset to use, {@code null} means platform default.
+     * @return The list of Strings representing each line in the file, never {@code null}.
      * @throws NullPointerException if file is {@code null}.
-     * @throws IOException if an I/O error occurs, including when the file does not exist, is a directory rather than a
+     * @throws IOException Thrown if an I/O error occurs, including when the file does not exist, is a directory rather than a
      *         regular file, or for some other reason why the file cannot be opened for reading.
      * @since 2.3
      */
@@ -2838,11 +2838,11 @@ public class FileUtils {
     /**
      * Reads the contents of a file line by line to a List of Strings. The file is always closed.
      *
-     * @param file     the file to read, must not be {@code null}.
-     * @param charsetName the name of the requested charset, {@code null} means platform default.
-     * @return the list of Strings representing each line in the file, never {@code null}.
+     * @param file     The file to read, must not be {@code null}.
+     * @param charsetName The name of the requested charset, {@code null} means platform default.
+     * @return The list of Strings representing each line in the file, never {@code null}.
      * @throws NullPointerException if file is {@code null}.
-     * @throws IOException if an I/O error occurs, including when the file does not exist, is a directory rather than a
+     * @throws IOException Thrown if an I/O error occurs, including when the file does not exist, is a directory rather than a
      *         regular file, or for some other reason why the file cannot be opened for reading.
      * @throws java.nio.charset.UnsupportedCharsetException if the named charset is unavailable.
      * @since 1.1
@@ -2862,7 +2862,7 @@ public class FileUtils {
      *
      * @param file1 The first file to compare.
      * @param file2 The second file to compare.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      * @throws IllegalArgumentException if the given files' canonical representations are equal.
      */
     private static void requireCanonicalPathsNotEquals(final File file1, final File file2) throws IOException {
@@ -2946,10 +2946,10 @@ public class FileUtils {
      * method that does not overflow.
      * </p>
      *
-     * @param file the regular file or directory to return the size
+     * @param file The regular file or directory to return the size
      *             of (must not be {@code null}).
      *
-     * @return the length of the file, or recursive size of the directory,
+     * @return The length of the file, or recursive size of the directory,
      * provided (in bytes).
      *
      * @throws NullPointerException     if the file is {@code null}.
@@ -2968,10 +2968,10 @@ public class FileUtils {
      * calculated recursively. If a directory or subdirectory is security
      * restricted, its size will not be included.
      *
-     * @param file the regular file or directory to return the size
+     * @param file The regular file or directory to return the size
      *             of (must not be {@code null}).
      *
-     * @return the length of the file, or recursive size of the directory,
+     * @return The length of the file, or recursive size of the directory,
      * provided (in bytes).
      *
      * @throws NullPointerException     if the file is {@code null}.
@@ -3036,9 +3036,9 @@ public class FileUtils {
      *
      * @param directory  The directory to search.
      * @param recursive  if true all subdirectories are searched as well.
-     * @param extensions an array of extensions, for example, <code>{"java", "xml"}</code>. If this parameter is {@code null}, all files are returned.
-     * @return a Stream of {@link File} for matching files.
-     * @throws IOException if an I/O error is thrown when accessing the starting file.
+     * @param extensions An array of extensions, for example, <code>{"java", "xml"}</code>. If this parameter is {@code null}, all files are returned.
+     * @return A Stream of {@link File} for matching files.
+     * @throws IOException Thrown if an I/O error is thrown when accessing the starting file.
      * @since 2.9.0
      */
     public static Stream<File> streamFiles(final File directory, final boolean recursive, final String... extensions) throws IOException {
@@ -3057,8 +3057,8 @@ public class FileUtils {
      * to characters. Additionally, malformed percent-encoded octets are handled leniently by passing them through literally.
      * </p>
      *
-     * @param url the file URL to convert, {@code null} returns {@code null}.
-     * @return the equivalent {@link File} object, or {@code null} if the URL's protocol is not {@code file}.
+     * @param url The file URL to convert, {@code null} returns {@code null}.
+     * @return The equivalent {@link File} object, or {@code null} if the URL's protocol is not {@code file}.
      */
     public static File toFile(final URL url) {
         if (url == null || !isFileProtocol(url)) {
@@ -3078,8 +3078,8 @@ public class FileUtils {
      * This method will decode the URL. Syntax such as {@code file:///my%20docs/file.txt} will be correctly decoded to {@code /my docs/file.txt}.
      * </p>
      *
-     * @param urls the file URLs to convert, {@code null} returns empty array.
-     * @return a non-{@code null} array of Files matching the input, with a {@code null} item if there was a {@code null} at that index in the input array.
+     * @param urls The file URLs to convert, {@code null} returns empty array.
+     * @return A non-{@code null} array of Files matching the input, with a {@code null} item if there was a {@code null} at that index in the input array.
      * @throws IllegalArgumentException if any file is not a URL file.
      * @throws IllegalArgumentException if any file is incorrectly encoded.
      * @since 1.1
@@ -3108,7 +3108,7 @@ public class FileUtils {
      * </p>
      *
      * @param stream The stream to consume.
-     * @return a new List.
+     * @return A new List.
      */
     private static List<File> toList(final Stream<File> stream) {
         return stream.collect(Collectors.toList());
@@ -3118,7 +3118,7 @@ public class FileUtils {
      * Converts whether or not to recurse into a recursion max depth.
      *
      * @param recursive whether or not to recurse.
-     * @return the recursion depth.
+     * @return The recursion depth.
      */
     private static int toMaxDepth(final boolean recursive) {
         return recursive ? Integer.MAX_VALUE : 1;
@@ -3127,8 +3127,8 @@ public class FileUtils {
     /**
      * Converts an array of file extensions to suffixes.
      *
-     * @param extensions an array of extensions, for example: {@code ["java", "xml"]}.
-     * @return an array of suffixes, for example: {@code [".java", ".xml"]}.
+     * @param extensions An array of extensions, for example: {@code ["java", "xml"]}.
+     * @return An array of suffixes, for example: {@code [".java", ".xml"]}.
      * @throws NullPointerException if the parameter is null.
      */
     private static String[] toSuffixes(final String... extensions) {
@@ -3144,9 +3144,9 @@ public class FileUtils {
      * updates the file's modified time. This method throws an IOException if the last modified date
      * of the file cannot be set. It creates parent directories if they do not exist.
      *
-     * @param file the File to touch.
+     * @param file The File to touch.
      * @throws NullPointerException if the parameter is {@code null}.
-     * @throws IOException if setting the last-modified time failed or an I/O problem occurs.
+     * @throws IOException Thrown if setting the last-modified time failed or an I/O problem occurs.
      */
     public static void touch(final File file) throws IOException {
         PathUtils.touch(Objects.requireNonNull(file, PROTOCOL_FILE).toPath());
@@ -3158,8 +3158,8 @@ public class FileUtils {
      * Returns an array of the same size as the input.
      * </p>
      *
-     * @param files the files to convert, must not be {@code null}.
-     * @return an array of URLs matching the input.
+     * @param files The files to convert, must not be {@code null}.
+     * @return An array of URLs matching the input.
      * @throws IOException          if a file cannot be converted.
      * @throws NullPointerException if any argument is null.
      */
@@ -3180,8 +3180,8 @@ public class FileUtils {
      * <li>Throws {@link FileNotFoundException} if {@code source} does not exist</li>
      * </ul>
      *
-     * @param source      the file or directory to be moved.
-     * @param destination the destination file or directory.
+     * @param source      The file or directory to be moved.
+     * @param destination The destination file or directory.
      * @throws NullPointerException if any of the given {@link File}s are {@code null}.
      * @throws FileNotFoundException if the source file does not exist.
      */
@@ -3200,8 +3200,8 @@ public class FileUtils {
      * true up to the maximum time specified in seconds.
      * </p>
      *
-     * @param file    the file to check, must not be {@code null}.
-     * @param seconds the maximum time in seconds to wait.
+     * @param file    The file to check, must not be {@code null}.
+     * @param seconds The maximum time in seconds to wait.
      * @return true if file exists.
      * @throws NullPointerException if the file is {@code null}.
      */
@@ -3213,8 +3213,8 @@ public class FileUtils {
     /**
      * Writes a CharSequence to a file creating the file if it does not exist using the virtual machine's {@linkplain Charset#defaultCharset() default charset}.
      *
-     * @param file the file to write.
-     * @param data the content to write to the file.
+     * @param file The file to write.
+     * @param data The content to write to the file.
      * @throws IOException in case of an I/O error.
      * @since 2.0
      * @deprecated Use {@link #write(File, CharSequence, Charset)} instead (and specify the appropriate encoding).
@@ -3227,8 +3227,8 @@ public class FileUtils {
     /**
      * Writes a CharSequence to a file creating the file if it does not exist using the virtual machine's {@linkplain Charset#defaultCharset() default charset}.
      *
-     * @param file   the file to write.
-     * @param data   the content to write to the file.
+     * @param file   The file to write.
+     * @param data   The content to write to the file.
      * @param append if {@code true}, then the data will be added to the end of the file rather than overwriting.
      * @throws IOException in case of an I/O error.
      * @since 2.1
@@ -3242,9 +3242,9 @@ public class FileUtils {
     /**
      * Writes a CharSequence to a file creating the file if it does not exist.
      *
-     * @param file     the file to write.
-     * @param data     the content to write to the file.
-     * @param charset the name of the requested charset, {@code null} means platform default.
+     * @param file     The file to write.
+     * @param data     The content to write to the file.
+     * @param charset The name of the requested charset, {@code null} means platform default.
      * @throws IOException in case of an I/O error.
      * @since 2.3
      */
@@ -3255,9 +3255,9 @@ public class FileUtils {
     /**
      * Writes a CharSequence to a file creating the file if it does not exist.
      *
-     * @param file     the file to write.
-     * @param data     the content to write to the file.
-     * @param charset the charset to use, {@code null} means platform default.
+     * @param file     The file to write.
+     * @param data     The content to write to the file.
+     * @param charset The charset to use, {@code null} means platform default.
      * @param append   if {@code true}, then the data will be added to the.
      *                 end of the file rather than overwriting.
      * @throws IOException in case of an I/O error.
@@ -3270,9 +3270,9 @@ public class FileUtils {
     /**
      * Writes a CharSequence to a file creating the file if it does not exist.
      *
-     * @param file     the file to write.
-     * @param data     the content to write to the file.
-     * @param charsetName the name of the requested charset, {@code null} means platform default.
+     * @param file     The file to write.
+     * @param data     The content to write to the file.
+     * @param charsetName The name of the requested charset, {@code null} means platform default.
      * @throws IOException                          in case of an I/O error.
      * @throws java.io.UnsupportedEncodingException if the encoding is not supported by the VM.
      * @since 2.0
@@ -3284,9 +3284,9 @@ public class FileUtils {
     /**
      * Writes a CharSequence to a file creating the file if it does not exist.
      *
-     * @param file     the file to write.
-     * @param data     the content to write to the file.
-     * @param charsetName the name of the requested charset, {@code null} means platform default.
+     * @param file     The file to write.
+     * @param data     The content to write to the file.
+     * @param charsetName The name of the requested charset, {@code null} means platform default.
      * @param append   if {@code true}, then the data will be added to the
      *                 end of the file rather than overwriting.
      * @throws IOException                 in case of an I/O error.
@@ -3303,8 +3303,8 @@ public class FileUtils {
      * Writes a byte array to a file creating the file if it does not exist.
      * The parent directories of the file will be created if they do not exist.
      *
-     * @param file the file to write to.
-     * @param data the content to write to the file.
+     * @param file The file to write to.
+     * @param data The content to write to the file.
      * @throws IOException in case of an I/O error.
      * @since 1.1
      */
@@ -3315,8 +3315,8 @@ public class FileUtils {
     /**
      * Writes a byte array to a file creating the file if it does not exist.
      *
-     * @param file   the file to write to.
-     * @param data   the content to write to the file.
+     * @param file   The file to write to.
+     * @param data   The content to write to the file.
      * @param append if {@code true}, then bytes will be added to the
      *               end of the file rather than overwriting.
      * @throws IOException in case of an I/O error.
@@ -3331,10 +3331,10 @@ public class FileUtils {
      * at offset {@code off} to a file, creating the file if it does
      * not exist.
      *
-     * @param file the file to write to.
-     * @param data the content to write to the file.
-     * @param off  the start offset in the data.
-     * @param len  the number of bytes to write.
+     * @param file The file to write to.
+     * @param data The content to write to the file.
+     * @param off  The start offset in the data.
+     * @param len  The number of bytes to write.
      * @throws IOException in case of an I/O error.
      * @since 2.5
      */
@@ -3347,10 +3347,10 @@ public class FileUtils {
      * at offset {@code off} to a file, creating the file if it does
      * not exist.
      *
-     * @param file   the file to write to.
-     * @param data   the content to write to the file.
-     * @param off    the start offset in the data.
-     * @param len    the number of bytes to write.
+     * @param file   The file to write to.
+     * @param data   The content to write to the file.
+     * @param off    The start offset in the data.
+     * @param len    The number of bytes to write.
      * @param append if {@code true}, then bytes will be added to the
      *               end of the file rather than overwriting.
      * @throws IOException in case of an I/O error.
@@ -3367,8 +3367,8 @@ public class FileUtils {
      * the specified {@link File} line by line.
      * The default VM encoding and the default line ending will be used.
      *
-     * @param file  the file to write to.
-     * @param lines the lines to write, {@code null} entries produce blank lines.
+     * @param file  The file to write to.
+     * @param lines The lines to write, {@code null} entries produce blank lines.
      * @throws IOException in case of an I/O error.
      * @since 1.3
      */
@@ -3381,8 +3381,8 @@ public class FileUtils {
      * the specified {@link File} line by line.
      * The default VM encoding and the default line ending will be used.
      *
-     * @param file   the file to write to.
-     * @param lines  the lines to write, {@code null} entries produce blank lines.
+     * @param file   The file to write to.
+     * @param lines  The lines to write, {@code null} entries produce blank lines.
      * @param append if {@code true}, then the lines will be added to the
      *               end of the file rather than overwriting.
      * @throws IOException in case of an I/O error.
@@ -3397,9 +3397,9 @@ public class FileUtils {
      * the specified {@link File} line by line.
      * The default VM encoding and the specified line ending will be used.
      *
-     * @param file       the file to write to.
-     * @param lines      the lines to write, {@code null} entries produce blank lines.
-     * @param lineEnding the line separator to use, {@code null} is system default.
+     * @param file       The file to write to.
+     * @param lines      The lines to write, {@code null} entries produce blank lines.
+     * @param lineEnding The line separator to use, {@code null} is system default.
      * @throws IOException in case of an I/O error.
      * @since 1.3
      */
@@ -3412,9 +3412,9 @@ public class FileUtils {
      * the specified {@link File} line by line.
      * The default VM encoding and the specified line ending will be used.
      *
-     * @param file       the file to write to.
-     * @param lines      the lines to write, {@code null} entries produce blank lines.
-     * @param lineEnding the line separator to use, {@code null} is system default.
+     * @param file       The file to write to.
+     * @param lines      The lines to write, {@code null} entries produce blank lines.
+     * @param lineEnding The line separator to use, {@code null} is system default.
      * @param append     if {@code true}, then the lines will be added to the
      *                   end of the file rather than overwriting.
      * @throws IOException in case of an I/O error.
@@ -3430,9 +3430,9 @@ public class FileUtils {
      * The specified character encoding and the default line ending will be used.
      * The parent directories of the file will be created if they do not exist.
      *
-     * @param file     the file to write to.
-     * @param charsetName the name of the requested charset, {@code null} means platform default.
-     * @param lines    the lines to write, {@code null} entries produce blank lines.
+     * @param file     The file to write to.
+     * @param charsetName The name of the requested charset, {@code null} means platform default.
+     * @param lines    The lines to write, {@code null} entries produce blank lines.
      * @throws IOException                          in case of an I/O error.
      * @throws java.io.UnsupportedEncodingException if the encoding is not supported by the VM.
      * @since 1.1
@@ -3446,9 +3446,9 @@ public class FileUtils {
      * the specified {@link File} line by line, optionally appending.
      * The specified character encoding and the default line ending will be used.
      *
-     * @param file     the file to write to.
-     * @param charsetName the name of the requested charset, {@code null} means platform default.
-     * @param lines    the lines to write, {@code null} entries produce blank lines.
+     * @param file     The file to write to.
+     * @param charsetName The name of the requested charset, {@code null} means platform default.
+     * @param lines    The lines to write, {@code null} entries produce blank lines.
      * @param append   if {@code true}, then the lines will be added to the
      *                 end of the file rather than overwriting.
      * @throws IOException                          in case of an I/O error.
@@ -3465,10 +3465,10 @@ public class FileUtils {
      * The specified character encoding and the line ending will be used.
      * The parent directories of the file will be created if they do not exist.
      *
-     * @param file       the file to write to.
-     * @param charsetName   the name of the requested charset, {@code null} means platform default.
-     * @param lines      the lines to write, {@code null} entries produce blank lines.
-     * @param lineEnding the line separator to use, {@code null} is system default.
+     * @param file       The file to write to.
+     * @param charsetName   The name of the requested charset, {@code null} means platform default.
+     * @param lines      The lines to write, {@code null} entries produce blank lines.
+     * @param lineEnding The line separator to use, {@code null} is system default.
      * @throws IOException                          in case of an I/O error.
      * @throws java.io.UnsupportedEncodingException if the encoding is not supported by the VM.
      * @since 1.1
@@ -3482,10 +3482,10 @@ public class FileUtils {
      * the specified {@link File} line by line.
      * The specified character encoding and the line ending will be used.
      *
-     * @param file       the file to write to.
-     * @param charsetName   the name of the requested charset, {@code null} means platform default.
-     * @param lines      the lines to write, {@code null} entries produce blank lines.
-     * @param lineEnding the line separator to use, {@code null} is system default.
+     * @param file       The file to write to.
+     * @param charsetName   The name of the requested charset, {@code null} means platform default.
+     * @param lines      The lines to write, {@code null} entries produce blank lines.
+     * @param lineEnding The line separator to use, {@code null} is system default.
      * @param append     if {@code true}, then the lines will be added to the
      *                   end of the file rather than overwriting.
      * @throws IOException                          in case of an I/O error.
@@ -3502,8 +3502,8 @@ public class FileUtils {
     /**
      * Writes a String to a file creating the file if it does not exist using the virtual machine's {@linkplain Charset#defaultCharset() default charset}.
      *
-     * @param file the file to write.
-     * @param data the content to write to the file.
+     * @param file The file to write.
+     * @param data The content to write to the file.
      * @throws IOException in case of an I/O error.
      * @deprecated Use {@link #writeStringToFile(File, String, Charset)} instead (and specify the appropriate encoding).
      */
@@ -3515,8 +3515,8 @@ public class FileUtils {
     /**
      * Writes a String to a file creating the file if it does not exist using the virtual machine's {@linkplain Charset#defaultCharset() default charset}.
      *
-     * @param file   the file to write.
-     * @param data   the content to write to the file.
+     * @param file   The file to write.
+     * @param data   The content to write to the file.
      * @param append if {@code true}, then the String will be added to the end of the file rather than overwriting.
      * @throws IOException in case of an I/O error.
      * @since 2.1
@@ -3531,9 +3531,9 @@ public class FileUtils {
      * Writes a String to a file creating the file if it does not exist.
      * The parent directories of the file will be created if they do not exist.
      *
-     * @param file     the file to write.
-     * @param data     the content to write to the file.
-     * @param charset the charset to use, {@code null} means platform default.
+     * @param file     The file to write.
+     * @param data     The content to write to the file.
+     * @param charset The charset to use, {@code null} means platform default.
      * @throws IOException                          in case of an I/O error.
      * @throws java.io.UnsupportedEncodingException if the encoding is not supported by the VM.
      * @since 2.4
@@ -3546,9 +3546,9 @@ public class FileUtils {
      * Writes a String to a file, creating the file if it does not exist.
      * The parent directories of the file are created if they do not exist.
      *
-     * @param file     the file to write.
-     * @param data     the content to write to the file.
-     * @param charset the charset to use, {@code null} means platform default.
+     * @param file     The file to write.
+     * @param data     The content to write to the file.
+     * @param charset The charset to use, {@code null} means platform default.
      * @param append   if {@code true}, then the String will be added to the
      *                 end of the file rather than overwriting.
      * @throws IOException in case of an I/O error.
@@ -3564,9 +3564,9 @@ public class FileUtils {
      * Writes a String to a file, creating the file if it does not exist.
      * The parent directories of the file are created if they do not exist.
      *
-     * @param file     the file to write.
-     * @param data     the content to write to the file.
-     * @param charsetName the name of the requested charset, {@code null} means platform default.
+     * @param file     The file to write.
+     * @param data     The content to write to the file.
+     * @param charsetName The name of the requested charset, {@code null} means platform default.
      * @throws IOException                          in case of an I/O error.
      * @throws java.io.UnsupportedEncodingException if the encoding is not supported by the VM.
      */
@@ -3578,9 +3578,9 @@ public class FileUtils {
      * Writes a String to a file, creating the file if it does not exist.
      * The parent directories of the file are created if they do not exist.
      *
-     * @param file     the file to write.
-     * @param data     the content to write to the file.
-     * @param charsetName the name of the requested charset, {@code null} means platform default.
+     * @param file     The file to write.
+     * @param data     The content to write to the file.
+     * @param charsetName The name of the requested charset, {@code null} means platform default.
      * @param append   if {@code true}, then the String will be added to the
      *                 end of the file rather than overwriting.
      * @throws IOException                 in case of an I/O error.

@@ -24,7 +24,7 @@ import java.util.Objects;
 /**
  * Like {@link Iterable} but throws {@link IOException}.
  *
- * @param <T> the type of elements returned by the iterable.
+ * @param <T> The type of elements returned by the iterable.
  * @since 2.19.0
  */
 public interface IOIterable<T> {
@@ -33,7 +33,7 @@ public interface IOIterable<T> {
      * Creates an {@link Iterable} for this instance that throws {@link UncheckedIOException} instead of
      * {@link IOException}.
      *
-     * @return an {@link UncheckedIOException} {@link Iterable}.
+     * @return An {@link UncheckedIOException} {@link Iterable}.
      * @since 2.21.0
      */
     default Iterable<T> asIterable() {
@@ -49,7 +49,7 @@ public interface IOIterable<T> {
      * @see Iterable#iterator()
      */
     default void forEach(final IOConsumer<? super T> action) throws IOException {
-        iterator().forEachRemaining(Objects.requireNonNull(action));
+        iterator().forEachRemaining(Objects.requireNonNull(action, "action"));
     }
 
     /**
@@ -76,7 +76,7 @@ public interface IOIterable<T> {
      * Implementations may not have anything to unwrap and that behavior is undefined for now.
      * </p>
      *
-     * @return the underlying Iterable.
+     * @return The underlying Iterable.
      */
     Iterable<T> unwrap();
 

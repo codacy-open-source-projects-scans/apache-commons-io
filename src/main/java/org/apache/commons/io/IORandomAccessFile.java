@@ -19,6 +19,7 @@ package org.apache.commons.io;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.Objects;
 
@@ -37,8 +38,8 @@ public final class IORandomAccessFile extends RandomAccessFile {
     /**
      * Constructs a new instance by calling {@link RandomAccessFile#RandomAccessFile(File, String)}.
      *
-     * @param file the file object.
-     * @param mode the access mode, as described in {@link RandomAccessFile#RandomAccessFile(File, String)}.
+     * @param file The file object.
+     * @param mode The access mode, as described in {@link RandomAccessFile#RandomAccessFile(File, String)}.
      * @throws FileNotFoundException Thrown by {@link RandomAccessFile#RandomAccessFile(File, String)}.
      * @see RandomAccessFile#RandomAccessFile(File, String)
      */
@@ -51,8 +52,8 @@ public final class IORandomAccessFile extends RandomAccessFile {
     /**
      * Constructs a new instance by calling {@link RandomAccessFile#RandomAccessFile(String, String)}.
      *
-     * @param name the file object.
-     * @param mode the access mode, as described in {@link RandomAccessFile#RandomAccessFile(String, String)}.
+     * @param name The system-dependent file name.
+     * @param mode The access mode, as described in {@link RandomAccessFile#RandomAccessFile(String, String)}.
      * @throws FileNotFoundException Thrown by {@link RandomAccessFile#RandomAccessFile(String, String)}.
      * @see RandomAccessFile#RandomAccessFile(String, String)
      */
@@ -63,9 +64,29 @@ public final class IORandomAccessFile extends RandomAccessFile {
     }
 
     /**
+     * Clears the contents of this existing file by filling it with NUL ({@code 0)} bytes.
+     *
+     * @return {@code this} instance.
+     * @throws FileNotFoundException See {@link #IORandomAccessFile(File, String)}.
+     * @throws IOException           Thrown if an I/O error occurs.
+     */
+    public IORandomAccessFile clear() throws IOException {
+        final long length = length();
+        final byte[] zeroBuffer = IOUtils.byteArray();
+        long bytesWritten = 0;
+        while (bytesWritten < length) {
+            final long remaining = length - bytesWritten;
+            final int toWrite = (int) Math.min(zeroBuffer.length, remaining);
+            write(zeroBuffer, 0, toWrite);
+            bytesWritten += toWrite;
+        }
+        return this;
+    }
+
+    /**
      * Gets the file passed to {@link #IORandomAccessFile(File, String)}.
      *
-     * @return the file passed to {@link #IORandomAccessFile(File, String)}.
+     * @return The file passed to {@link #IORandomAccessFile(File, String)}.
      */
     public File getFile() {
         return file;
@@ -74,14 +95,14 @@ public final class IORandomAccessFile extends RandomAccessFile {
     /**
      * Gets the mode passed to {@link #IORandomAccessFile(File, String)}.
      *
-     * @return the mode passed to {@link #IORandomAccessFile(File, String)}.
+     * @return The mode passed to {@link #IORandomAccessFile(File, String)}.
      */
     public String getMode() {
         return mode;
     }
 
     /**
-     * Returns the pathname string of this abstract pathname. This is just the string returned by the {@link File#toString()} method.
+     * Returns the path name string of this abstract pathname. This is just the string returned by the {@link File#toString()} method.
      *
      * @return The string form of the File's abstract pathname.
      * @see File#toString()
@@ -90,5 +111,4 @@ public final class IORandomAccessFile extends RandomAccessFile {
     public String toString() {
         return Objects.toString(file);
     }
-
 }

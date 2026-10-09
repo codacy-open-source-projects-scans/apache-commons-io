@@ -41,7 +41,7 @@ import org.apache.commons.io.output.ProxyWriter;
  * advanced instances through the {@link Builder}.
  * </p>
  *
- * @param <C> the {@link SeekableByteChannel} type.
+ * @param <C> The {@link SeekableByteChannel} type.
  * @see FilterInputStream
  * @see FilterOutputStream
  * @see FilterReader
@@ -93,7 +93,7 @@ public class FilterSeekableByteChannel<C extends SeekableByteChannel> extends Fi
     /**
      * Creates a new {@link Builder}.
      *
-     * @return a new {@link Builder}.
+     * @return A new {@link Builder}.
      */
     public static Builder forSeekableByteChannel() {
         return new Builder();

@@ -47,7 +47,7 @@ import org.apache.commons.io.IOExceptionList;
 /**
  * Like {@link Stream} but throws {@link IOException}.
  *
- * @param <T> the type of the stream elements.
+ * @param <T> The type of the stream elements.
  * @since 2.12.0
  */
 public interface IOStream<T> extends IOBaseStream<T, IOStream<T>, Stream<T>> {
@@ -55,9 +55,9 @@ public interface IOStream<T> extends IOBaseStream<T, IOStream<T>, Stream<T>> {
     /**
      * Constructs a new IOStream for the given Stream.
      *
-     * @param <T> the type of the stream elements.
+     * @param <T> The type of the stream elements.
      * @param stream The stream to delegate.
-     * @return a new IOStream.
+     * @return A new IOStream.
      */
     static <T> IOStream<T> adapt(final Stream<T> stream) {
         return IOStreamAdapter.adapt(stream);
@@ -66,8 +66,8 @@ public interface IOStream<T> extends IOBaseStream<T, IOStream<T>, Stream<T>> {
     /**
      * This class' version of {@link Stream#empty()}.
      *
-     * @param <T> the type of the stream elements.
-     * @return an empty sequential {@code IOStreamImpl}.
+     * @param <T> The type of the stream elements.
+     * @return An empty sequential {@code IOStreamImpl}.
      * @see Stream#empty()
      */
     static <T> IOStream<T> empty() {
@@ -77,13 +77,13 @@ public interface IOStream<T> extends IOBaseStream<T, IOStream<T>, Stream<T>> {
     /**
      * Like {@link Stream#iterate(Object, UnaryOperator)} but for IO.
      *
-     * @param <T> the type of stream elements.
-     * @param seed the initial element.
-     * @param f a function to be applied to the previous element to produce a new element.
-     * @return a new sequential {@code IOStream}.
+     * @param <T> The type of stream elements.
+     * @param seed The initial element.
+     * @param unaryOperator A function to be applied to the previous element to produce a new element.
+     * @return A new sequential {@code IOStream}.
      */
-    static <T> IOStream<T> iterate(final T seed, final IOUnaryOperator<T> f) {
-        Objects.requireNonNull(f);
+    static <T> IOStream<T> iterate(final T seed, final IOUnaryOperator<T> unaryOperator) {
+        Objects.requireNonNull(unaryOperator, "unaryOperator");
         final Iterator<T> iterator = new Iterator<T>() {
             @SuppressWarnings("unchecked")
             T t = (T) IOStreams.NONE;
@@ -96,7 +96,7 @@ public interface IOStream<T> extends IOBaseStream<T, IOStream<T>, Stream<T>> {
             @Override
             public T next() throws NoSuchElementException {
                 try {
-                    return t = t == IOStreams.NONE ? seed : f.apply(t);
+                    return t = t == IOStreams.NONE ? seed : unaryOperator.apply(t);
                 } catch (final IOException e) {
                     final NoSuchElementException nsee = new NoSuchElementException();
                     nsee.initCause(e);
@@ -112,9 +112,9 @@ public interface IOStream<T> extends IOBaseStream<T, IOStream<T>, Stream<T>> {
      *
      * Copied from Apache Commons Lang.
      *
-     * @param <T> the type of stream elements.
-     * @param values the elements of the new stream, may be {@code null}.
-     * @return the new stream on {@code values} or {@link Stream#empty()}.
+     * @param <T> The type of stream elements.
+     * @param values The elements of the new stream, may be {@code null}.
+     * @return The new stream on {@code values} or {@link Stream#empty()}.
      */
     static <T> IOStream<T> of(final Iterable<T> values) {
         return values == null ? empty() : adapt(StreamSupport.stream(values.spliterator(), false));
@@ -123,9 +123,9 @@ public interface IOStream<T> extends IOBaseStream<T, IOStream<T>, Stream<T>> {
     /**
      * Null-safe version of {@link Stream#of(Object[])} for an IO stream.
      *
-     * @param <T> the type of stream elements.
-     * @param values the elements of the new stream, may be {@code null}.
-     * @return the new stream on {@code values} or {@link Stream#empty()}.
+     * @param <T> The type of stream elements.
+     * @param values The elements of the new stream, may be {@code null}.
+     * @return The new stream on {@code values} or {@link Stream#empty()}.
      */
     @SafeVarargs // Creating a stream from an array is safe
     static <T> IOStream<T> of(final T... values) {
@@ -135,9 +135,9 @@ public interface IOStream<T> extends IOBaseStream<T, IOStream<T>, Stream<T>> {
     /**
      * Returns a sequential {@code IOStreamImpl} containing a single element.
      *
-     * @param t the single element.
-     * @param <T> the type of stream elements.
-     * @return a singleton sequential stream.
+     * @param t The single element.
+     * @param <T> The type of stream elements.
+     * @return A singleton sequential stream.
      */
     static <T> IOStream<T> of(final T t) {
         return adapt(Stream.of(t));
@@ -148,7 +148,7 @@ public interface IOStream<T> extends IOBaseStream<T, IOStream<T>, Stream<T>> {
      *
      * @param predicate {@link Stream#allMatch(java.util.function.Predicate)}.
      * @return Like {@link Stream#allMatch(java.util.function.Predicate)}.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     @SuppressWarnings("unused") // thrown by Erase.
     default boolean allMatch(final IOPredicate<? super T> predicate) throws IOException {
@@ -160,7 +160,7 @@ public interface IOStream<T> extends IOBaseStream<T, IOStream<T>, Stream<T>> {
      *
      * @param predicate {@link Stream#anyMatch(java.util.function.Predicate)}.
      * @return Like {@link Stream#anyMatch(java.util.function.Predicate)}.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     @SuppressWarnings("unused") // thrown by Erase.
     default boolean anyMatch(final IOPredicate<? super T> predicate) throws IOException {
@@ -200,7 +200,7 @@ public interface IOStream<T> extends IOBaseStream<T, IOStream<T>, Stream<T>> {
      *        {@link Stream#collect(java.util.function.Supplier, java.util.function.BiConsumer, java.util.function.BiConsumer)}.
      * @return Like
      *         {@link Stream#collect(java.util.function.Supplier, java.util.function.BiConsumer, java.util.function.BiConsumer)}.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     @SuppressWarnings("unused") // thrown by Erase.
     default <R> R collect(final IOSupplier<R> supplier, final IOBiConsumer<R, ? super T> accumulator, final IOBiConsumer<R, R> combiner) throws IOException {
@@ -230,7 +230,7 @@ public interface IOStream<T> extends IOBaseStream<T, IOStream<T>, Stream<T>> {
      *
      * @param predicate Like {@link Stream#filter(java.util.function.Predicate)}.
      * @return Like {@link Stream#filter(java.util.function.Predicate)}.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     @SuppressWarnings("unused") // thrown by Erase.
     default IOStream<T> filter(final IOPredicate<? super T> predicate) throws IOException {
@@ -261,7 +261,7 @@ public interface IOStream<T> extends IOBaseStream<T, IOStream<T>, Stream<T>> {
      * @param <R> Like {@link Stream#flatMap(java.util.function.Function)}.
      * @param mapper Like {@link Stream#flatMap(java.util.function.Function)}.
      * @return Like {@link Stream#flatMap(java.util.function.Function)}.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     @SuppressWarnings({ "unused", "resource" }) // thrown by Erase; resource closed by caller.
     default <R> IOStream<R> flatMap(final IOFunction<? super T, ? extends IOStream<? extends R>> mapper) throws IOException {
@@ -278,7 +278,7 @@ public interface IOStream<T> extends IOBaseStream<T, IOStream<T>, Stream<T>> {
      *
      * @param mapper Like {@link Stream#flatMapToDouble(java.util.function.Function)}.
      * @return Like {@link Stream#flatMapToDouble(java.util.function.Function)}.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     @SuppressWarnings("unused") // thrown by Erase.
     default DoubleStream flatMapToDouble(final IOFunction<? super T, ? extends DoubleStream> mapper) throws IOException {
@@ -295,7 +295,7 @@ public interface IOStream<T> extends IOBaseStream<T, IOStream<T>, Stream<T>> {
      *
      * @param mapper Like {@link Stream#flatMapToInt(java.util.function.Function)}.
      * @return Like {@link Stream#flatMapToInt(java.util.function.Function)}.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     @SuppressWarnings("unused") // thrown by Erase.
     default IntStream flatMapToInt(final IOFunction<? super T, ? extends IntStream> mapper) throws IOException {
@@ -312,7 +312,7 @@ public interface IOStream<T> extends IOBaseStream<T, IOStream<T>, Stream<T>> {
      *
      * @param mapper Like {@link Stream#flatMapToLong(java.util.function.Function)}.
      * @return Like {@link Stream#flatMapToLong(java.util.function.Function)}.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     @SuppressWarnings("unused") // thrown by Erase.
     default LongStream flatMapToLong(final IOFunction<? super T, ? extends LongStream> mapper) throws IOException {
@@ -361,7 +361,7 @@ public interface IOStream<T> extends IOBaseStream<T, IOStream<T>, Stream<T>> {
      * Like {@link Stream#forEach(java.util.function.Consumer)} but throws {@link IOException}.
      *
      * @param action Like {@link Stream#forEach(java.util.function.Consumer)}.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     @SuppressWarnings("unused") // thrown by Erase.
     default void forEach(final IOConsumer<? super T> action) throws IOException {
@@ -372,7 +372,7 @@ public interface IOStream<T> extends IOBaseStream<T, IOStream<T>, Stream<T>> {
      * Like {@link Stream#forEachOrdered(java.util.function.Consumer)}.
      *
      * @param action Like {@link Stream#forEachOrdered(java.util.function.Consumer)}.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     @SuppressWarnings("unused") // thrown by Erase.
     default void forEachOrdered(final IOConsumer<? super T> action) throws IOException {
@@ -395,7 +395,7 @@ public interface IOStream<T> extends IOBaseStream<T, IOStream<T>, Stream<T>> {
      * @param <R> Like {@link Stream#map(java.util.function.Function)}.
      * @param mapper Like {@link Stream#map(java.util.function.Function)}.
      * @return Like {@link Stream#map(java.util.function.Function)}.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     @SuppressWarnings("unused") // thrown by Erase.
     default <R> IOStream<R> map(final IOFunction<? super T, ? extends R> mapper) throws IOException {
@@ -458,7 +458,7 @@ public interface IOStream<T> extends IOBaseStream<T, IOStream<T>, Stream<T>> {
      *
      * @param comparator Like {@link Stream#max(java.util.Comparator)}.
      * @return Like {@link Stream#max(java.util.Comparator)}.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     @SuppressWarnings("unused") // thrown by Erase.
     default Optional<T> max(final IOComparator<? super T> comparator) throws IOException {
@@ -470,7 +470,7 @@ public interface IOStream<T> extends IOBaseStream<T, IOStream<T>, Stream<T>> {
      *
      * @param comparator Like {@link Stream#min(java.util.Comparator)}.
      * @return Like {@link Stream#min(java.util.Comparator)}.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     @SuppressWarnings("unused") // thrown by Erase.
     default Optional<T> min(final IOComparator<? super T> comparator) throws IOException {
@@ -482,7 +482,7 @@ public interface IOStream<T> extends IOBaseStream<T, IOStream<T>, Stream<T>> {
      *
      * @param predicate Like {@link Stream#noneMatch(java.util.function.Predicate)}.
      * @return Like {@link Stream#noneMatch(java.util.function.Predicate)}.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     @SuppressWarnings("unused") // thrown by Erase.
     default boolean noneMatch(final IOPredicate<? super T> predicate) throws IOException {
@@ -494,7 +494,7 @@ public interface IOStream<T> extends IOBaseStream<T, IOStream<T>, Stream<T>> {
      *
      * @param action Like {@link Stream#peek(java.util.function.Consumer)}.
      * @return Like {@link Stream#peek(java.util.function.Consumer)}.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     @SuppressWarnings("unused") // thrown by Erase.
     default IOStream<T> peek(final IOConsumer<? super T> action) throws IOException {
@@ -506,7 +506,7 @@ public interface IOStream<T> extends IOBaseStream<T, IOStream<T>, Stream<T>> {
      *
      * @param accumulator Like {@link Stream#reduce(java.util.function.BinaryOperator)}.
      * @return Like {@link Stream#reduce(java.util.function.BinaryOperator)}.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     @SuppressWarnings("unused") // thrown by Erase.
     default Optional<T> reduce(final IOBinaryOperator<T> accumulator) throws IOException {
@@ -519,7 +519,7 @@ public interface IOStream<T> extends IOBaseStream<T, IOStream<T>, Stream<T>> {
      * @param identity Like {@link Stream#reduce(Object, java.util.function.BinaryOperator)}.
      * @param accumulator Like {@link Stream#reduce(Object, java.util.function.BinaryOperator)}.
      * @return Like {@link Stream#reduce(Object, java.util.function.BinaryOperator)}.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     @SuppressWarnings("unused") // thrown by Erase.
     default T reduce(final T identity, final IOBinaryOperator<T> accumulator) throws IOException {
@@ -534,7 +534,7 @@ public interface IOStream<T> extends IOBaseStream<T, IOStream<T>, Stream<T>> {
      * @param accumulator Like {@link Stream#reduce(Object, BiFunction, java.util.function.BinaryOperator)}.
      * @param combiner Like {@link Stream#reduce(Object, BiFunction, java.util.function.BinaryOperator)}.
      * @return Like {@link Stream#reduce(Object, BiFunction, java.util.function.BinaryOperator)}.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     @SuppressWarnings("unused") // thrown by Erase.
     default <U> U reduce(final U identity, final IOBiFunction<U, ? super T, U> accumulator, final IOBinaryOperator<U> combiner) throws IOException {
@@ -565,7 +565,7 @@ public interface IOStream<T> extends IOBaseStream<T, IOStream<T>, Stream<T>> {
      *
      * @param comparator Like {@link Stream#sorted(java.util.Comparator)}.
      * @return Like {@link Stream#sorted(java.util.Comparator)}.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     @SuppressWarnings("unused") // thrown by Erase.
     default IOStream<T> sorted(final IOComparator<? super T> comparator) throws IOException {

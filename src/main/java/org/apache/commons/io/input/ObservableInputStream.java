@@ -107,7 +107,7 @@ public class ObservableInputStream extends ProxyInputStream {
         /**
          * Called to indicate that the {@link ObservableInputStream} has been closed.
          *
-         * @throws IOException if an I/O error occurs.
+         * @throws IOException Thrown if an I/O error occurs.
          */
         @SuppressWarnings("unused") // Possibly thrown from subclasses.
         public void closed() throws IOException {
@@ -121,7 +121,7 @@ public class ObservableInputStream extends ProxyInputStream {
          * @param buffer The byte array, which has been passed to the read call, and where data has been stored.
          * @param offset The offset within the byte array, where data has been stored.
          * @param length The number of bytes, which have been stored in the byte array.
-         * @throws IOException if an I/O error occurs.
+         * @throws IOException Thrown if an I/O error occurs.
          */
         @SuppressWarnings("unused") // Possibly thrown from subclasses.
         public void data(final byte[] buffer, final int offset, final int length) throws IOException {
@@ -134,7 +134,7 @@ public class ObservableInputStream extends ProxyInputStream {
          *
          * @param value The value, which is being returned. This will never be -1 (EOF), because, in that case,
          *        {@link #finished()} will be invoked instead.
-         * @throws IOException if an I/O error occurs.
+         * @throws IOException Thrown if an I/O error occurs.
          */
         @SuppressWarnings("unused") // Possibly thrown from subclasses.
         public void data(final int value) throws IOException {
@@ -144,8 +144,8 @@ public class ObservableInputStream extends ProxyInputStream {
         /**
          * Called to indicate that an error occurred on the underlying stream.
          *
-         * @param exception the exception to throw.
-         * @throws IOException if an I/O error occurs.
+         * @param exception The exception to throw.
+         * @throws IOException Thrown if an I/O error occurs.
          */
         public void error(final IOException exception) throws IOException {
             throw exception;
@@ -155,7 +155,7 @@ public class ObservableInputStream extends ProxyInputStream {
          * Called to indicate that EOF has been seen on the underlying stream. This method may be called multiple times,
          * if the reader keeps invoking either of the read methods, and they will consequently keep returning EOF.
          *
-         * @throws IOException if an I/O error occurs.
+         * @throws IOException Thrown if an I/O error occurs.
          */
         @SuppressWarnings("unused") // Possibly thrown from subclasses.
         public void finished() throws IOException {
@@ -173,7 +173,7 @@ public class ObservableInputStream extends ProxyInputStream {
     /**
      * Constructs a new ObservableInputStream for the given InputStream.
      *
-     * @param inputStream the input stream to observe.
+     * @param inputStream The input stream to observe.
      */
     public ObservableInputStream(final InputStream inputStream) {
         this(inputStream, new ArrayList<>());
@@ -182,7 +182,7 @@ public class ObservableInputStream extends ProxyInputStream {
     /**
      * Constructs a new ObservableInputStream for the given InputStream.
      *
-     * @param inputStream the input stream to observe.
+     * @param inputStream The input stream to observe.
      * @param observers List of observer callbacks.
      */
     private ObservableInputStream(final InputStream inputStream, final List<Observer> observers) {
@@ -193,7 +193,7 @@ public class ObservableInputStream extends ProxyInputStream {
     /**
      * Constructs a new ObservableInputStream for the given InputStream.
      *
-     * @param inputStream the input stream to observe.
+     * @param inputStream The input stream to observe.
      * @param observers List of observer callbacks.
      * @since 2.9.0
      */
@@ -204,7 +204,7 @@ public class ObservableInputStream extends ProxyInputStream {
     /**
      * Adds an Observer.
      *
-     * @param observer the observer to add.
+     * @param observer The observer to add.
      */
     public void add(final Observer observer) {
         observers.add(observer);
@@ -241,7 +241,7 @@ public class ObservableInputStream extends ProxyInputStream {
     /**
      * Gets a copy of currently registered observers.
      *
-     * @return a copy of the list of currently registered observers.
+     * @return A copy of the list of currently registered observers.
      * @since 2.9.0
      */
     public List<Observer> getObservers() {
@@ -361,7 +361,7 @@ public class ObservableInputStream extends ProxyInputStream {
     /**
      * Removes an Observer.
      *
-     * @param observer the observer to remove.
+     * @param observer The observer to remove.
      */
     public void remove(final Observer observer) {
         observers.remove(observer);

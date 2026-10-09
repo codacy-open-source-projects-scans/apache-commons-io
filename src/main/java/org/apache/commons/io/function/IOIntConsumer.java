@@ -41,8 +41,8 @@ public interface IOIntConsumer {
     /**
      * Performs this operation on the given argument.
      *
-     * @param value the input argument.
-     * @throws IOException if an I/O error occurs.
+     * @param value The input argument.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     void accept(int value) throws IOException;
 
@@ -51,12 +51,12 @@ public interface IOIntConsumer {
      * operation throws an exception, it is relayed to the caller of the composed operation. If performing this operation throws an exception, the {@code after}
      * operation will not be performed.
      *
-     * @param after the operation to perform after this operation.
-     * @return a composed {@code IOIntConsumer} that performs in sequence this operation followed by the {@code after} operation.
+     * @param after The operation to perform after this operation.
+     * @return A composed {@code IOIntConsumer} that performs in sequence this operation followed by the {@code after} operation.
      * @throws NullPointerException if {@code after} is null.
      */
     default IOIntConsumer andThen(final IOIntConsumer after) {
-        Objects.requireNonNull(after);
+        Objects.requireNonNull(after, "after");
         return (final int i) -> {
             accept(i);
             after.accept(i);
@@ -66,7 +66,7 @@ public interface IOIntConsumer {
     /**
      * Creates a {@link Consumer} for this instance that throws {@link UncheckedIOException} instead of {@link IOException}.
      *
-     * @return an UncheckedIOException IntConsumer.
+     * @return An UncheckedIOException IntConsumer.
      */
     default Consumer<Integer> asConsumer() {
         return i -> Uncheck.accept(this, i);
@@ -75,7 +75,7 @@ public interface IOIntConsumer {
     /**
      * Creates an {@link IntConsumer} for this instance that throws {@link UncheckedIOException} instead of {@link IOException}.
      *
-     * @return an UncheckedIOException IntConsumer.
+     * @return An UncheckedIOException IntConsumer.
      */
     default IntConsumer asIntConsumer() {
         return i -> Uncheck.accept(this, i);

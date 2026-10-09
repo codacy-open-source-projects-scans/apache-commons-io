@@ -22,7 +22,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -58,7 +57,7 @@ public abstract class AbstractTempDirTest {
      * </ol>
      * @param rootDir Root for directory entries.
      * @return Path for {@code tempDirPath/subdir}.
-     * @throws IOException if an I/O error occurs or the parent directory does not exist.
+     * @throws IOException Thrown if an I/O error occurs or the parent directory does not exist.
      */
     protected static Path createTempSymbolicLinkedRelativeDir(final Path rootDir) throws IOException {
         final Path targetDir = rootDir.resolve(SUB_DIR);
@@ -97,8 +96,4 @@ public abstract class AbstractTempDirTest {
         tempDirFile = tempDirPath.toFile();
     }
 
-    @SuppressWarnings("resource") // no FileSystem allocation
-    protected final boolean isPosixFilePermissionsSupported() {
-        return FileSystems.getDefault().supportedFileAttributeViews().contains("posix");
-    }
 }

@@ -165,7 +165,7 @@ public class BoundedInputStream extends ProxyInputStream {
          * method.
          * </p>
          *
-         * @param onMaxCount the {@link ProxyInputStream#afterRead(int)} behavior.
+         * @param onMaxCount The {@link ProxyInputStream#afterRead(int)} behavior.
          * @return {@code this} instance.
          * @since 2.18.0
          */
@@ -271,7 +271,7 @@ public class BoundedInputStream extends ProxyInputStream {
          * <li>{@code #isPropagateClose()}</li>
          * </ul>
          *
-         * @return a new instance.
+         * @return A new instance.
          * @throws IllegalStateException         if the {@code origin} is {@code null}.
          * @throws UnsupportedOperationException if the origin cannot be converted to an {@link InputStream}.
          * @throws IOException                   if an I/O error occurs converting to an {@link InputStream} using {@link #getInputStream()}.
@@ -288,7 +288,7 @@ public class BoundedInputStream extends ProxyInputStream {
     /**
      * Constructs a new {@link AbstractBuilder}.
      *
-     * @return a new {@link AbstractBuilder}.
+     * @return A new {@link AbstractBuilder}.
      * @since 2.16.0
      */
     public static Builder builder() {
@@ -382,7 +382,7 @@ public class BoundedInputStream extends ProxyInputStream {
     /**
      * Invokes the delegate's {@link InputStream#close()} method if {@link #isPropagateClose()} is {@code true}.
      *
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     @Override
     public void close() throws IOException {
@@ -495,8 +495,8 @@ public class BoundedInputStream extends ProxyInputStream {
     /**
      * Invokes the delegate's {@link InputStream#read()} method if the current position is less than the limit.
      *
-     * @return the byte read or -1 if the end of stream or the limit has been reached.
-     * @throws IOException if an I/O error occurs.
+     * @return The byte read or -1 if the end of stream or the limit has been reached.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     @Override
     public int read() throws IOException {
@@ -510,9 +510,9 @@ public class BoundedInputStream extends ProxyInputStream {
     /**
      * Invokes the delegate's {@link InputStream#read(byte[])} method.
      *
-     * @param b the buffer to read the bytes into.
-     * @return the number of bytes read or -1 if the end of stream or the limit has been reached.
-     * @throws IOException if an I/O error occurs.
+     * @param b The buffer to read the bytes into.
+     * @return The number of bytes read or -1 if the end of stream or the limit has been reached.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     @Override
     public int read(final byte[] b) throws IOException {
@@ -522,11 +522,11 @@ public class BoundedInputStream extends ProxyInputStream {
     /**
      * Invokes the delegate's {@link InputStream#read(byte[], int, int)} method.
      *
-     * @param b   the buffer to read the bytes into.
+     * @param b   The buffer to read the bytes into.
      * @param off The start offset.
      * @param len The number of bytes to read.
-     * @return the number of bytes read or -1 if the end of stream or the limit has been reached.
-     * @throws IOException if an I/O error occurs.
+     * @return The number of bytes read or -1 if the end of stream or the limit has been reached.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     @Override
     public int read(final byte[] b, final int off, final int len) throws IOException {
@@ -540,7 +540,7 @@ public class BoundedInputStream extends ProxyInputStream {
     /**
      * Invokes the delegate's {@link InputStream#reset()} method.
      *
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     @Override
     public synchronized void reset() throws IOException {
@@ -563,9 +563,9 @@ public class BoundedInputStream extends ProxyInputStream {
     /**
      * Invokes the delegate's {@link InputStream#skip(long)} method.
      *
-     * @param n the number of bytes to skip.
-     * @return the actual number of bytes skipped.
-     * @throws IOException if an I/O error occurs.
+     * @param n The number of bytes to skip.
+     * @return The actual number of bytes skipped.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     @Override
     public synchronized long skip(final long n) throws IOException {
@@ -590,7 +590,7 @@ public class BoundedInputStream extends ProxyInputStream {
     /**
      * Invokes the delegate's {@link InputStream#toString()} method.
      *
-     * @return the delegate's {@link InputStream#toString()}.
+     * @return The delegate's {@link InputStream#toString()}.
      */
     @Override
     public String toString() {

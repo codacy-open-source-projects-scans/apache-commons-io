@@ -140,7 +140,7 @@ public final class ChecksumInputStream extends CountingInputStream {
          * <li>countThreshold</li>
          * </ul>
          *
-         * @return a new instance.
+         * @return A new instance.
          * @throws IllegalStateException         if the {@code origin} is {@code null}.
          * @throws UnsupportedOperationException if the origin cannot be converted to an {@link InputStream}.
          * @throws IOException                   if an I/O error occurs converting to an {@link InputStream} using {@link #getInputStream()}.
@@ -156,7 +156,7 @@ public final class ChecksumInputStream extends CountingInputStream {
          * Sets the Checksum. There is no default {@link Checksum}, you MUST provide one. This avoids any issue with a default {@link Checksum} being proven
          * deficient or insecure in the future.
          *
-         * @param checksum the Checksum.
+         * @param checksum The Checksum.
          * @return {@code this} instance.
          */
         public Builder setChecksum(final Checksum checksum) {
@@ -171,7 +171,7 @@ public final class ChecksumInputStream extends CountingInputStream {
          * By default, all input updates the {@link Checksum}.
          * </p>
          *
-         * @param countThreshold the count threshold. A negative number means the threshold is unbound.
+         * @param countThreshold The count threshold. A negative number means the threshold is unbound.
          * @return {@code this} instance.
          */
         public Builder setCountThreshold(final long countThreshold) {
@@ -195,7 +195,7 @@ public final class ChecksumInputStream extends CountingInputStream {
     /**
      * Constructs a new {@link Builder}.
      *
-     * @return a new {@link Builder}.
+     * @return A new {@link Builder}.
      */
     public static Builder builder() {
         return new Builder();
@@ -238,7 +238,7 @@ public final class ChecksumInputStream extends CountingInputStream {
     /**
      * Gets the current checksum value.
      *
-     * @return the current checksum value.
+     * @return The current checksum value.
      */
     private Checksum getChecksum() {
         return ((CheckedInputStream) in).getChecksum();

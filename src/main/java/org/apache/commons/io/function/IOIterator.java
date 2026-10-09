@@ -27,7 +27,7 @@ import java.util.function.Consumer;
 /**
  * Like {@link Iterator} but throws {@link IOException}.
  *
- * @param <E> the type of elements returned by this iterator.
+ * @param <E> The type of elements returned by this iterator.
  * @since 2.12.0
  */
 public interface IOIterator<E> {
@@ -35,7 +35,7 @@ public interface IOIterator<E> {
     /**
      * Adapts the given Iterable as an IOIterator.
      *
-     * @param <E> the type of the stream elements.
+     * @param <E> The type of the stream elements.
      * @param iterable The iterable to adapt.
      * @return A new IOIterator.
      * @since 2.17.0
@@ -47,7 +47,7 @@ public interface IOIterator<E> {
     /**
      * Adapts the given Iterator as an IOIterator.
      *
-     * @param <E> the type of the stream elements.
+     * @param <E> The type of the stream elements.
      * @param iterator The iterator to adapt.
      * @return A new IOIterator.
      */
@@ -59,7 +59,7 @@ public interface IOIterator<E> {
      * Creates an {@link Iterator} for this instance that throws {@link UncheckedIOException} instead of
      * {@link IOException}.
      *
-     * @return an {@link UncheckedIOException} {@link Iterator}.
+     * @return An {@link UncheckedIOException} {@link Iterator}.
      */
     default Iterator<E> asIterator() {
         return new UncheckedIOIterator<>(this);
@@ -69,10 +69,10 @@ public interface IOIterator<E> {
      * Like {@link Iterator#forEachRemaining(Consumer)}.
      *
      * @param action See delegate.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     default void forEachRemaining(final IOConsumer<? super E> action) throws IOException {
-        Objects.requireNonNull(action);
+        Objects.requireNonNull(action, "action");
         while (hasNext()) {
             action.accept(next());
         }
@@ -82,7 +82,7 @@ public interface IOIterator<E> {
      * Like {@link Iterator#hasNext()}.
      *
      * @return See delegate.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     boolean hasNext() throws IOException;
 
@@ -90,7 +90,7 @@ public interface IOIterator<E> {
      * Like {@link Iterator#next()}.
      *
      * @return See delegate.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      * @throws NoSuchElementException if the iteration has no more elements.
      */
     E next() throws IOException;
@@ -98,7 +98,7 @@ public interface IOIterator<E> {
     /**
      * Like {@link Iterator#remove()}.
      *
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     @SuppressWarnings("unused")
     default void remove() throws IOException {
@@ -111,7 +111,7 @@ public interface IOIterator<E> {
      * Implementations may not have anything to unwrap and that behavior is undefined for now.
      * </p>
      *
-     * @return the underlying Iterator.
+     * @return The underlying Iterator.
      */
     Iterator<E> unwrap();
 

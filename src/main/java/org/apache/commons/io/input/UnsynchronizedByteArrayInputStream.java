@@ -106,7 +106,7 @@ public class UnsynchronizedByteArrayInputStream extends InputStream {
          * <li>length</li>
          * </ul>
          *
-         * @return a new instance.
+         * @return A new instance.
          * @throws UnsupportedOperationException if the origin cannot provide a {@code byte[]}.
          * @throws IllegalStateException         if the {@code origin} is {@code null}.
          * @throws IOException                   if an I/O error occurs converting to an {@code byte[]} using {@link AbstractOrigin#getByteArray()}.
@@ -162,7 +162,7 @@ public class UnsynchronizedByteArrayInputStream extends InputStream {
     /**
      * Constructs a new {@link Builder}.
      *
-     * @return a new {@link Builder}.
+     * @return A new {@link Builder}.
      */
     public static Builder builder() {
         return new Builder();
@@ -209,7 +209,7 @@ public class UnsynchronizedByteArrayInputStream extends InputStream {
     /**
      * Constructs a new byte array input stream.
      *
-     * @param data the buffer.
+     * @param data The buffer.
      * @deprecated Use {@link #builder()}, {@link Builder}, and {@link Builder#get()}.
      */
     @Deprecated
@@ -220,8 +220,8 @@ public class UnsynchronizedByteArrayInputStream extends InputStream {
     /**
      * Constructs a new byte array input stream.
      *
-     * @param data   the buffer.
-     * @param offset the offset into the buffer.
+     * @param data   The buffer.
+     * @param offset The offset into the buffer.
      * @throws IllegalArgumentException if the offset is less than zero.
      * @deprecated Use {@link #builder()}, {@link Builder}, and {@link Builder#get()}.
      */
@@ -233,9 +233,9 @@ public class UnsynchronizedByteArrayInputStream extends InputStream {
     /**
      * Constructs a new byte array input stream.
      *
-     * @param data   the buffer.
-     * @param offset the offset into the buffer.
-     * @param length the length of the buffer.
+     * @param data   The buffer.
+     * @param offset The offset into the buffer.
+     * @param length The length of the buffer.
      * @throws IllegalArgumentException if the offset or length less than zero.
      * @deprecated Use {@link #builder()}, {@link Builder}, and {@link Builder#get()}.
      */

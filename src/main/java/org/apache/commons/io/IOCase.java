@@ -72,8 +72,8 @@ public enum IOCase {
     /**
      * Looks up an IOCase by name.
      *
-     * @param name  the name to find.
-     * @return the IOCase object.
+     * @param name  The name to find.
+     * @return The IOCase object.
      * @throws IllegalArgumentException if the name is invalid.
      */
     public static IOCase forName(final String name) {
@@ -84,7 +84,7 @@ public enum IOCase {
     /**
      * Tests for cases sensitivity in a null-safe manner.
      *
-     * @param ioCase an IOCase.
+     * @param ioCase An IOCase.
      * @return true if the input is non-null and {@link #isCaseSensitive()}.
      * @since 2.10.0
      */
@@ -95,9 +95,9 @@ public enum IOCase {
     /**
      * Returns the given value if not-null, the defaultValue if null.
      *
-     * @param value the value to test, may be null.
-     * @param defaultValue the default value.
-     * @return the given value if not-null, the defaultValue if null.
+     * @param value The value to test, may be null.
+     * @param defaultValue The default value.
+     * @return The given value if not-null, the defaultValue if null.
      * @since 2.12.0
      */
     public static IOCase value(final IOCase value, final IOCase defaultValue) {
@@ -113,8 +113,8 @@ public enum IOCase {
     /**
      * Constructs a new instance.
      *
-     * @param name  the name.
-     * @param sensitive  the sensitivity.
+     * @param name  The name.
+     * @param sensitive  The sensitivity.
      */
     IOCase(final String name, final boolean sensitive) {
         this.name = name;
@@ -128,8 +128,8 @@ public enum IOCase {
      * into account.
      * </p>
      *
-     * @param str1  the first string to compare, not null.
-     * @param str2  the second string to compare, not null.
+     * @param str1  The first string to compare, not null.
+     * @param str2  The second string to compare, not null.
      * @return true if equal using the case rules.
      * @throws NullPointerException if either string is null.
      */
@@ -146,8 +146,8 @@ public enum IOCase {
      * into account.
      * </p>
      *
-     * @param str  the string to check.
-     * @param end  the end to compare against.
+     * @param str  The string to check.
+     * @param end  The end to compare against.
      * @return true if equal using the case rules, false if either input is null.
      */
     public boolean checkEndsWith(final String str, final String end) {
@@ -165,8 +165,8 @@ public enum IOCase {
      * into account.
      * </p>
      *
-     * @param str1  the first string to compare.
-     * @param str2  the second string to compare.
+     * @param str1  The first string to compare.
+     * @param str2  The second string to compare.
      * @return true if equal using the case rules.
      */
     public boolean checkEquals(final String str1, final String str2) {
@@ -181,10 +181,10 @@ public enum IOCase {
      * but takes case-sensitivity into account.
      * </p>
      *
-     * @param str  the string to check.
-     * @param strStartIndex  the index to start at in str.
-     * @param search  the start to search for.
-     * @return the first index of the search String,
+     * @param str  The string to check.
+     * @param strStartIndex  The index to start at in str.
+     * @param search  The start to search for.
+     * @return The first index of the search String,
      *  -1 if no match or {@code null} string input.
      * @since 2.0
      */
@@ -209,9 +209,9 @@ public enum IOCase {
      * but takes case-sensitivity into account.
      * </p>
      *
-     * @param str  the string to check.
-     * @param strStartIndex  the index to start at in str.
-     * @param search  the start to search for,.
+     * @param str  The string to check.
+     * @param strStartIndex  The index to start at in str.
+     * @param search  The start to search for,.
      * @return true if equal using the case rules.
      */
     public boolean checkRegionMatches(final String str, final int strStartIndex, final String search) {
@@ -225,8 +225,8 @@ public enum IOCase {
      * into account.
      * </p>
      *
-     * @param str  the string to check.
-     * @param start  the start to compare against.
+     * @param str  The string to check.
+     * @param start  The start to compare against.
      * @return true if equal using the case rules, false if either input is null.
      */
     public boolean checkStartsWith(final String str, final String start) {
@@ -236,7 +236,7 @@ public enum IOCase {
     /**
      * Gets the name of the constant.
      *
-     * @return the name of the constant.
+     * @return The name of the constant.
      */
     public String getName() {
         return name;
@@ -255,7 +255,7 @@ public enum IOCase {
      * Replaces the enumeration from the stream with a real one.
      * This ensures that the correct flag is set for SYSTEM.
      *
-     * @return the resolved object.
+     * @return The resolved object.
      */
     private Object readResolve() {
         return forName(name);
@@ -264,7 +264,7 @@ public enum IOCase {
     /**
      * Gets a string describing the sensitivity.
      *
-     * @return a string describing the sensitivity.
+     * @return A string describing the sensitivity.
      */
     @Override
     public String toString() {

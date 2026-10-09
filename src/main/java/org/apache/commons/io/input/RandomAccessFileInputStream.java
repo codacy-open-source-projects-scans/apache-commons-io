@@ -82,7 +82,7 @@ public class RandomAccessFileInputStream extends AbstractInputStream {
          * <li>closeOnClose</li>
          * </ul>
          *
-         * @return a new instance.
+         * @return A new instance.
          * @throws IllegalStateException         if the {@code origin} is {@code null}.
          * @throws IllegalStateException         if both RandomAccessFile and origin are set.
          * @throws UnsupportedOperationException if the origin cannot be converted to a {@link RandomAccessFile}.
@@ -109,7 +109,7 @@ public class RandomAccessFileInputStream extends AbstractInputStream {
         /**
          * Sets the RandomAccessFile to stream.
          *
-         * @param randomAccessFile the RandomAccessFile to stream.
+         * @param randomAccessFile The RandomAccessFile to stream.
          * @return {@code this} instance.
          */
         @Override // MUST keep this method for binary compatibility since the super version of this method uses a generic which compiles to Object.
@@ -122,7 +122,7 @@ public class RandomAccessFileInputStream extends AbstractInputStream {
     /**
      * Constructs a new {@link Builder}.
      *
-     * @return a new {@link Builder}.
+     * @return A new {@link Builder}.
      * @since 2.12.0
      */
     public static Builder builder() {
@@ -200,7 +200,7 @@ public class RandomAccessFileInputStream extends AbstractInputStream {
      * @param size The number of bytes to copy.
      * @param os   Where to copy.
      * @return The number of bytes copied.
-     * @throws IOException if {@code pos} is less than {@code 0} or if an I/O error occurs.
+     * @throws IOException Thrown if {@code pos} is less than {@code 0} or if an I/O error occurs.
      * @since 2.19.0
      */
     public long copy(final long pos, final long size, final OutputStream os) throws IOException {
@@ -211,7 +211,7 @@ public class RandomAccessFileInputStream extends AbstractInputStream {
     /**
      * Gets the underlying file.
      *
-     * @return the underlying file.
+     * @return The underlying file.
      */
     public RandomAccessFile getRandomAccessFile() {
         return randomAccessFile;

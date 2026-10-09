@@ -88,7 +88,7 @@ public final class FileTimes {
      * Converts standard Unix time (in seconds, UTC/GMT) to {@link FileTime}.
      *
      * @param time Unix timestamp (seconds).
-     * @return the corresponding FileTime.
+     * @return The corresponding FileTime.
      * @since 2.16.0
      */
     public static FileTime fromUnixTime(final long time) {
@@ -101,7 +101,7 @@ public final class FileTimes {
      * If the FileTime is null, this method returns true.
      * </p>
      *
-     * @param time the FileTime to evaluate, can be null.
+     * @param time The FileTime to evaluate, can be null.
      * @return true if the time exceeds the minimum or maximum Unix time, false otherwise.
      * @since 2.16.0
      */
@@ -112,7 +112,7 @@ public final class FileTimes {
     /**
      * Tests whether a given number of seconds (since Epoch) can be safely represented in the standard Unix time.
      *
-     * @param seconds the number of seconds (since Epoch) to evaluate.
+     * @param seconds The number of seconds (since Epoch) to evaluate.
      * @return true if the time can be represented in the standard Unix time, false otherwise.
      * @since 2.16.0
      */
@@ -156,7 +156,7 @@ public final class FileTimes {
     /**
      * Obtains the current instant FileTime from the system clock.
      *
-     * @return the current instant FileTime from the system clock.
+     * @return The current instant FileTime from the system clock.
      */
     public static FileTime now() {
         return FileTime.from(Instant.now());
@@ -172,8 +172,8 @@ public final class FileTimes {
      * An NTFS file time is a 64-bit value for the number of 100-nanosecond intervals since 12:00 A.M. January 1, 1601 Coordinated Universal Time (UTC).
      * </p>
      *
-     * @param ntfsTime the NTFS time, 100-nanosecond units since 1 January 1601.
-     * @return the Date input.
+     * @param ntfsTime The NTFS time, 100-nanosecond units since 1 January 1601.
+     * @return The Date input.
      * @see <a href="https://learn.microsoft.com/en-us/windows/win32/sysinfo/file-times">NTFS File Times</a>
      */
     public static Date ntfsTimeToDate(final long ntfsTime) {
@@ -186,8 +186,8 @@ public final class FileTimes {
      * An NTFS file time is a 64-bit value for the number of 100-nanosecond intervals since 12:00 A.M. January 1, 1601 Coordinated Universal Time (UTC).
      * </p>
      *
-     * @param ntfsTime the NTFS time, 100-nanosecond units since 1 January 1601.
-     * @return the FileTime input.
+     * @param ntfsTime The NTFS time, 100-nanosecond units since 1 January 1601.
+     * @return The FileTime input.
      * @see #toNtfsTime(FileTime)
      * @see <a href="https://learn.microsoft.com/en-us/windows/win32/sysinfo/file-times">NTFS File Times</a>
      */
@@ -242,7 +242,7 @@ public final class FileTimes {
      * Sets the last modified time of the given file path to now.
      *
      * @param path The file path to set.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     public static void setLastModifiedTime(final Path path) throws IOException {
         Files.setLastModifiedTime(path, now());
@@ -251,8 +251,8 @@ public final class FileTimes {
     /**
      * Converts a {@link FileTime} to a {@link Date}. If the provided FileTime is {@code null}, the returned Date is also {@code null}.
      *
-     * @param fileTime the file time to be converted.
-     * @return a {@link Date} which corresponds to the supplied time, or {@code null} if the time is {@code null}.
+     * @param fileTime The file time to be converted.
+     * @return A {@link Date} which corresponds to the supplied time, or {@code null} if the time is {@code null}.
      * @see #toFileTime(Date)
      */
     public static Date toDate(final FileTime fileTime) {
@@ -262,8 +262,8 @@ public final class FileTimes {
     /**
      * Converts a {@link Date} to a {@link FileTime}. If the provided Date is {@code null}, the returned FileTime is also {@code null}.
      *
-     * @param date the date to be converted.
-     * @return a {@link FileTime} which corresponds to the supplied date, or {@code null} if the date is {@code null}.
+     * @param date The date to be converted.
+     * @return A {@link FileTime} which corresponds to the supplied date, or {@code null} if the date is {@code null}.
      * @see #toDate(FileTime)
      */
     public static FileTime toFileTime(final Date date) {
@@ -276,8 +276,8 @@ public final class FileTimes {
      * An NTFS file time is a 64-bit value for the number of 100-nanosecond intervals since 12:00 A.M. January 1, 1601 Coordinated Universal Time (UTC).
      * </p>
      *
-     * @param date the Date input.
-     * @return the NTFS time, 100-nanosecond units since 1 January 1601.
+     * @param date The Date input.
+     * @return The NTFS time, 100-nanosecond units since 1 January 1601.
      */
     public static long toNtfsTime(final Date date) {
         return toNtfsTime(date.getTime());
@@ -289,8 +289,8 @@ public final class FileTimes {
      * An NTFS file time is a 64-bit value for the number of 100-nanosecond intervals since 12:00 A.M. January 1, 1601 Coordinated Universal Time (UTC).
      * </p>
      *
-     * @param fileTime the FileTime input.
-     * @return the NTFS time, 100-nanosecond units since 1 January 1601.
+     * @param fileTime The FileTime input.
+     * @return The NTFS time, 100-nanosecond units since 1 January 1601.
      */
     public static long toNtfsTime(final FileTime fileTime) {
         return toNtfsTime(fileTime.toInstant());
@@ -308,8 +308,8 @@ public final class FileTimes {
      * An NTFS file time is a 64-bit value for the number of 100-nanosecond intervals since 12:00 A.M. January 1, 1601 Coordinated Universal Time (UTC).
      * </p>
      *
-     * @param javaTime the Java time.
-     * @return the NTFS time, 100-nanosecond units since 1 January 1601.
+     * @param javaTime The Java time.
+     * @return The NTFS time, 100-nanosecond units since 1 January 1601.
      * @since 2.16.0
      */
     public static long toNtfsTime(final long javaTime) {
@@ -330,8 +330,8 @@ public final class FileTimes {
      * The returned seconds value may lie out of bounds of Unix time. Check with {@link FileTimes#isUnixTime(long)}.
      * </p>
      *
-     * @param fileTime the original FileTime.
-     * @return the Unix timestamp or 0 if the input is null.
+     * @param fileTime The original FileTime.
+     * @return The Unix timestamp or 0 if the input is null.
      * @see #isUnixTime(long)
      * @since 2.16.0
      */

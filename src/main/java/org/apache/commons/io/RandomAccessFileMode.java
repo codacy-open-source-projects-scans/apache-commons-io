@@ -157,14 +157,14 @@ public enum RandomAccessFileMode {
      * This method allocates and releases the {@link RandomAccessFile} given to the consumer.
      * </p>
      *
-     * @param file the file specifying the {@link RandomAccessFile} to open.
-     * @param consumer the function to apply.
+     * @param file The file specifying the {@link RandomAccessFile} to open.
+     * @param consumer The function to apply.
      * @throws FileNotFoundException See {@link IORandomAccessFile#IORandomAccessFile(File, String)}.
      * @throws IOException Thrown by the given function.
      * @since 2.18.0
      */
-    public void accept(final Path file, final IOConsumer<RandomAccessFile> consumer) throws IOException {
-        try (RandomAccessFile raf = create(file)) {
+    public void accept(final Path file, final IOConsumer<IORandomAccessFile> consumer) throws IOException {
+        try (IORandomAccessFile raf = new IORandomAccessFile(file.toFile(), mode)) {
             consumer.accept(raf);
         }
     }
@@ -175,10 +175,10 @@ public enum RandomAccessFileMode {
      * This method allocates and releases the {@link RandomAccessFile} given to the function.
      * </p>
      *
-     * @param <T> the return type of the function.
-     * @param file the file specifying the {@link RandomAccessFile} to open.
-     * @param function the function to apply.
-     * @return the function's result value.
+     * @param <T> The return type of the function.
+     * @param file The file specifying the {@link RandomAccessFile} to open.
+     * @param function The function to apply.
+     * @return The function's result value.
      * @throws FileNotFoundException See {@link IORandomAccessFile#IORandomAccessFile(File, String)}.
      * @throws IOException Thrown by the given function.
      * @since 2.18.0
@@ -195,8 +195,8 @@ public enum RandomAccessFileMode {
      * Prefer {@link #create(Path)} over this.
      * </p>
      *
-     * @param file the file object.
-     * @return a random access file.
+     * @param file The file object.
+     * @return A random access file.
      * @throws FileNotFoundException See {@link IORandomAccessFile#IORandomAccessFile(File, String)}.
      */
     public RandomAccessFile create(final File file) throws FileNotFoundException {
@@ -206,8 +206,8 @@ public enum RandomAccessFileMode {
     /**
      * Constructs a random access file to read from, and optionally to write to, the file specified by the {@link File} argument.
      *
-     * @param file the file object.
-     * @return a random access file.
+     * @param file The file object.
+     * @return A random access file.
      * @throws FileNotFoundException See {@link IORandomAccessFile#IORandomAccessFile(File, String)}.
      */
     public RandomAccessFile create(final Path file) throws FileNotFoundException {
@@ -220,8 +220,8 @@ public enum RandomAccessFileMode {
      * Prefer {@link #create(Path)} over this.
      * </p>
      *
-     * @param name the file object.
-     * @return a random access file.
+     * @param name The file object.
+     * @return A random access file.
      * @throws FileNotFoundException See {@link IORandomAccessFile#IORandomAccessFile(File, String)}.
      */
     public RandomAccessFile create(final String name) throws FileNotFoundException {
@@ -270,7 +270,7 @@ public enum RandomAccessFileMode {
      * <li>{@link RandomAccessFileMode#READ_WRITE} implies {{@link RandomAccessFileMode#READ_ONLY}}.</li>
      * </ol>
      *
-     * @param other the non-null mode to test against.
+     * @param other The non-null mode to test against.
      * @return whether this mode implies the given {@code other} mode.
      * @since 2.18.0
      */
@@ -282,8 +282,8 @@ public enum RandomAccessFileMode {
     /**
      * Constructs a random access file to read from, and optionally to write to, the file specified by the {@link File} argument.
      *
-     * @param name the file object.
-     * @return a random access file.
+     * @param name The system-dependent file name.
+     * @return A random access file.
      * @throws FileNotFoundException See {@link IORandomAccessFile#IORandomAccessFile(File, String)}.
      * @since 2.18.0
      */

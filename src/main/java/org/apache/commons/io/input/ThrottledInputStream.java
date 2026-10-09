@@ -99,7 +99,7 @@ public final class ThrottledInputStream extends CountingInputStream {
          * <li>maxBytesPerSecond</li>
          * </ul>
          *
-         * @return a new instance.
+         * @return A new instance.
          * @throws IllegalStateException         if the {@code origin} is {@code null}.
          * @throws UnsupportedOperationException if the origin cannot be converted to an {@link InputStream}.
          * @throws IOException                   if an I/O error occurs converting to an {@link InputStream} using {@link #getInputStream()}.
@@ -128,8 +128,8 @@ public final class ThrottledInputStream extends CountingInputStream {
          * To test idle timeouts for example, use 1 byte per minute, 1 byte per 30 seconds, and so on.
          * </p>
          *
-         * @param value the maximum bytes.
-         * @param chronoUnit a duration scale goal.
+         * @param value The maximum bytes.
+         * @param chronoUnit A duration scale goal.
          * @return {@code this} instance.
          * @throws IllegalArgumentException Thrown if maxBytesPerSecond &lt;= 0.
          * @since 2.19.0
@@ -151,8 +151,8 @@ public final class ThrottledInputStream extends CountingInputStream {
          * To test idle timeouts for example, use 1 byte per minute, 1 byte per 30 seconds, and so on.
          * </p>
          *
-         * @param value the maximum bytes.
-         * @param duration a duration goal.
+         * @param value The maximum bytes.
+         * @param duration A duration goal.
          * @return {@code this} instance.
          * @throws IllegalArgumentException Thrown if maxBytesPerSecond &lt;= 0.
          */
@@ -165,7 +165,7 @@ public final class ThrottledInputStream extends CountingInputStream {
         /**
          * Sets the maximum bytes per second.
          *
-         * @param maxBytesPerSecond the maximum bytes per second.
+         * @param maxBytesPerSecond The maximum bytes per second.
          * @return {@code this} instance.
          * @throws IllegalArgumentException Thrown if maxBytesPerSecond &lt;= 0.
          */
@@ -180,7 +180,7 @@ public final class ThrottledInputStream extends CountingInputStream {
         /**
          * Sets the maximum bytes per second.
          *
-         * @param maxBytesPerSecond the maximum bytes per second.
+         * @param maxBytesPerSecond The maximum bytes per second.
          * @throws IllegalArgumentException Thrown if maxBytesPerSecond &lt;= 0.
          */
         public void setMaxBytesPerSecond(final long maxBytesPerSecond) {
@@ -194,7 +194,7 @@ public final class ThrottledInputStream extends CountingInputStream {
     /**
      * Constructs a new {@link Builder}.
      *
-     * @return a new {@link Builder}.
+     * @return A new {@link Builder}.
      */
     public static Builder builder() {
         return new Builder();
@@ -263,7 +263,7 @@ public final class ThrottledInputStream extends CountingInputStream {
      * Package private for testing.
      * </p>
      *
-     * @return the number of milliseconds to sleep to match to the maximum bytes per second.
+     * @return The number of milliseconds to sleep to match to the maximum bytes per second.
      */
     long getSleepMillis() {
         return toSleepMillis(getByteCount(), System.currentTimeMillis() - startTime, maxBytesPerSecond);

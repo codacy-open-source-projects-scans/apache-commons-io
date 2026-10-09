@@ -88,7 +88,7 @@ public class XmlStreamWriter extends Writer {
          * <li>{@link #getCharset()}</li>
          * </ul>
          *
-         * @return a new instance.
+         * @return A new instance.
          * @throws IllegalStateException         if the {@code origin} is {@code null}.
          * @throws UnsupportedOperationException if the origin cannot be converted to an {@link OutputStream}.
          * @throws IOException                   if an I/O error occurs converting to an {@link OutputStream} using {@link #getOutputStream()}.
@@ -107,7 +107,7 @@ public class XmlStreamWriter extends Writer {
     /**
      * Constructs a new {@link Builder}.
      *
-     * @return a new {@link Builder}.
+     * @return A new {@link Builder}.
      * @since 2.12.0
      */
     public static Builder builder() {
@@ -180,7 +180,7 @@ public class XmlStreamWriter extends Writer {
      */
     private XmlStreamWriter(final OutputStream out, final Charset defaultEncoding) {
         this.out = out;
-        this.defaultCharset = Objects.requireNonNull(defaultEncoding);
+        this.defaultCharset = Objects.requireNonNull(defaultEncoding, "defaultEncoding");
     }
 
     /**
@@ -199,7 +199,7 @@ public class XmlStreamWriter extends Writer {
     /**
      * Closes the underlying writer.
      *
-     * @throws IOException if an error occurs closing the underlying writer.
+     * @throws IOException Thrown if an error occurs closing the underlying writer.
      */
     @Override
     public void close() throws IOException {
@@ -214,10 +214,10 @@ public class XmlStreamWriter extends Writer {
     /**
      * Detects the encoding.
      *
-     * @param cbuf the buffer to write the characters from.
+     * @param cbuf The buffer to write the characters from.
      * @param off The start offset.
      * @param len The number of characters to write.
-     * @throws IOException if an error occurs detecting the encoding.
+     * @throws IOException Thrown if an error occurs detecting the encoding.
      */
     private void detectEncoding(final char[] cbuf, final int off, final int len)
             throws IOException {
@@ -269,7 +269,7 @@ public class XmlStreamWriter extends Writer {
     /**
      * Flushes the underlying writer.
      *
-     * @throws IOException if an error occurs flushing the underlying writer.
+     * @throws IOException Thrown if an error occurs flushing the underlying writer.
      */
     @Override
     public void flush() throws IOException {
@@ -281,7 +281,7 @@ public class XmlStreamWriter extends Writer {
     /**
      * Returns the default encoding.
      *
-     * @return the default encoding.
+     * @return The default encoding.
      */
     public String getDefaultEncoding() {
         return defaultCharset.name();
@@ -290,7 +290,7 @@ public class XmlStreamWriter extends Writer {
     /**
      * Returns the detected encoding.
      *
-     * @return the detected encoding.
+     * @return The detected encoding.
      */
     public String getEncoding() {
         return charset.name();
@@ -299,13 +299,13 @@ public class XmlStreamWriter extends Writer {
     /**
      * Writes the characters to the underlying writer, detecting encoding.
      *
-     * @param cbuf the buffer to write the characters from.
+     * @param cbuf The buffer to write the characters from.
      * @param off The start offset.
      * @param len The number of characters to write.
      * @throws NullPointerException if the buffer is {@code null}.
      * @throws IndexOutOfBoundsException if {@code off} or {@code len} are negative,
      *                                   or if {@code off + len} is greater than {@code cbuf.length}.
-     * @throws IOException if an error occurs detecting the encoding.
+     * @throws IOException Thrown if an error occurs detecting the encoding.
      */
     @Override
     public void write(final char[] cbuf, final int off, final int len) throws IOException {

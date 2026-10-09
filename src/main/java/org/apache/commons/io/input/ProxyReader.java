@@ -35,10 +35,12 @@ import org.apache.commons.io.IOUtils;
  */
 public abstract class ProxyReader extends FilterReader {
 
+    private final Object lock = new Object();
+
     /**
      * Constructs a new ProxyReader.
      *
-     * @param delegate  the Reader to delegate to.
+     * @param delegate  The Reader to delegate to.
      */
     public ProxyReader(final Reader delegate) {
         // the delegate is stored in a protected superclass variable named 'in'
@@ -61,7 +63,7 @@ public abstract class ProxyReader extends FilterReader {
      * </p>
      *
      * @param n number of chars read, or -1 if the end of stream was reached.
-     * @throws IOException if the post-processing fails.
+     * @throws IOException Thrown if the post-processing fails.
      * @since 2.0
      */
     @SuppressWarnings("unused") // Possibly thrown from subclasses.
@@ -86,7 +88,7 @@ public abstract class ProxyReader extends FilterReader {
      * </p>
      *
      * @param n number of chars that the caller asked to be read.
-     * @throws IOException if the pre-processing fails.
+     * @throws IOException Thrown if the pre-processing fails.
      * @since 2.0
      */
     @SuppressWarnings("unused") // Possibly thrown from subclasses.
@@ -95,9 +97,9 @@ public abstract class ProxyReader extends FilterReader {
     }
 
     /**
-     * Invokes the delegate's {@code close()} method.
+     * Closes the stream and releases any system resources associated with it by invoking the delegate's {@link Reader#close()} method.
      *
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     @Override
     public void close() throws IOException {
@@ -116,7 +118,7 @@ public abstract class ProxyReader extends FilterReader {
      * </p>
      *
      * @param e The IOException thrown.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      * @since 2.0
      */
     protected void handleIOException(final IOException e) throws IOException {
@@ -124,22 +126,24 @@ public abstract class ProxyReader extends FilterReader {
     }
 
     /**
-     * Invokes the delegate's {@code mark(int)} method.
+     * Marks the present position in the stream by invoking the delegate's {@link Reader#mark(int)} method.
      *
      * @param readAheadLimit read ahead limit.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     @Override
-    public synchronized void mark(final int readAheadLimit) throws IOException {
-        try {
-            in.mark(readAheadLimit);
-        } catch (final IOException e) {
-            handleIOException(e);
+    public void mark(final int readAheadLimit) throws IOException {
+        synchronized (lock) {
+            try {
+                in.mark(readAheadLimit);
+            } catch (final IOException e) {
+                handleIOException(e);
+            }
         }
     }
 
     /**
-     * Invokes the delegate's {@code markSupported()} method.
+     * Tests whether this stream supports the {@link Reader#mark(int)} operation by invoking the delegate's {@link Reader#markSupported()} method.
      *
      * @return true if mark is supported, otherwise false.
      */
@@ -149,10 +153,10 @@ public abstract class ProxyReader extends FilterReader {
     }
 
     /**
-     * Invokes the delegate's {@code read()} method.
+     * Reads characters into an array by invoking the delegate's {@link Reader#read()} method.
      *
-     * @return the character read or -1 if the end of stream.
-     * @throws IOException if an I/O error occurs.
+     * @return The character read or -1 if the end of stream.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     @Override
     public int read() throws IOException {
@@ -170,9 +174,9 @@ public abstract class ProxyReader extends FilterReader {
     /**
      * Invokes the delegate's {@code read(char[])} method.
      *
-     * @param chr the buffer to read the characters into.
-     * @return the number of characters read or -1 if the end of stream.
-     * @throws IOException if an I/O error occurs.
+     * @param chr The buffer to read the characters into.
+     * @return The number of characters read or -1 if the end of stream.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     @Override
     public int read(final char[] chr) throws IOException {
@@ -188,13 +192,13 @@ public abstract class ProxyReader extends FilterReader {
     }
 
     /**
-     * Invokes the delegate's {@code read(char[], int, int)} method.
+     * Reads characters into a portion of an array by invoking the delegate's {@link Reader#read(char[], int, int)} method.
      *
-     * @param chr the buffer to read the characters into.
+     * @param chr The buffer to read the characters into.
      * @param st The start offset.
      * @param len The number of bytes to read.
-     * @return the number of characters read or -1 if the end of stream.
-     * @throws IOException if an I/O error occurs.
+     * @return The number of characters read or -1 if the end of stream.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     @Override
     public int read(final char[] chr, final int st, final int len) throws IOException {
@@ -210,11 +214,11 @@ public abstract class ProxyReader extends FilterReader {
     }
 
     /**
-     * Invokes the delegate's {@code read(CharBuffer)} method.
+     * Attempts to read characters into the specified character buffer by invoking the delegate's {@link Reader#read(CharBuffer)} method.
      *
-     * @param target the char buffer to read the characters into.
-     * @return the number of characters read or -1 if the end of stream.
-     * @throws IOException if an I/O error occurs.
+     * @param target The char buffer to read the characters into.
+     * @return The number of characters read or -1 if the end of stream.
+     * @throws IOException Thrown if an I/O error occurs.
      * @since 2.0
      */
     @Override
@@ -231,10 +235,10 @@ public abstract class ProxyReader extends FilterReader {
     }
 
     /**
-     * Invokes the delegate's {@code ready()} method.
+     * Tells whether this stream is ready to be read by invoking the delegate's {@link Reader#ready()} method.
      *
      * @return true if the stream is ready to be read.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     @Override
     public boolean ready() throws IOException {
@@ -247,16 +251,18 @@ public abstract class ProxyReader extends FilterReader {
     }
 
     /**
-     * Invokes the delegate's {@code reset()} method.
+     * Resets the stream by invoking the delegate's {@link Reader#reset()} method.
      *
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     @Override
-    public synchronized void reset() throws IOException {
-        try {
-            in.reset();
-        } catch (final IOException e) {
-            handleIOException(e);
+    public void reset() throws IOException {
+        synchronized (lock) {
+            try {
+                in.reset();
+            } catch (final IOException e) {
+                handleIOException(e);
+            }
         }
     }
 
@@ -277,11 +283,11 @@ public abstract class ProxyReader extends FilterReader {
 
 
     /**
-     * Invokes the delegate's {@code skip(long)} method.
+     * Skips characters by invoking the delegate's {@link Reader#skip(long)} method.
      *
-     * @param ln the number of bytes to skip.
-     * @return the number of bytes to skipped or EOF if the end of stream.
-     * @throws IOException if an I/O error occurs.
+     * @param ln The number of bytes to skip.
+     * @return The number of bytes to skipped or EOF if the end of stream.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     @Override
     public long skip(final long ln) throws IOException {
@@ -299,7 +305,7 @@ public abstract class ProxyReader extends FilterReader {
      * Use with caution.
      * </p>
      *
-     * @return the underlying {@link Reader}.
+     * @return The underlying {@link Reader}.
      * @since 2.22.0
      */
     public Reader unwrap() {

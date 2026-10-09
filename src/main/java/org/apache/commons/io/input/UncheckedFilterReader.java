@@ -85,7 +85,7 @@ public final class UncheckedFilterReader extends FilterReader {
          * <li>{@link #getReader()}</li>
          * </ul>
          *
-         * @return a new instance.
+         * @return A new instance.
          * @throws UnsupportedOperationException if the origin cannot provide a {@link Reader}.
          * @throws IllegalStateException if the {@code origin} is {@code null}.
          * @see #getReader()
@@ -102,7 +102,7 @@ public final class UncheckedFilterReader extends FilterReader {
     /**
      * Constructs a new {@link Builder}.
      *
-     * @return a new {@link Builder}.
+     * @return A new {@link Builder}.
      */
     public static Builder builder() {
         return new Builder();
@@ -111,7 +111,7 @@ public final class UncheckedFilterReader extends FilterReader {
     /**
      * Constructs a new filtered reader.
      *
-     * @param builder a Builder object providing the underlying stream.
+     * @param builder A Builder object providing the underlying stream.
      * @throws IOException          if an I/O error occurs.
      * @throws NullPointerException if {@code reader} is {@code null}.
      */

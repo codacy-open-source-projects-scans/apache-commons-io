@@ -40,8 +40,8 @@ import org.apache.commons.io.file.PathUtils;
  * buffer size checker, a buffer size default, buffer size maximum, Charset, Charset default, default size checker, and open options. A subclass may use all,
  * some, or none of these properties in building instances of {@code T}.
  *
- * @param <T> the type of instances to build.
- * @param <B> the type of builder subclass.
+ * @param <T> The type of instances to build.
+ * @param <B> The type of builder subclass.
  * @since 2.12.0
  */
 public abstract class AbstractStreamBuilder<T, B extends AbstractStreamBuilder<T, B>> extends AbstractOriginSupplier<T, B> {
@@ -97,8 +97,8 @@ public abstract class AbstractStreamBuilder<T, B extends AbstractStreamBuilder<T
     /**
      * Applies the buffer size request.
      *
-     * @param size the size request.
-     * @return the size to use, usually the input, or can throw an unchecked exception, like {@link IllegalArgumentException}.
+     * @param size The size request.
+     * @return The size to use, usually the input, or can throw an unchecked exception, like {@link IllegalArgumentException}.
      */
     private int checkBufferSize(final int size) {
         return bufferSizeChecker.applyAsInt(size);
@@ -107,7 +107,7 @@ public abstract class AbstractStreamBuilder<T, B extends AbstractStreamBuilder<T
     /**
      * Gets the buffer size, defaults to {@link IOUtils#DEFAULT_BUFFER_SIZE} ({@value IOUtils#DEFAULT_BUFFER_SIZE}).
      *
-     * @return the buffer size, defaults to {@link IOUtils#DEFAULT_BUFFER_SIZE} ({@value IOUtils#DEFAULT_BUFFER_SIZE}).
+     * @return The buffer size, defaults to {@link IOUtils#DEFAULT_BUFFER_SIZE} ({@value IOUtils#DEFAULT_BUFFER_SIZE}).
      */
     public int getBufferSize() {
         return bufferSize;
@@ -116,7 +116,7 @@ public abstract class AbstractStreamBuilder<T, B extends AbstractStreamBuilder<T
     /**
      * Gets the buffer size default, defaults to {@link IOUtils#DEFAULT_BUFFER_SIZE} ({@value IOUtils#DEFAULT_BUFFER_SIZE}).
      *
-     * @return the buffer size default, defaults to {@link IOUtils#DEFAULT_BUFFER_SIZE} ({@value IOUtils#DEFAULT_BUFFER_SIZE}).
+     * @return The buffer size default, defaults to {@link IOUtils#DEFAULT_BUFFER_SIZE} ({@value IOUtils#DEFAULT_BUFFER_SIZE}).
      */
     public int getBufferSizeDefault() {
         return bufferSizeDefault;
@@ -170,7 +170,7 @@ public abstract class AbstractStreamBuilder<T, B extends AbstractStreamBuilder<T
     /**
      * Gets the Charset, defaults to {@link Charset#defaultCharset()}.
      *
-     * @return the Charset, defaults to {@link Charset#defaultCharset()}.
+     * @return The Charset, defaults to {@link Charset#defaultCharset()}.
      */
     public Charset getCharset() {
         return charset;
@@ -179,7 +179,7 @@ public abstract class AbstractStreamBuilder<T, B extends AbstractStreamBuilder<T
     /**
      * Gets the Charset default, defaults to {@link Charset#defaultCharset()}.
      *
-     * @return the Charset default, defaults to {@link Charset#defaultCharset()}.
+     * @return The Charset default, defaults to {@link Charset#defaultCharset()}.
      */
     public Charset getCharsetDefault() {
         return charsetDefault;
@@ -216,7 +216,7 @@ public abstract class AbstractStreamBuilder<T, B extends AbstractStreamBuilder<T
     /**
      * Gets the OpenOption array.
      *
-     * @return the OpenOption array, this is not a defensive copy, modify at your own risk.
+     * @return The OpenOption array, this is not a defensive copy, modify at your own risk.
      */
     public OpenOption[] getOpenOptions() {
         return openOptions;
@@ -299,7 +299,7 @@ public abstract class AbstractStreamBuilder<T, B extends AbstractStreamBuilder<T
      * Subclasses may ignore this setting.
      * </p>
      *
-     * @param bufferSize the buffer size, 0 resets to the default from {@link #getBufferSizeDefault()}.
+     * @param bufferSize The buffer size, 0 resets to the default from {@link #getBufferSizeDefault()}.
      * @return {@code this} instance.
      */
     public B setBufferSize(final int bufferSize) {
@@ -313,7 +313,7 @@ public abstract class AbstractStreamBuilder<T, B extends AbstractStreamBuilder<T
      * Subclasses may ignore this setting.
      * </p>
      *
-     * @param bufferSize the buffer size, null resets to the default from {@link #getBufferSizeDefault()}.
+     * @param bufferSize The buffer size, null resets to the default from {@link #getBufferSizeDefault()}.
      * @return {@code this} instance.
      */
     public B setBufferSize(final Integer bufferSize) {
@@ -324,7 +324,7 @@ public abstract class AbstractStreamBuilder<T, B extends AbstractStreamBuilder<T
     /**
      * Sets the buffer size checker function. Throws a {@link IllegalArgumentException} by default.
      *
-     * @param bufferSizeChecker the buffer size checker function. null resets to the default behavior.
+     * @param bufferSizeChecker The buffer size checker function. null resets to the default behavior.
      * @return {@code this} instance.
      * @since 2.14.0
      */
@@ -339,7 +339,7 @@ public abstract class AbstractStreamBuilder<T, B extends AbstractStreamBuilder<T
      * Subclasses may ignore this setting.
      * </p>
      *
-     * @param bufferSizeDefault the buffer size, 0 resets to the default {@link IOUtils#DEFAULT_BUFFER_SIZE}.
+     * @param bufferSizeDefault The buffer size, 0 resets to the default {@link IOUtils#DEFAULT_BUFFER_SIZE}.
      * @return {@code this} instance.
      */
     protected B setBufferSizeDefault(final int bufferSizeDefault) {
@@ -366,7 +366,7 @@ public abstract class AbstractStreamBuilder<T, B extends AbstractStreamBuilder<T
      * Subclasses may ignore this setting.
      * </p>
      *
-     * @param charset the Charset, null resets to the default.
+     * @param charset The Charset, null resets to the default.
      * @return {@code this} instance.
      */
     public B setCharset(final Charset charset) {
@@ -380,7 +380,7 @@ public abstract class AbstractStreamBuilder<T, B extends AbstractStreamBuilder<T
      * Subclasses may ignore this setting.
      * </p>
      *
-     * @param charset the Charset name, null resets to the default.
+     * @param charset The Charset name, null resets to the default.
      * @return {@code this} instance.
      */
     public B setCharset(final String charset) {
@@ -393,7 +393,7 @@ public abstract class AbstractStreamBuilder<T, B extends AbstractStreamBuilder<T
      * Subclasses may ignore this setting.
      * </p>
      *
-     * @param defaultCharset the Charset name, null resets to the default.
+     * @param defaultCharset The Charset name, null resets to the default.
      * @return {@code this} instance.
      */
     protected B setCharsetDefault(final Charset defaultCharset) {
@@ -410,7 +410,7 @@ public abstract class AbstractStreamBuilder<T, B extends AbstractStreamBuilder<T
      * Subclasses may ignore this setting.
      * </p>
      *
-     * @param openOptions the OpenOption[] name, null resets to the default, a defensive copy is made.
+     * @param openOptions The OpenOption[] name, null resets to the default, a defensive copy is made.
      * @return {@code this} instance.
      * @since 2.13.0
      * @see #setInputStream(InputStream)

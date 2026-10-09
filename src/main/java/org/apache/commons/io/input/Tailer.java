@@ -170,8 +170,8 @@ public class Tailer implements Runnable, AutoCloseable {
         /**
          * Creates a new daemon thread.
          *
-         * @param runnable the thread's runnable.
-         * @return a new daemon thread.
+         * @param runnable The thread's runnable.
+         * @return A new daemon thread.
          */
         private static Thread newDaemonThread(final Runnable runnable) {
             final Thread thread = new Thread(runnable, "commons-io-tailer");
@@ -211,7 +211,7 @@ public class Tailer implements Runnable, AutoCloseable {
          * <li>reOpen</li>
          * </ul>
          *
-         * @return a new instance.
+         * @return A new instance.
          * @see #getUnchecked()
          */
         @Override
@@ -226,7 +226,7 @@ public class Tailer implements Runnable, AutoCloseable {
         /**
          * Sets the delay duration. null resets to the default delay of one second.
          *
-         * @param delayDuration the delay between checks of the file for new content.
+         * @param delayDuration The delay between checks of the file for new content.
          * @return {@code this} instance.
          */
         public Builder setDelayDuration(final Duration delayDuration) {
@@ -237,7 +237,7 @@ public class Tailer implements Runnable, AutoCloseable {
         /**
          * Sets the executor service to use when startThread is true.
          *
-         * @param executorService the executor service to use when startThread is true.
+         * @param executorService The executor service to use when startThread is true.
          * @return {@code this} instance.
          */
         public Builder setExecutorService(final ExecutorService executorService) {
@@ -297,7 +297,7 @@ public class Tailer implements Runnable, AutoCloseable {
         /**
          * Sets the tailable.
          *
-         * @param tailable the tailable.
+         * @param tailable The tailable.
          * @return {@code this} instance.
          */
         public Builder setTailable(final Tailable tailable) {
@@ -308,7 +308,7 @@ public class Tailer implements Runnable, AutoCloseable {
         /**
          * Sets the listener.
          *
-         * @param tailerListener the listener.
+         * @param tailerListener The listener.
          * @return {@code this} instance.
          */
         public Builder setTailerListener(final TailerListener tailerListener) {
@@ -372,8 +372,8 @@ public class Tailer implements Runnable, AutoCloseable {
         /**
          * Gets the current offset in this tailable.
          *
-         * @return the offset from the beginning of the tailable, in bytes, at which the next read or write occurs.
-         * @throws IOException if an I/O error occurs.
+         * @return The offset from the beginning of the tailable, in bytes, at which the next read or write occurs.
+         * @throws IOException Thrown if an I/O error occurs.
          */
         long getPointer() throws IOException;
 
@@ -381,8 +381,8 @@ public class Tailer implements Runnable, AutoCloseable {
          * Reads up to {@code b.length} bytes of data from this tailable into an array of bytes. This method blocks until at
          * least one byte of input is available.
          *
-         * @param b the buffer into which the data is read.
-         * @return the total number of bytes read into the buffer, or {@code -1} if there is no more data because the end of
+         * @param b The buffer into which the data is read.
+         * @return The total number of bytes read into the buffer, or {@code -1} if there is no more data because the end of
          *         this tailable has been reached.
          * @throws IOException If the first byte cannot be read for any reason other than end of tailable, or if the random
          *         access tailable has been closed, or if some other I/O error occurs.
@@ -395,9 +395,9 @@ public class Tailer implements Runnable, AutoCloseable {
          * change the tailable length. The tailable length will change only by writing after the offset has been set beyond the
          * end of the tailable.
          *
-         * @param pos the offset position, measured in bytes from the beginning of the tailable, at which to set the tailable
+         * @param pos The offset position, measured in bytes from the beginning of the tailable, at which to set the tailable
          *        pointer.
-         * @throws IOException if {@code pos} is less than {@code 0} or if an I/O error occurs.
+         * @throws IOException Thrown if {@code pos} is less than {@code 0} or if an I/O error occurs.
          */
         void seek(long pos) throws IOException;
     }
@@ -412,8 +412,8 @@ public class Tailer implements Runnable, AutoCloseable {
         /**
          * Creates a random access file stream to read.
          *
-         * @param mode the access mode, by default this is for {@link RandomAccessFile}.
-         * @return a random access file stream to read.
+         * @param mode The access mode, by default this is for {@link RandomAccessFile}.
+         * @return A random access file stream to read.
          * @throws FileNotFoundException if the tailable object does not exist.
          */
         RandomAccessResourceBridge getRandomAccess(String mode) throws FileNotFoundException;
@@ -421,9 +421,9 @@ public class Tailer implements Runnable, AutoCloseable {
         /**
          * Tests if this tailable is newer than the specified {@link FileTime}.
          *
-         * @param fileTime the file time reference.
+         * @param fileTime The file time reference.
          * @return true if the {@link File} exists and has been modified after the given {@link FileTime}.
-         * @throws IOException if an I/O error occurs.
+         * @throws IOException Thrown if an I/O error occurs.
          */
         boolean isNewer(FileTime fileTime) throws IOException;
 
@@ -431,7 +431,7 @@ public class Tailer implements Runnable, AutoCloseable {
          * Gets the last modification {@link FileTime}.
          *
          * @return See {@link java.nio.file.Files#getLastModifiedTime(Path, LinkOption...)}.
-         * @throws IOException if an I/O error occurs.
+         * @throws IOException Thrown if an I/O error occurs.
          */
         FileTime lastModifiedFileTime() throws IOException;
 
@@ -440,7 +440,7 @@ public class Tailer implements Runnable, AutoCloseable {
          *
          * @return The size, in bytes, of this tailable, or {@code 0} if the file does not exist. Some operating systems may
          *         return {@code 0} for path names denoting system-dependent entities such as devices or pipes.
-         * @throws IOException if an I/O error occurs.
+         * @throws IOException Thrown if an I/O error occurs.
          */
         long size() throws IOException;
     }
@@ -512,10 +512,10 @@ public class Tailer implements Runnable, AutoCloseable {
     /**
      * Creates and starts a Tailer for the given file.
      *
-     * @param file the file to follow.
-     * @param charset the character set to use for reading the file.
-     * @param tailerListener the TailerListener to use.
-     * @param delayMillis the delay between checks of the file for new content in milliseconds.
+     * @param file The file to follow.
+     * @param charset The character set to use for reading the file.
+     * @param tailerListener The TailerListener to use.
+     * @param delayMillis The delay between checks of the file for new content in milliseconds.
      * @param end Set to true to tail from the end of the file, false to tail from the beginning of the file.
      * @param reOpen whether to close/reopen the file between chunks.
      * @param bufferSize buffer size.
@@ -541,8 +541,8 @@ public class Tailer implements Runnable, AutoCloseable {
     /**
      * Creates and starts a Tailer for the given file, starting at the beginning of the file with the default delay of 1.0s
      *
-     * @param file the file to follow.
-     * @param tailerListener the TailerListener to use.
+     * @param file The file to follow.
+     * @param tailerListener The TailerListener to use.
      * @return The new tailer.
      * @deprecated Use {@link #builder()}, {@link Builder}, and {@link Builder#get()}.
      */
@@ -559,9 +559,9 @@ public class Tailer implements Runnable, AutoCloseable {
     /**
      * Creates and starts a Tailer for the given file, starting at the beginning of the file
      *
-     * @param file the file to follow.
-     * @param tailerListener the TailerListener to use.
-     * @param delayMillis the delay between checks of the file for new content in milliseconds.
+     * @param file The file to follow.
+     * @param tailerListener The TailerListener to use.
+     * @param delayMillis The delay between checks of the file for new content in milliseconds.
      * @return The new tailer.
      * @deprecated Use {@link #builder()}, {@link Builder}, and {@link Builder#get()}.
      */
@@ -579,9 +579,9 @@ public class Tailer implements Runnable, AutoCloseable {
     /**
      * Creates and starts a Tailer for the given file with default buffer size.
      *
-     * @param file the file to follow.
-     * @param tailerListener the TailerListener to use.
-     * @param delayMillis the delay between checks of the file for new content in milliseconds.
+     * @param file The file to follow.
+     * @param tailerListener The TailerListener to use.
+     * @param delayMillis The delay between checks of the file for new content in milliseconds.
      * @param end Set to true to tail from the end of the file, false to tail from the beginning of the file.
      * @return The new tailer.
      * @deprecated Use {@link #builder()}, {@link Builder}, and {@link Builder#get()}.
@@ -601,9 +601,9 @@ public class Tailer implements Runnable, AutoCloseable {
     /**
      * Creates and starts a Tailer for the given file with default buffer size.
      *
-     * @param file the file to follow.
-     * @param tailerListener the TailerListener to use.
-     * @param delayMillis the delay between checks of the file for new content in milliseconds.
+     * @param file The file to follow.
+     * @param tailerListener The TailerListener to use.
+     * @param delayMillis The delay between checks of the file for new content in milliseconds.
      * @param end Set to true to tail from the end of the file, false to tail from the beginning of the file.
      * @param reOpen whether to close/reopen the file between chunks.
      * @return The new tailer.
@@ -625,9 +625,9 @@ public class Tailer implements Runnable, AutoCloseable {
     /**
      * Creates and starts a Tailer for the given file.
      *
-     * @param file the file to follow.
-     * @param tailerListener the TailerListener to use.
-     * @param delayMillis the delay between checks of the file for new content in milliseconds.
+     * @param file The file to follow.
+     * @param tailerListener The TailerListener to use.
+     * @param delayMillis The delay between checks of the file for new content in milliseconds.
      * @param end Set to true to tail from the end of the file, false to tail from the beginning of the file.
      * @param reOpen whether to close/reopen the file between chunks.
      * @param bufferSize buffer size.
@@ -652,9 +652,9 @@ public class Tailer implements Runnable, AutoCloseable {
     /**
      * Creates and starts a Tailer for the given file.
      *
-     * @param file the file to follow.
-     * @param tailerListener the TailerListener to use.
-     * @param delayMillis the delay between checks of the file for new content in milliseconds.
+     * @param file The file to follow.
+     * @param tailerListener The TailerListener to use.
+     * @param delayMillis The delay between checks of the file for new content in milliseconds.
      * @param end Set to true to tail from the end of the file, false to tail from the beginning of the file.
      * @param bufferSize buffer size.
      * @return The new tailer.
@@ -739,10 +739,10 @@ public class Tailer implements Runnable, AutoCloseable {
     /**
      * Creates a Tailer for the given file, with a specified buffer size.
      *
-     * @param file the file to follow.
-     * @param charset the Charset to be used for reading the file.
-     * @param tailerListener the TailerListener to use.
-     * @param delayMillis the delay between checks of the file for new content in milliseconds.
+     * @param file The file to follow.
+     * @param charset The Charset to be used for reading the file.
+     * @param tailerListener The TailerListener to use.
+     * @param delayMillis The delay between checks of the file for new content in milliseconds.
      * @param end Set to true to tail from the end of the file, false to tail from the beginning of the file.
      * @param reOpen if true, close and reopen the file between reading chunks.
      * @param bufSize Buffer size.
@@ -758,7 +758,7 @@ public class Tailer implements Runnable, AutoCloseable {
      * Creates a Tailer for the given file, starting from the beginning, with the default delay of 1.0s.
      *
      * @param file The file to follow.
-     * @param tailerListener the TailerListener to use.
+     * @param tailerListener The TailerListener to use.
      * @deprecated Use {@link #builder()}, {@link Builder}, and {@link Builder#get()}.
      */
     @Deprecated
@@ -769,9 +769,9 @@ public class Tailer implements Runnable, AutoCloseable {
     /**
      * Creates a Tailer for the given file, starting from the beginning.
      *
-     * @param file the file to follow.
-     * @param tailerListener the TailerListener to use.
-     * @param delayMillis the delay between checks of the file for new content in milliseconds.
+     * @param file The file to follow.
+     * @param tailerListener The TailerListener to use.
+     * @param delayMillis The delay between checks of the file for new content in milliseconds.
      * @deprecated Use {@link #builder()}, {@link Builder}, and {@link Builder#get()}.
      */
     @Deprecated
@@ -782,9 +782,9 @@ public class Tailer implements Runnable, AutoCloseable {
     /**
      * Creates a Tailer for the given file, with a delay other than the default 1.0s.
      *
-     * @param file the file to follow.
-     * @param tailerListener the TailerListener to use.
-     * @param delayMillis the delay between checks of the file for new content in milliseconds.
+     * @param file The file to follow.
+     * @param tailerListener The TailerListener to use.
+     * @param delayMillis The delay between checks of the file for new content in milliseconds.
      * @param end Set to true to tail from the end of the file, false to tail from the beginning of the file.
      * @deprecated Use {@link #builder()}, {@link Builder}, and {@link Builder#get()}.
      */
@@ -796,9 +796,9 @@ public class Tailer implements Runnable, AutoCloseable {
     /**
      * Creates a Tailer for the given file, with a delay other than the default 1.0s.
      *
-     * @param file the file to follow.
-     * @param tailerListener the TailerListener to use.
-     * @param delayMillis the delay between checks of the file for new content in milliseconds.
+     * @param file The file to follow.
+     * @param tailerListener The TailerListener to use.
+     * @param delayMillis The delay between checks of the file for new content in milliseconds.
      * @param end Set to true to tail from the end of the file, false to tail from the beginning of the file.
      * @param reOpen if true, close and reopen the file between reading chunks.
      * @deprecated Use {@link #builder()}, {@link Builder}, and {@link Builder#get()}.
@@ -811,9 +811,9 @@ public class Tailer implements Runnable, AutoCloseable {
     /**
      * Creates a Tailer for the given file, with a specified buffer size.
      *
-     * @param file the file to follow.
-     * @param tailerListener the TailerListener to use.
-     * @param delayMillis the delay between checks of the file for new content in milliseconds.
+     * @param file The file to follow.
+     * @param tailerListener The TailerListener to use.
+     * @param delayMillis The delay between checks of the file for new content in milliseconds.
      * @param end Set to true to tail from the end of the file, false to tail from the beginning of the file.
      * @param reOpen if true, close and reopen the file between reading chunks.
      * @param bufferSize Buffer size.
@@ -827,9 +827,9 @@ public class Tailer implements Runnable, AutoCloseable {
     /**
      * Creates a Tailer for the given file, with a specified buffer size.
      *
-     * @param file the file to follow.
-     * @param tailerListener the TailerListener to use.
-     * @param delayMillis the delay between checks of the file for new content in milliseconds.
+     * @param file The file to follow.
+     * @param tailerListener The TailerListener to use.
+     * @param delayMillis The delay between checks of the file for new content in milliseconds.
      * @param end Set to true to tail from the end of the file, false to tail from the beginning of the file.
      * @param bufferSize Buffer size.
      * @deprecated Use {@link #builder()}, {@link Builder}, and {@link Builder#get()}.
@@ -842,10 +842,10 @@ public class Tailer implements Runnable, AutoCloseable {
     /**
      * Creates a Tailer for the given file, with a specified buffer size.
      *
-     * @param tailable the file to follow.
-     * @param charset the Charset to be used for reading the file.
-     * @param tailerListener the TailerListener to use.
-     * @param delayDuration the delay between checks of the file for new content in milliseconds.
+     * @param tailable The file to follow.
+     * @param charset The Charset to be used for reading the file.
+     * @param tailerListener The TailerListener to use.
+     * @param delayDuration The delay between checks of the file for new content in milliseconds.
      * @param tailAtEnd Set to true to tail from the end of the file, false to tail from the beginning of the file.
      * @param reOpen if true, close and reopen the file between reading chunks.
      * @param ignoreTouch if true, file timestamp changes without content change get ignored.
@@ -876,7 +876,7 @@ public class Tailer implements Runnable, AutoCloseable {
     /**
      * Gets the delay in milliseconds.
      *
-     * @return the delay in milliseconds.
+     * @return The delay in milliseconds.
      * @deprecated Use {@link #getDelayDuration()}.
      */
     @Deprecated
@@ -887,7 +887,7 @@ public class Tailer implements Runnable, AutoCloseable {
     /**
      * Gets the delay Duration.
      *
-     * @return the delay Duration.
+     * @return The delay Duration.
      * @since 2.12.0
      */
     public Duration getDelayDuration() {
@@ -897,7 +897,7 @@ public class Tailer implements Runnable, AutoCloseable {
     /**
      * Gets the file.
      *
-     * @return the file.
+     * @return The file.
      * @throws IllegalStateException if constructed using a user provided {@link Tailable} implementation.
      */
     public File getFile() {
@@ -920,7 +920,7 @@ public class Tailer implements Runnable, AutoCloseable {
     /**
      * Gets the Tailable.
      *
-     * @return the Tailable.
+     * @return The Tailable.
      * @since 2.12.0
      */
     public Tailable getTailable() {
@@ -932,7 +932,7 @@ public class Tailer implements Runnable, AutoCloseable {
      *
      * @param reader The file to read.
      * @return The new position after the lines have been read.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     private long readLines(final RandomAccessResourceBridge reader) throws IOException {
         try (ByteArrayOutputStream lineBuf = new ByteArrayOutputStream(64)) {

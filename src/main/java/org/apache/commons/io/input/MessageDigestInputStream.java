@@ -95,7 +95,7 @@ public final class MessageDigestInputStream extends ObservableInputStream {
          * <li>{@link MessageDigest}</li>
          * </ul>
          *
-         * @return a new instance.
+         * @return A new instance.
          * @throws NullPointerException if messageDigest is null.
          * @throws IllegalStateException         if the {@code origin} is {@code null}.
          * @throws UnsupportedOperationException if the origin cannot be converted to an {@link InputStream}.
@@ -115,7 +115,7 @@ public final class MessageDigestInputStream extends ObservableInputStream {
          * <em>The MD5 cryptographic algorithm is weak and should not be used.</em>
          * </p>
          *
-         * @param messageDigest the message digest.
+         * @param messageDigest The message digest.
          * @return {@code this} instance.
          */
         public Builder setMessageDigest(final MessageDigest messageDigest) {
@@ -129,7 +129,7 @@ public final class MessageDigestInputStream extends ObservableInputStream {
          * <em>The MD5 cryptographic algorithm is weak and should not be used.</em>
          * </p>
          *
-         * @param algorithm the name of the algorithm. See the MessageDigest section in the
+         * @param algorithm The name of the algorithm. See the MessageDigest section in the
          *                  <a href= "https://docs.oracle.com/javase/8/docs/technotes/guides/security/StandardNames.html#MessageDigest"> Java Cryptography
          *                  Architecture Standard Algorithm Name Documentation</a> for information about standard algorithm names.
          * @return {@code this} instance.
@@ -152,7 +152,7 @@ public final class MessageDigestInputStream extends ObservableInputStream {
         /**
          * Constructs an MessageDigestMaintainingObserver for the given MessageDigest.
          *
-         * @param messageDigest the message digest to use.
+         * @param messageDigest The message digest to use.
          * @throws NullPointerException if messageDigest is null.
          */
         public MessageDigestMaintainingObserver(final MessageDigest messageDigest) {
@@ -173,7 +173,7 @@ public final class MessageDigestInputStream extends ObservableInputStream {
     /**
      * Constructs a new {@link Builder}.
      *
-     * @return a new {@link Builder}.
+     * @return A new {@link Builder}.
      */
     public static Builder builder() {
         return new Builder();
@@ -205,7 +205,7 @@ public final class MessageDigestInputStream extends ObservableInputStream {
      * data has been read, if that is what you want. The easiest way to do so is by invoking {@link #consume()}.
      * </p>
      *
-     * @return the message digest used, never null.
+     * @return The message digest used, never null.
      */
     public MessageDigest getMessageDigest() {
         return messageDigest;

@@ -58,7 +58,7 @@ public class ProxyOutputStream extends FilterOutputStream {
          * <li>{@link #getOutputStream()} is the target aspect.</li>
          * </ul>
          *
-         * @return a new instance.
+         * @return A new instance.
          * @throws IllegalStateException         if the {@code origin} is {@code null}.
          * @throws UnsupportedOperationException if the origin cannot be converted to an {@link OutputStream}.
          * @throws IOException                   if an I/O error occurs converting to an {@link OutputStream} using {@link #getOutputStream()}.
@@ -80,7 +80,7 @@ public class ProxyOutputStream extends FilterOutputStream {
     /**
      * Constructs a new ProxyOutputStream.
      *
-     * @param delegate the OutputStream to delegate to.
+     * @param delegate The OutputStream to delegate to.
      */
     public ProxyOutputStream(final OutputStream delegate) {
         // the delegate is stored in a protected superclass variable named 'out'
@@ -96,7 +96,7 @@ public class ProxyOutputStream extends FilterOutputStream {
      * </p>
      *
      * @param n number of bytes written.
-     * @throws IOException if the post-processing fails.
+     * @throws IOException Thrown if the post-processing fails.
      * @since 2.0
      */
     @SuppressWarnings("unused") // Possibly thrown from subclasses.
@@ -113,7 +113,7 @@ public class ProxyOutputStream extends FilterOutputStream {
      * </p>
      *
      * @param n number of bytes to be written.
-     * @throws IOException if the pre-processing fails.
+     * @throws IOException Thrown if the pre-processing fails.
      * @since 2.0
      */
     @SuppressWarnings("unused") // Possibly thrown from subclasses.
@@ -124,7 +124,7 @@ public class ProxyOutputStream extends FilterOutputStream {
     /**
      * Invokes the delegate's {@code close()} method.
      *
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     @Override
     public void close() throws IOException {
@@ -134,7 +134,7 @@ public class ProxyOutputStream extends FilterOutputStream {
     /**
      * Invokes the delegate's {@code flush()} method.
      *
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     @Override
     public void flush() throws IOException {
@@ -152,7 +152,7 @@ public class ProxyOutputStream extends FilterOutputStream {
      * </p>
      *
      * @param e The IOException thrown.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      * @since 2.0
      */
     protected void handleIOException(final IOException e) throws IOException {
@@ -165,7 +165,7 @@ public class ProxyOutputStream extends FilterOutputStream {
      * Use with caution.
      * </p>
      *
-     * @param out the underlying output stream.
+     * @param out The underlying output stream.
      * @return {@code this} instance.
      * @since 2.19.0
      */
@@ -180,7 +180,7 @@ public class ProxyOutputStream extends FilterOutputStream {
      * Use with caution.
      * </p>
      *
-     * @return the underlying {@link OutputStream}.
+     * @return The underlying {@link OutputStream}.
      * @since 2.22.0
      */
     public OutputStream unwrap() {
@@ -190,8 +190,8 @@ public class ProxyOutputStream extends FilterOutputStream {
     /**
      * Invokes the delegate's {@code write(byte[])} method.
      *
-     * @param b the bytes to write.
-     * @throws IOException if an I/O error occurs.
+     * @param b The bytes to write.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     @Override
     public void write(final byte[] b) throws IOException {
@@ -208,10 +208,10 @@ public class ProxyOutputStream extends FilterOutputStream {
     /**
      * Invokes the delegate's {@code write(byte[])} method.
      *
-     * @param b   the bytes to write.
+     * @param b   The bytes to write.
      * @param off The start offset.
      * @param len The number of bytes to write.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     @Override
     public void write(final byte[] b, final int off, final int len) throws IOException {
@@ -227,8 +227,8 @@ public class ProxyOutputStream extends FilterOutputStream {
     /**
      * Invokes the delegate's {@code write(int)} method.
      *
-     * @param b the byte to write.
-     * @throws IOException if an I/O error occurs.
+     * @param b The byte to write.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     @Override
     public void write(final int b) throws IOException {
@@ -244,11 +244,11 @@ public class ProxyOutputStream extends FilterOutputStream {
     /**
      * Invokes the delegate's {@code write(byte[])} method for the {@code repeat} count.
      *
-     * @param b      the bytes to write.
+     * @param b      The bytes to write.
      * @param off    The start offset.
      * @param len    The number of bytes to write.
      * @param repeat How many times to write the bytes in {@code b}.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      * @since 2.21.0
      */
     public void writeRepeat(final byte[] b, final int off, final int len, final long repeat) throws IOException {
@@ -261,9 +261,9 @@ public class ProxyOutputStream extends FilterOutputStream {
     /**
      * Invokes the delegate's {@code write(byte[])} method for the {@code repeat} count.
      *
-     * @param b      the bytes to write.
+     * @param b      The bytes to write.
      * @param repeat How many times to write the bytes in {@code b}.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      * @since 2.21.0
      */
     public void writeRepeat(final byte[] b, final long repeat) throws IOException {
@@ -276,9 +276,9 @@ public class ProxyOutputStream extends FilterOutputStream {
     /**
      * Invokes the delegate's {@code write(int)} method.
      *
-     * @param b      the byte to write.
+     * @param b      The byte to write.
      * @param repeat How many times to write the byte in {@code b}.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      * @since 2.21.0
      */
     public void writeRepeat(final int b, final long repeat) throws IOException {

@@ -131,7 +131,7 @@ public class ReaderInputStream extends AbstractInputStream {
          * <li>{@link CharsetEncoder}</li>
          * </ul>
          *
-         * @return a new instance.
+         * @return A new instance.
          * @throws UnsupportedOperationException if the origin cannot provide a {@link Reader}.
          * @throws IllegalStateException         if the {@code origin} is {@code null}.
          * @throws IOException                   if an I/O error occurs converting to a {@link Reader} using {@link #getReader()}.
@@ -159,7 +159,7 @@ public class ReaderInputStream extends AbstractInputStream {
         /**
          * Sets the charset encoder. Assumes that the caller has configured the encoder.
          *
-         * @param newEncoder the charset encoder, null resets to a default encoder.
+         * @param newEncoder The charset encoder, null resets to a default encoder.
          * @return {@code this} instance.
          */
         public Builder setCharsetEncoder(final CharsetEncoder newEncoder) {
@@ -173,7 +173,7 @@ public class ReaderInputStream extends AbstractInputStream {
     /**
      * Constructs a new {@link Builder}.
      *
-     * @return a new {@link Builder}.
+     * @return A new {@link Builder}.
      * @since 2.12.0
      */
     public static Builder builder() {
@@ -229,7 +229,7 @@ public class ReaderInputStream extends AbstractInputStream {
      * Constructs a new {@link ReaderInputStream} that uses the virtual machine's {@linkplain Charset#defaultCharset() default charset} with a default input
      * buffer size of {@value IOUtils#DEFAULT_BUFFER_SIZE} characters.
      *
-     * @param reader the target {@link Reader}
+     * @param reader The target {@link Reader}
      * @deprecated Use {@link ReaderInputStream#builder()} instead.
      */
     @Deprecated
@@ -244,8 +244,8 @@ public class ReaderInputStream extends AbstractInputStream {
      * The encoder created for the specified charset will use {@link CodingErrorAction#REPLACE} for malformed input and unmappable characters.
      * </p>
      *
-     * @param reader  the target {@link Reader}
-     * @param charset the charset encoding.
+     * @param reader  The target {@link Reader}
+     * @param charset The charset encoding.
      * @deprecated Use {@link ReaderInputStream#builder()} instead, will be protected for subclasses.
      */
     @Deprecated
@@ -260,9 +260,9 @@ public class ReaderInputStream extends AbstractInputStream {
      * The encoder created for the specified charset will use {@link CodingErrorAction#REPLACE} for malformed input and unmappable characters.
      * </p>
      *
-     * @param reader     the target {@link Reader}.
-     * @param charset    the charset encoding.
-     * @param bufferSize the size of the input buffer in number of characters.
+     * @param reader     The target {@link Reader}.
+     * @param charset    The charset encoding.
+     * @param bufferSize The size of the input buffer in number of characters.
      * @deprecated Use {@link ReaderInputStream#builder()} instead.
      */
     @Deprecated
@@ -278,8 +278,8 @@ public class ReaderInputStream extends AbstractInputStream {
      * an encoder which had already been in use.
      * </p>
      *
-     * @param reader         the target {@link Reader}
-     * @param charsetEncoder the charset encoder.
+     * @param reader         The target {@link Reader}
+     * @param charsetEncoder The charset encoder.
      * @since 2.1
      * @deprecated Use {@link ReaderInputStream#builder()} instead.
      */
@@ -296,9 +296,9 @@ public class ReaderInputStream extends AbstractInputStream {
      * an encoder which had already been in use.
      * </p>
      *
-     * @param reader         the target {@link Reader}
-     * @param charsetEncoder the charset encoder, null defaults to the default Charset encoder.
-     * @param bufferSize     the size of the input buffer in number of characters.
+     * @param reader         The target {@link Reader}
+     * @param charsetEncoder The charset encoder, null defaults to the default Charset encoder.
+     * @param bufferSize     The size of the input buffer in number of characters.
      * @since 2.1
      * @deprecated Use {@link ReaderInputStream#builder()} instead.
      */
@@ -319,8 +319,8 @@ public class ReaderInputStream extends AbstractInputStream {
      * The encoder created for the specified charset will use {@link CodingErrorAction#REPLACE} for malformed input and unmappable characters.
      * </p>
      *
-     * @param reader      the target {@link Reader}
-     * @param charsetName the name of the charset encoding.
+     * @param reader      The target {@link Reader}
+     * @param charsetName The name of the charset encoding.
      * @deprecated Use {@link ReaderInputStream#builder()} instead.
      */
     @Deprecated
@@ -335,9 +335,9 @@ public class ReaderInputStream extends AbstractInputStream {
      * The encoder created for the specified charset will use {@link CodingErrorAction#REPLACE} for malformed input and unmappable characters.
      * </p>
      *
-     * @param reader      the target {@link Reader}
-     * @param charsetName the name of the charset encoding, null maps to the default Charset.
-     * @param bufferSize  the size of the input buffer in number of characters.
+     * @param reader      The target {@link Reader}
+     * @param charsetName The name of the charset encoding, null maps to the default Charset.
+     * @param bufferSize  The size of the input buffer in number of characters.
      * @deprecated Use {@link ReaderInputStream#builder()} instead.
      */
     @Deprecated
@@ -356,7 +356,7 @@ public class ReaderInputStream extends AbstractInputStream {
     /**
      * Closes the stream. This method will cause the underlying {@link Reader} to be closed.
      *
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     @Override
     public void close() throws IOException {
@@ -389,11 +389,15 @@ public class ReaderInputStream extends AbstractInputStream {
         }
         encoderOut.compact();
         lastCoderResult = charsetEncoder.encode(encoderIn, encoderOut, endOfInput);
-        if (endOfInput) {
-            lastCoderResult = charsetEncoder.flush(encoderOut);
-        }
+        // IO-780: Check encode() errors before flush() overwrites lastCoderResult.
         if (lastCoderResult.isError()) {
             lastCoderResult.throwException();
+        }
+        if (endOfInput) {
+            lastCoderResult = charsetEncoder.flush(encoderOut);
+            if (lastCoderResult.isError()) {
+                lastCoderResult.throwException();
+            }
         }
         encoderOut.flip();
     }
@@ -401,7 +405,7 @@ public class ReaderInputStream extends AbstractInputStream {
     /**
      * Gets the CharsetEncoder.
      *
-     * @return the CharsetEncoder.
+     * @return The CharsetEncoder.
      */
     CharsetEncoder getCharsetEncoder() {
         return charsetEncoder;
@@ -411,7 +415,7 @@ public class ReaderInputStream extends AbstractInputStream {
      * Reads a single byte.
      *
      * @return either the byte read or {@code -1} if the end of the stream has been reached.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     @Override
     public int read() throws IOException {
@@ -430,10 +434,10 @@ public class ReaderInputStream extends AbstractInputStream {
     /**
      * Reads the specified number of bytes into an array.
      *
-     * @param b the byte array to read into, must not be {@code null}
-     * @return the number of bytes read or {@code -1} if the end of the stream has been reached.
+     * @param b The byte array to read into, must not be {@code null}
+     * @return The number of bytes read or {@code -1} if the end of the stream has been reached.
      * @throws NullPointerException if the byte array is {@code null}.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     @Override
     public int read(final byte[] b) throws IOException {
@@ -443,13 +447,13 @@ public class ReaderInputStream extends AbstractInputStream {
     /**
      * Reads the specified number of bytes into an array.
      *
-     * @param array the byte array to read into.
-     * @param off   the offset to start reading bytes into.
-     * @param len   the number of bytes to read.
-     * @return the number of bytes read or {@code -1} if the end of the stream has been reached.
+     * @param array The byte array to read into.
+     * @param off   The offset to start reading bytes into.
+     * @param len   The number of bytes to read.
+     * @return The number of bytes read or {@code -1} if the end of the stream has been reached.
      * @throws NullPointerException      if the byte array is {@code null}.
      * @throws IndexOutOfBoundsException if {@code off} or {@code len} are negative, or if {@code off + len} is greater than {@code array.length}.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     @Override
     public int read(final byte[] array, int off, int len) throws IOException {

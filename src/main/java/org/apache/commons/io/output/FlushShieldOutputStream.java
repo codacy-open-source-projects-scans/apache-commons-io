@@ -72,7 +72,7 @@ public final class FlushShieldOutputStream extends ProxyOutputStream {
         /**
          * Builds a new {@link FlushShieldOutputStream}.
          *
-         * @return a new instance.
+         * @return A new instance.
          * @throws IllegalStateException         if the {@code origin} is {@code null}.
          * @throws UnsupportedOperationException if the origin cannot be converted to an {@link OutputStream}.
          * @throws IOException                   if an I/O error occurs converting to an {@link OutputStream} using {@link #getOutputStream()}.
@@ -90,7 +90,7 @@ public final class FlushShieldOutputStream extends ProxyOutputStream {
     /**
      * Constructs a new builder of {@link FlushShieldOutputStream}.
      *
-     * @return a new builder of {@link FlushShieldOutputStream}.
+     * @return A new builder of {@link FlushShieldOutputStream}.
      */
     public static Builder builder() {
         return new Builder();
@@ -104,7 +104,7 @@ public final class FlushShieldOutputStream extends ProxyOutputStream {
     /**
      * Constructs a {@code FlushShieldOutputStream} filter for the specified underlying output stream.
      *
-     * @param out the underlying output stream to be assigned to the field {@code this.out} for later use, or {@code null} if this instance is to be created
+     * @param out The underlying output stream to be assigned to the field {@code this.out} for later use, or {@code null} if this instance is to be created
      *            without an underlying stream.
      */
     public FlushShieldOutputStream(final OutputStream out) {

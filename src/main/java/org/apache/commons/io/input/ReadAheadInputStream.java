@@ -11,6 +11,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.apache.commons.io.input;
 
 import static org.apache.commons.io.IOUtils.EOF;
@@ -95,7 +96,7 @@ public class ReadAheadInputStream extends FilterInputStream {
          * <li>{@link ExecutorService}, if not set, a single-threaded daemon executor service is used.</li>
          * </ul>
          *
-         * @return a new instance.
+         * @return A new instance.
          * @throws IllegalStateException         if the {@code origin} is {@code null}.
          * @throws UnsupportedOperationException if the origin cannot be converted to an {@link InputStream}.
          * @throws IOException                   if an I/O error occurs converting to an {@link InputStream} using {@link #getInputStream()}.
@@ -114,14 +115,13 @@ public class ReadAheadInputStream extends FilterInputStream {
          * If not set, a single-threaded daemon executor service is used.
          * </p>
          *
-         * @param executorService the executor service for the read-ahead thread, may be {@code null}.
+         * @param executorService The executor service for the read-ahead thread, may be {@code null}.
          * @return {@code this} instance.
          */
         public Builder setExecutorService(final ExecutorService executorService) {
             this.executorService = executorService;
             return this;
         }
-
     }
 
     private static final ThreadLocal<byte[]> BYTE_ARRAY_1 = ThreadLocal.withInitial(() -> new byte[1]);
@@ -129,7 +129,7 @@ public class ReadAheadInputStream extends FilterInputStream {
     /**
      * Constructs a new {@link Builder}.
      *
-     * @return a new {@link Builder}.
+     * @return A new {@link Builder}.
      * @since 2.12.0
      */
     public static Builder builder() {
@@ -139,8 +139,8 @@ public class ReadAheadInputStream extends FilterInputStream {
     /**
      * Constructs a new daemon thread.
      *
-     * @param r the thread's runnable.
-     * @return a new daemon thread.
+     * @param r The thread's runnable.
+     * @return A new daemon thread.
      */
     private static Thread newDaemonThread(final Runnable r) {
         final Thread thread = new Thread(r, "commons-io-read-ahead");
@@ -151,7 +151,7 @@ public class ReadAheadInputStream extends FilterInputStream {
     /**
      * Constructs a new daemon executor service.
      *
-     * @return a new daemon executor service.
+     * @return A new daemon executor service.
      */
     private static ExecutorService newExecutorService() {
         return Executors.newSingleThreadExecutor(ReadAheadInputStream::newDaemonThread);
@@ -374,14 +374,13 @@ public class ReadAheadInputStream extends FilterInputStream {
         }
         len = Math.min(len, activeBuffer.remaining());
         activeBuffer.get(b, offset, len);
-
         return len;
     }
 
     /**
      * Reads data from underlyingInputStream to readAheadBuffer asynchronously.
      *
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     private void readAsync() throws IOException {
         stateChangeLock.lock();
@@ -411,7 +410,6 @@ public class ReadAheadInputStream extends FilterInputStream {
             } finally {
                 stateChangeLock.unlock();
             }
-
             // Please note that it is safe to release the lock and read into the read ahead buffer
             // because either of following two conditions will hold:
             //
@@ -501,9 +499,9 @@ public class ReadAheadInputStream extends FilterInputStream {
      * Internal skip function which should be called only from skip(). The assumption is that the stateChangeLock is already acquired in the caller before
      * calling this function.
      *
-     * @param n the number of bytes to be skipped.
-     * @return the actual number of bytes skipped.
-     * @throws IOException if an I/O error occurs.
+     * @param n The number of bytes to be skipped.
+     * @return The actual number of bytes skipped.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     private long skipInternal(final long n) throws IOException {
         if (!stateChangeLock.isLocked()) {

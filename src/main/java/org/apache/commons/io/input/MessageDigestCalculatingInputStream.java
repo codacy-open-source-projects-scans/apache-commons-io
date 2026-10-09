@@ -96,7 +96,7 @@ public class MessageDigestCalculatingInputStream extends ObservableInputStream {
          * <li>{@link MessageDigest}</li>
          * </ul>
          *
-         * @return a new instance.
+         * @return A new instance.
          * @throws NullPointerException if messageDigest is null.
          * @throws IllegalStateException         if the {@code origin} is {@code null}.
          * @throws UnsupportedOperationException if the origin cannot be converted to an {@link InputStream}.
@@ -116,7 +116,7 @@ public class MessageDigestCalculatingInputStream extends ObservableInputStream {
          * <em>The MD5 cryptographic algorithm is weak and should not be used.</em>
          * </p>
          *
-         * @param messageDigest the message digest.
+         * @param messageDigest The message digest.
          */
         public void setMessageDigest(final MessageDigest messageDigest) {
             this.messageDigest = messageDigest;
@@ -128,7 +128,7 @@ public class MessageDigestCalculatingInputStream extends ObservableInputStream {
          * <em>The MD5 cryptographic algorithm is weak and should not be used.</em>
          * </p>
          *
-         * @param algorithm the name of the algorithm. See the MessageDigest section in the
+         * @param algorithm The name of the algorithm. See the MessageDigest section in the
          *                  <a href= "https://docs.oracle.com/javase/8/docs/technotes/guides/security/StandardNames.html#MessageDigest"> Java Cryptography
          *                  Architecture Standard Algorithm Name Documentation</a> for information about standard algorithm names.
          * @throws NoSuchAlgorithmException if no Provider supports a MessageDigestSpi implementation for the specified algorithm.
@@ -148,7 +148,7 @@ public class MessageDigestCalculatingInputStream extends ObservableInputStream {
         /**
          * Constructs an MessageDigestMaintainingObserver for the given MessageDigest.
          *
-         * @param messageDigest the message digest to use.
+         * @param messageDigest The message digest to use.
          * @throws NullPointerException if messageDigest is null.
          */
         public MessageDigestMaintainingObserver(final MessageDigest messageDigest) {
@@ -177,7 +177,7 @@ public class MessageDigestCalculatingInputStream extends ObservableInputStream {
     /**
      * Constructs a new {@link Builder}.
      *
-     * @return a new {@link Builder}.
+     * @return A new {@link Builder}.
      * @since 2.12.0
      */
     public static Builder builder() {
@@ -190,7 +190,7 @@ public class MessageDigestCalculatingInputStream extends ObservableInputStream {
      * The MD5 cryptographic algorithm is weak and should not be used.
      * </p>
      *
-     * @return a Message Digest object that implements the default algorithm.
+     * @return A Message Digest object that implements the default algorithm.
      * @throws NoSuchAlgorithmException if no Provider supports a MessageDigestSpi implementation.
      * @see Provider
      */
@@ -211,7 +211,7 @@ public class MessageDigestCalculatingInputStream extends ObservableInputStream {
      * The MD5 algorithm is weak and should not be used.
      * </p>
      *
-     * @param inputStream the stream to calculate the message digest for.
+     * @param inputStream The stream to calculate the message digest for.
      * @throws NoSuchAlgorithmException if no Provider supports a MessageDigestSpi implementation for the specified algorithm.
      * @deprecated Use {@link #builder()}, {@link Builder}, and {@link Builder#get()}.
      */
@@ -226,8 +226,8 @@ public class MessageDigestCalculatingInputStream extends ObservableInputStream {
      * The MD5 cryptographic algorithm is weak and should not be used.
      * </p>
      *
-     * @param inputStream   the stream to calculate the message digest for.
-     * @param messageDigest the message digest to use.
+     * @param inputStream   The stream to calculate the message digest for.
+     * @param messageDigest The message digest to use.
      * @throws NullPointerException if messageDigest is null.
      * @deprecated Use {@link #builder()}, {@link Builder}, and {@link Builder#get()}.
      */
@@ -243,8 +243,8 @@ public class MessageDigestCalculatingInputStream extends ObservableInputStream {
      * The MD5 cryptographic algorithm is weak and should not be used.
      * </p>
      *
-     * @param inputStream the stream to calculate the message digest for.
-     * @param algorithm   the name of the algorithm requested. See the MessageDigest section in the
+     * @param inputStream The stream to calculate the message digest for.
+     * @param algorithm   The name of the algorithm requested. See the MessageDigest section in the
      *                    <a href= "https://docs.oracle.com/javase/8/docs/technotes/guides/security/StandardNames.html#MessageDigest"> Java Cryptography
      *                    Architecture Standard Algorithm Name Documentation</a> for information about standard algorithm names.
      * @throws NoSuchAlgorithmException if no Provider supports a MessageDigestSpi implementation for the specified algorithm.
@@ -262,7 +262,7 @@ public class MessageDigestCalculatingInputStream extends ObservableInputStream {
      * data has been read, if that is what you want. The easiest way to do so is by invoking {@link #consume()}.
      * </p>
      *
-     * @return the message digest used.
+     * @return The message digest used.
      */
     public MessageDigest getMessageDigest() {
         return messageDigest;

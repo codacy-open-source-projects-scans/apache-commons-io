@@ -42,7 +42,7 @@ import org.apache.commons.io.output.ProxyWriter;
  * {@link Builder}.
  * </p>
  *
- * @param <C> the {@link ByteChannel} type.
+ * @param <C> The {@link ByteChannel} type.
  * @see FilterInputStream
  * @see FilterOutputStream
  * @see FilterReader
@@ -94,7 +94,7 @@ public class FilterByteChannel<C extends ByteChannel> extends FilterChannel<C> i
     /**
      * Creates a new {@link Builder}.
      *
-     * @return a new {@link Builder}.
+     * @return A new {@link Builder}.
      */
     public static Builder forByteChannel() {
         return new Builder();

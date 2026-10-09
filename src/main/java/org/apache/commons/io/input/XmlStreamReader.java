@@ -144,7 +144,7 @@ public class XmlStreamReader extends Reader {
          * <li>httpContentType</li>
          * </ul>
          *
-         * @return a new instance.
+         * @return A new instance.
          * @throws IllegalStateException         if the {@code origin} is {@code null}.
          * @throws UnsupportedOperationException if the origin cannot be converted to an {@link InputStream}.
          * @throws IOException                   if an I/O error occurs converting to an {@link InputStream} using {@link #getInputStream()}.
@@ -177,7 +177,7 @@ public class XmlStreamReader extends Reader {
         /**
          * Sets the HTTP content type.
          *
-         * @param httpContentType the HTTP content type.
+         * @param httpContentType The HTTP content type.
          * @return {@code this} instance.
          */
         public Builder setHttpContentType(final String httpContentType) {
@@ -188,7 +188,7 @@ public class XmlStreamReader extends Reader {
         /**
          * Sets the lenient toggle.
          *
-         * @param lenient the lenient toggle.
+         * @param lenient The lenient toggle.
          * @return {@code this} instance.
          */
         public Builder setLenient(final boolean lenient) {
@@ -267,7 +267,7 @@ public class XmlStreamReader extends Reader {
     /**
      * Constructs a new {@link Builder}.
      *
-     * @return a new {@link Builder}.
+     * @return A new {@link Builder}.
      * @since 2.12.0
      */
     public static Builder builder() {
@@ -277,7 +277,7 @@ public class XmlStreamReader extends Reader {
     /**
      * Gets the charset parameter value, {@code null} if not present, {@code null} if httpContentType is {@code null}.
      *
-     * @param httpContentType the HTTP content type.
+     * @param httpContentType The HTTP content type.
      * @return The content type encoding (upcased).
      */
     static String getContentTypeEncoding(final String httpContentType) {
@@ -297,7 +297,7 @@ public class XmlStreamReader extends Reader {
     /**
      * Gets the MIME type or {@code null} if httpContentType is {@code null}.
      *
-     * @param httpContentType the HTTP content type.
+     * @param httpContentType The HTTP content type.
      * @return The mime content type.
      */
     static String getContentTypeMime(final String httpContentType) {
@@ -315,7 +315,7 @@ public class XmlStreamReader extends Reader {
      *
      * @param inputStream InputStream to create the reader from.
      * @param guessedEnc  guessed encoding.
-     * @return the encoding declared in the <?xml encoding=...?>.
+     * @return The encoding declared in the <?xml encoding=...?>.
      * @throws IOException thrown if there is a problem reading the stream.
      */
     private static String getXmlProlog(final InputStream inputStream, final String guessedEnc) throws IOException {
@@ -709,7 +709,7 @@ public class XmlStreamReader extends Reader {
      * If it is {@code null} the content-type based rules are used.
      * </p>
      *
-     * @return the default encoding to use.
+     * @return The default encoding to use.
      */
     public String getDefaultEncoding() {
         return defaultEncoding;
@@ -727,11 +727,11 @@ public class XmlStreamReader extends Reader {
     /**
      * Reads the underlying reader's {@code read(char[], int, int)} method.
      *
-     * @param buf    the buffer to read the characters into.
+     * @param buf    The buffer to read the characters into.
      * @param offset The start offset.
      * @param len    The number of bytes to read.
-     * @return the number of characters read or -1 if the end of stream.
-     * @throws IOException if an I/O error occurs.
+     * @return The number of characters read or -1 if the end of stream.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     @Override
     public int read(final char[] buf, final int offset, final int len) throws IOException {
@@ -744,7 +744,7 @@ public class XmlStreamReader extends Reader {
      * @param bomInput     BOMInputStream to detect byte order marks.
      * @param piInput     BOMInputStream to guess XML encoding.
      * @param lenient indicates if the charset encoding detection should be relaxed.
-     * @return the encoding to be used.
+     * @return The encoding to be used.
      * @throws IOException thrown if there is a problem reading the stream.
      */
     private String toEncoding(final BOMInputStream bomInput, final BOMInputStream piInput, final boolean lenient) throws IOException {
@@ -768,7 +768,7 @@ public class XmlStreamReader extends Reader {
      * @param piInput         BOMInputStream to guess XML encoding.
      * @param lenient         indicates if the charset encoding detection should be relaxed.
      * @param httpContentType The HTTP content type.
-     * @return the encoding to be used.
+     * @return The encoding to be used.
      * @throws IOException thrown if there is a problem reading the stream.
      */
     private String toEncoding(final BOMInputStream bomInput, final BOMInputStream piInput, final boolean lenient, final String httpContentType)
@@ -791,7 +791,7 @@ public class XmlStreamReader extends Reader {
      *
      * @param httpContentType content-type header to use for the resolution of the charset encoding.
      * @param ex              The thrown exception.
-     * @return the encoding.
+     * @return The encoding.
      * @throws IOException thrown if there is a problem reading the stream.
      */
     private String toEncodingLenient(String httpContentType, XmlStreamReaderException ex) throws IOException {
@@ -822,7 +822,7 @@ public class XmlStreamReader extends Reader {
      * @param xmlEnc          XML encoding.
      * @param lenient         indicates if the charset encoding detection should be relaxed.
      * @param httpContentType The HTTP content type.
-     * @return the HTTP encoding.
+     * @return The HTTP encoding.
      * @throws IOException thrown if there is a problem reading the stream.
      */
     String toHttpEncoding(final String bomEnc, final String xmlGuessEnc, final String xmlEnc, final boolean lenient, final String httpContentType)
@@ -889,7 +889,7 @@ public class XmlStreamReader extends Reader {
      * @param bomEnc      BOM encoding.
      * @param xmlGuessEnc XML Guess encoding.
      * @param xmlEnc      XML encoding.
-     * @return the raw encoding.
+     * @return The raw encoding.
      * @throws IOException thrown if there is a problem reading the stream.
      */
     String toRawEncoding(final String bomEnc, final String xmlGuessEnc, final String xmlEnc) throws IOException {

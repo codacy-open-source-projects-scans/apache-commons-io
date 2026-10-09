@@ -81,9 +81,9 @@ public class CopyDirectoryVisitor extends CountingPathVisitor {
     /**
      * Copies the sourceFile to the targetFile.
      *
-     * @param sourceFile the source file.
-     * @param targetFile the target file.
-     * @throws IOException if an I/O error occurs.
+     * @param sourceFile The source file.
+     * @param targetFile The target file.
+     * @throws IOException Thrown if an I/O error occurs.
      * @since 2.8.0
      */
     protected void copy(final Path sourceFile, final Path targetFile) throws IOException {
@@ -109,7 +109,7 @@ public class CopyDirectoryVisitor extends CountingPathVisitor {
     /**
      * Gets the copy options.
      *
-     * @return the copy options.
+     * @return The copy options.
      * @since 2.8.0
      */
     public CopyOption[] getCopyOptions() {
@@ -119,7 +119,7 @@ public class CopyDirectoryVisitor extends CountingPathVisitor {
     /**
      * Gets the source directory.
      *
-     * @return the source directory.
+     * @return The source directory.
      * @since 2.8.0
      */
     public Path getSourceDirectory() {
@@ -129,7 +129,7 @@ public class CopyDirectoryVisitor extends CountingPathVisitor {
     /**
      * Gets the target directory.
      *
-     * @return the target directory.
+     * @return The target directory.
      * @since 2.8.0
      */
     public Path getTargetDirectory() {
@@ -161,8 +161,8 @@ public class CopyDirectoryVisitor extends CountingPathVisitor {
      * {@link ProviderMismatchException}. Special care is taken to handle differences in file system separators.
      * </p>
      *
-     * @param directory the directory to relativize.
-     * @return a new path, relativized against sourceDirectory, then resolved against targetDirectory.
+     * @param directory The directory to relativize.
+     * @return A new path, relativized against sourceDirectory, then resolved against targetDirectory.
      */
     private Path resolveRelativeAsString(final Path directory) {
         return PathUtils.resolve(targetDirectory, sourceDirectory.relativize(directory));

@@ -53,7 +53,7 @@ public abstract class AbstractMonitorTest {
     /**
      * Check all the Collections are empty
      *
-     * @param label the label to use for this check.
+     * @param label The label to use for this check.
      */
     protected void checkCollectionsEmpty(final String label) {
         checkCollectionSizes("EMPTY-" + label, 0, 0, 0, 0, 0, 0);
@@ -62,7 +62,7 @@ public abstract class AbstractMonitorTest {
     /**
      * Check all the Collections have the expected sizes.
      *
-     * @param label the label to use for this check.
+     * @param label The label to use for this check.
      * @param dirCreate expected number of dirs created.
      * @param dirChange expected number of dirs changed.
      * @param dirDelete expected number of dirs deleted.
@@ -96,20 +96,22 @@ public abstract class AbstractMonitorTest {
      *
      * @param file The directory to observe.
      * @param fileFilter The file filter to apply.
+     * @throws Exception Thrown on observer initialization error.
      */
-    protected void createObserver(final File file, final FileFilter fileFilter) {
+    protected void createObserver(final File file, final FileFilter fileFilter) throws Exception {
         observer = FileAlterationObserver.builder().setFile(file).setFileFilter(fileFilter).getUnchecked();
         observer.addListener(listener);
         observer.addListener(new FileAlterationListenerAdaptor());
-        try {
-            observer.initialize();
-        } catch (final Exception e) {
-            fail("Observer init() threw " + e);
-        }
+        observer.initialize();
     }
 
+    /**
+     * Sets up test fixtures
+     *
+     * @throws Exception Thrown on observer initialization error.
+     */
     @BeforeEach
-    public void setUp() {
+    public void setUp() throws Exception {
         final IOFileFilter files = FileFilterUtils.fileFileFilter();
         final IOFileFilter javaSuffix = FileFilterUtils.suffixFileFilter(".java");
         final IOFileFilter fileFilter = FileFilterUtils.and(files, javaSuffix);
@@ -129,7 +131,7 @@ public abstract class AbstractMonitorTest {
      *
      * @param file The file to touch.
      * @return The file.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     protected File touch(File file) throws IOException {
         final long lastModified = file.exists() ? FileUtils.lastModified(file) : 0;

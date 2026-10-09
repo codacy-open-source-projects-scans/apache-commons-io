@@ -81,7 +81,7 @@ public class AutoCloseInputStream extends ProxyInputStream {
          * <li>{@link #getInputStream()} gets the target aspect.</li>
          * </ul>
          *
-         * @return a new instance.
+         * @return A new instance.
          * @throws IllegalStateException         if the {@code origin} is {@code null}.
          * @throws UnsupportedOperationException if the origin cannot be converted to an {@link InputStream}.
          * @throws IOException                   if an I/O error occurs converting to an {@link InputStream} using {@link #getInputStream()}.
@@ -98,7 +98,7 @@ public class AutoCloseInputStream extends ProxyInputStream {
     /**
      * Constructs a new {@link Builder}.
      *
-     * @return a new {@link Builder}.
+     * @return A new {@link Builder}.
      * @since 2.12.0
      */
     public static Builder builder() {
@@ -125,7 +125,7 @@ public class AutoCloseInputStream extends ProxyInputStream {
      * Automatically closes the stream if the end of stream was reached.
      *
      * @param n number of bytes read, or -1 if no more bytes are available.
-     * @throws IOException if the stream could not be closed.
+     * @throws IOException Thrown if the stream could not be closed.
      * @since 2.0
      */
     @Override
@@ -146,7 +146,7 @@ public class AutoCloseInputStream extends ProxyInputStream {
      * first called.
      * </p>
      *
-     * @throws IOException if the underlying input stream cannot be closed.
+     * @throws IOException Thrown if the underlying input stream cannot be closed.
      */
     @Override
     public void close() throws IOException {

@@ -33,7 +33,7 @@ public interface IOIntSupplier {
     /**
      * Creates a {@link Supplier} for this instance that throws {@link UncheckedIOException} instead of {@link IOException}.
      *
-     * @return an UncheckedIOException Supplier.
+     * @return An UncheckedIOException Supplier.
      */
     default IntSupplier asIntSupplier() {
         return () -> Uncheck.getAsInt(this);
@@ -42,8 +42,8 @@ public interface IOIntSupplier {
     /**
      * Gets a result.
      *
-     * @return a result.
-     * @throws IOException if an I/O error occurs.
+     * @return A result.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     int getAsInt() throws IOException;
 }

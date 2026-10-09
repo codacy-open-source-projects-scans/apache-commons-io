@@ -76,7 +76,7 @@ public final class RandomAccessFileOutputStream extends OutputStream {
          * <li>closeOnClose</li>
          * </ul>
          *
-         * @return a new instance.
+         * @return A new instance.
          * @throws IllegalStateException         if the {@code origin} is {@code null}.
          * @throws IllegalStateException         if both RandomAccessFile and origin are set.
          * @throws UnsupportedOperationException if the origin cannot be converted to a {@link RandomAccessFile}.
@@ -94,7 +94,7 @@ public final class RandomAccessFileOutputStream extends OutputStream {
     /**
      * Constructs a new {@link Builder}.
      *
-     * @return a new {@link Builder}.
+     * @return A new {@link Builder}.
      */
     public static Builder builder() {
         return new Builder();
@@ -122,7 +122,7 @@ public final class RandomAccessFileOutputStream extends OutputStream {
     /**
      * Gets the underlying random access file.
      *
-     * @return the underlying random access file.
+     * @return The underlying random access file.
      * @since 2.19.0
      */
     public RandomAccessFile getRandomAccessFile() {

@@ -18,11 +18,13 @@ package org.apache.commons.io.monitor;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Iterator;
 
 import org.apache.commons.io.FileUtils;
@@ -32,12 +34,37 @@ import org.apache.commons.io.comparator.NameFileComparator;
 import org.apache.commons.io.filefilter.CanReadFileFilter;
 import org.apache.commons.io.filefilter.FileFilterUtils;
 import org.apache.commons.io.monitor.FileAlterationObserver.Builder;
+import org.apache.commons.lang3.SerializationUtils;
 import org.junit.jupiter.api.Test;
 
 /**
  * {@link FileAlterationObserver} Test Case.
  */
 class FileAlterationObserverTest extends AbstractMonitorTest {
+
+    private static final class CountingFile extends File {
+
+        private static final long serialVersionUID = 1L;
+
+        private final File[] children;
+
+        private int listFilesCount;
+
+        private CountingFile(final File file, final File... children) {
+            super(file.getPath());
+            this.children = children;
+        }
+
+        int getListFilesCount() {
+            return listFilesCount;
+        }
+
+        @Override
+        public File[] listFiles(final FileFilter filter) {
+            listFilesCount++;
+            return Arrays.stream(children).filter(filter::accept).toArray(File[]::new);
+        }
+    }
 
     private static final String PATH_STRING_FIXTURE = "/foo";
 
@@ -70,7 +97,6 @@ class FileAlterationObserverTest extends AbstractMonitorTest {
         assertFalse(observer.getListeners().iterator().hasNext(), "Listeners[1]");
         observer.removeListener(null);
         assertFalse(observer.getListeners().iterator().hasNext(), "Listeners[2]");
-
         // Add Listener
         final FileAlterationListenerAdaptor listener = new FileAlterationListenerAdaptor();
         observer.addListener(listener);
@@ -78,7 +104,6 @@ class FileAlterationObserverTest extends AbstractMonitorTest {
         assertTrue(it.hasNext(), "Listeners[3]");
         assertEquals(listener, it.next(), "Added");
         assertFalse(it.hasNext(), "Listeners[4]");
-
         // Remove Listener
         observer.removeListener(listener);
         assertFalse(observer.getListeners().iterator().hasNext(), "Listeners[5]");
@@ -117,6 +142,24 @@ class FileAlterationObserverTest extends AbstractMonitorTest {
         assertEquals(file, observer.getDirectory());
         assertEquals(CanReadFileFilter.CAN_READ, observer.getFileFilter());
         assertEquals(NameFileComparator.NAME_INSENSITIVE_COMPARATOR, observer.getComparator());
+    }
+
+    @Test
+    void testBuilder_MaxDepth() {
+        final FileAlterationObserver observer = FileAlterationObserver.builder().setFile(PATH_STRING_FIXTURE).setMaxDepth(2).getUnchecked();
+        assertEquals(2, observer.getMaxDepth());
+    }
+
+    @Test
+    void testBuilder_MaxDepthDefault() {
+        final FileAlterationObserver observer = FileAlterationObserver.builder().setFile(PATH_STRING_FIXTURE).getUnchecked();
+        assertEquals(Integer.MAX_VALUE, observer.getMaxDepth());
+    }
+
+    @Test
+    void testBuilder_MaxDepthNegative() {
+        final Builder builder = FileAlterationObserver.builder();
+        assertThrows(IllegalArgumentException.class, () -> builder.setMaxDepth(-1));
     }
 
     @Test
@@ -271,7 +314,7 @@ class FileAlterationObserverTest extends AbstractMonitorTest {
     /**
      * Test checkAndNotify() creating
      *
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     @Test
     void testFileCreate() throws IOException {
@@ -332,7 +375,7 @@ class FileAlterationObserverTest extends AbstractMonitorTest {
     /**
      * Test checkAndNotify() deleting
      *
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     @Test
     void testFileDelete() throws IOException {
@@ -393,7 +436,7 @@ class FileAlterationObserverTest extends AbstractMonitorTest {
     /**
      * Test checkAndNotify() creating
      *
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     @Test
     void testFileUpdate() throws IOException {
@@ -448,13 +491,101 @@ class FileAlterationObserverTest extends AbstractMonitorTest {
         assertTrue(listener.getChangedFiles().contains(testDirAFile5), "F testDirAFile5");
     }
 
+    @Test
+    void testMaxDepthDoesNotListChildrenAtBoundary() throws Exception {
+        final File deepFile = touch(new File(testDir, "boundary/deep.txt"));
+        final CountingFile boundaryDirectory = new CountingFile(deepFile.getParentFile(), deepFile);
+        final CountingFile rootDirectory = new CountingFile(testDir, boundaryDirectory);
+        final FileAlterationObserver depthLimitedObserver = FileAlterationObserver.builder().setFile(rootDirectory).setMaxDepth(1).getUnchecked();
+        depthLimitedObserver.initialize();
+
+        depthLimitedObserver.checkAndNotify();
+        depthLimitedObserver.checkAndNotify();
+        depthLimitedObserver.checkAndNotify();
+
+        assertEquals(0, boundaryDirectory.getListFilesCount());
+    }
+
+    @Test
+    void testMaxDepthIgnoresEventsBelowBoundary() throws Exception {
+        final File boundaryDirectory = new File(testDir, "boundary");
+        assertTrue(boundaryDirectory.mkdir());
+        final CollectionFileListener depthLimitedListener = new CollectionFileListener(true);
+        final FileAlterationObserver depthLimitedObserver = FileAlterationObserver.builder().setFile(testDir).setMaxDepth(1).getUnchecked();
+        depthLimitedObserver.addListener(depthLimitedListener);
+        depthLimitedObserver.initialize();
+
+        final File deepFile = touch(new File(boundaryDirectory, "deep.txt"));
+        depthLimitedObserver.checkAndNotify();
+        assertTrue(deepFile.exists());
+        assertTrue(depthLimitedListener.getCreatedFiles().isEmpty());
+
+        touch(deepFile);
+        depthLimitedObserver.checkAndNotify();
+        assertTrue(depthLimitedListener.getChangedFiles().isEmpty());
+
+        assertTrue(deepFile.delete());
+        depthLimitedObserver.checkAndNotify();
+        assertTrue(depthLimitedListener.getDeletedFiles().isEmpty());
+    }
+
+    @Test
+    void testMaxDepthMonitorsBoundaryDirectory() throws Exception {
+        final CollectionFileListener depthLimitedListener = new CollectionFileListener(true);
+        final FileAlterationObserver depthLimitedObserver = FileAlterationObserver.builder().setFile(testDir).setMaxDepth(1).getUnchecked();
+        depthLimitedObserver.addListener(depthLimitedListener);
+        depthLimitedObserver.initialize();
+
+        final File boundaryDirectory = new File(testDir, "boundary");
+        assertTrue(boundaryDirectory.mkdir());
+        depthLimitedObserver.checkAndNotify();
+        assertTrue(depthLimitedListener.getCreatedDirectories().contains(boundaryDirectory));
+
+        FileUtils.deleteDirectory(boundaryDirectory);
+        depthLimitedObserver.checkAndNotify();
+        assertTrue(depthLimitedListener.getDeletedDirectories().contains(boundaryDirectory));
+    }
+
+    @Test
+    void testMaxDepthSerialization() {
+        final FileAlterationObserver expected = FileAlterationObserver.builder().setFile(PATH_STRING_FIXTURE).setMaxDepth(2).getUnchecked();
+        final FileAlterationObserver actual = SerializationUtils.roundtrip(expected);
+        assertEquals(expected.getMaxDepth(), actual.getMaxDepth());
+    }
+
+    @Test
+    void testMaxDepthZeroDoesNotListRootChildren() throws Exception {
+        final File child = touch(new File(testDir, "child.txt"));
+        final CountingFile rootDirectory = new CountingFile(testDir, child);
+        final FileAlterationObserver depthLimitedObserver = FileAlterationObserver.builder().setFile(rootDirectory).setMaxDepth(0).getUnchecked();
+        depthLimitedObserver.initialize();
+
+        depthLimitedObserver.checkAndNotify();
+
+        assertEquals(0, rootDirectory.getListFilesCount());
+    }
+
+    @Test
+    void testMaxDepthZeroWithCustomRootEntry() throws Exception {
+        final File child = touch(new File(testDir, "child.txt"));
+        final CountingFile rootDirectory = new CountingFile(testDir, child);
+        final FileEntry parentEntry = new FileEntry(testDir.getParentFile());
+        final FileEntry rootEntry = new FileEntry(parentEntry, rootDirectory);
+        final FileAlterationObserver depthLimitedObserver = FileAlterationObserver.builder().setRootEntry(rootEntry).setMaxDepth(0).getUnchecked();
+        depthLimitedObserver.initialize();
+
+        depthLimitedObserver.checkAndNotify();
+
+        assertEquals(0, rootDirectory.getListFilesCount());
+    }
+
     /**
      * Test checkAndNotify() method
      *
-     * @throws IOException if an I/O error occurs.
+     * @throws Exception Thrown if an I/O error occurs.
      */
     @Test
-    void testObserveSingleFile() throws IOException {
+    void testObserveSingleFile() throws Exception {
         final File testDirA = new File(testDir, "test-dir-A");
         File testDirAFile1 = new File(testDirA, "A-file1.java");
         testDirA.mkdir();

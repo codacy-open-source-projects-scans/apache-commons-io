@@ -24,16 +24,23 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
+import java.nio.file.attribute.PosixFilePermissions;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.IntStream;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.file.AbstractTempDirTest;
+import org.apache.commons.io.file.NioFileSystem;
+import org.apache.commons.io.file.PathUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -64,11 +71,17 @@ class DeferredFileOutputStreamTest extends AbstractTempDirTest {
      */
     private final byte[] testBytes = testString.getBytes();
 
+    void assertContentsEquals(final DeferredFileOutputStream out) throws IOException {
+        try (InputStream is = out.toInputStream()) {
+            assertArrayEquals(testBytes, IOUtils.toByteArray(is));
+        }
+    }
+
     /**
      * Tests the case where the amount of data exceeds the threshold, and is therefore written to disk. The actual data
      * written to disk is verified, as is the file itself.
      *
-     * @param initialBufferSize the initial buffer size.
+     * @param initialBufferSize The initial buffer size.
      * @throws IOException on a test failure.
      */
     @ParameterizedTest(name = "initialBufferSize = {0}")
@@ -103,19 +116,19 @@ class DeferredFileOutputStreamTest extends AbstractTempDirTest {
         final File testFile = Files.createTempFile(tempDirPath, "testAboveThreshold", "dat").toFile();
         final int threshold = testBytes.length - 5;
         try (DeferredFileOutputStream out = DeferredFileOutputStream.builder()
+                // @formatter:off
                 .setThreshold(threshold)
                 .setBufferSize(initialBufferSize)
                 .setOutputFile(testFile)
                 .get()) {
+            // @formatter:on
             assertThresholdingInitialState(out, threshold, 0);
             assertDeferredInitialState(out);
             out.write(testBytes, 0, testBytes.length);
             out.close();
             assertFalse(out.isInMemory());
             assertEquals(testFile.length(), out.getByteCount());
-            try (InputStream is = out.toInputStream()) {
-                assertArrayEquals(testBytes, IOUtils.toByteArray(is));
-            }
+            assertContentsEquals(out);
             verifyResultFile(testFile);
         }
     }
@@ -180,36 +193,109 @@ class DeferredFileOutputStreamTest extends AbstractTempDirTest {
     @ParameterizedTest(name = "initialBufferSize = {0}")
     @MethodSource("data")
     void testBelowThresholdGetInputStream(final int initialBufferSize) throws IOException {
-        // @formatter:off
         final int threshold = testBytes.length + 42;
         try (DeferredFileOutputStream out = DeferredFileOutputStream.builder()
+                // @formatter:off
                 .setThreshold(threshold)
                 .setBufferSize(initialBufferSize)
                 .get()) {
-        // @formatter:on
+                // @formatter:on
             assertThresholdingInitialState(out, threshold, 0);
             assertDeferredInitialState(out);
             out.write(testBytes, 0, testBytes.length);
             out.close();
             assertTrue(out.isInMemory());
             assertEquals(testBytes.length, out.getByteCount());
-            try (InputStream is = out.toInputStream()) {
-                assertArrayEquals(testBytes, IOUtils.toByteArray(is));
-            }
+            assertContentsEquals(out);
+        }
+    }
+
+    /**
+     * Tests that the temporary file is created with owner-only permissions on POSIX file systems.
+     */
+    @Test
+    void testPersistedFileIsOwnerOnlyOnPosix() throws IOException {
+      assumeTrue(NioFileSystem.isPosix(tempDirPath));
+      // Mirror production, where the supplier only resolves a not-yet-existing path.
+      final Path target = tempDirPath.resolve("posixPerms.bin");
+      final AtomicReference<Path> pathRef = new AtomicReference<>();
+      try (DeferredFileOutputStream dos = DeferredFileOutputStream.builder()
+              // @formatter:off
+              .setPath(target)
+              .setPrefix(getClass().getSimpleName())
+              .setDeleteTempFileOnClose(false)
+              .get()
+              // @formatter:on
+              ) {
+        dos.write(testBytes);
+        pathRef.set(dos.getPath());
+      }
+      final Path pathTemp = pathRef.get();
+      assertTrue(Files.exists(pathTemp));
+      assertTrue(Files.isRegularFile(pathTemp));
+      assertEquals("rw-------", PosixFilePermissions.toString(Files.getPosixFilePermissions(pathTemp)));
+    }
+
+    /**
+     * Tests that persisting over an already existing path truncates and overwrites it.
+     */
+    @Test
+    void testPersistedFileOverwritesExisting() throws IOException {
+      final Path target = tempDirPath.resolve("overwrite.bin");
+      Files.write(target, "stale-and-longer".getBytes(StandardCharsets.UTF_8));
+      final AtomicReference<Path> pathRef = new AtomicReference<>();
+      try (DeferredFileOutputStream dos = DeferredFileOutputStream.builder()
+              // @formatter:off
+              .setPath(target)
+              .setPrefix(getClass().getSimpleName())
+              .setDeleteTempFileOnClose(false)
+              .get()
+              // @formatter:on
+              ) {
+        dos.write(testBytes);
+        pathRef.set(dos.getPath());
+      }
+      final Path pathTemp = pathRef.get();
+      assertTrue(Files.exists(pathTemp));
+      assertTrue(Files.isRegularFile(pathTemp));
+      assertArrayEquals(testBytes, Files.readAllBytes(pathTemp));
+    }
+
+    /**
+     * Tests that writing beyond the threshold throws a {@link NoSuchFileException} when the directory supplied to
+     * {@link DeferredFileOutputStream.Builder#setDirectory(Path)} does not exist.
+     *
+     * @throws IOException Thrown on a test failure.
+     */
+    @Test
+    void testSetDirectoryNonExistent() throws IOException {
+        final Path nonExistentDir = tempDirPath.resolve("does-not-exist");
+        final int threshold = testBytes.length - 5;
+        try (DeferredFileOutputStream out = DeferredFileOutputStream.builder()
+                // @formatter:off
+                .setThreshold(threshold)
+                .setPrefix("commons-io-test")
+                .setSuffix(".out")
+                .setDirectory(nonExistentDir)
+                .get()) {
+                // @formatter:on
+            assertThrows(NoSuchFileException.class, () -> out.write(testBytes, 0, testBytes.length));
         }
     }
 
     /**
      * Tests specifying a temporary file and the threshold is reached.
+     * Verifies the temporary file is deleted automatically when the stream is closed.
      */
     @ParameterizedTest(name = "initialBufferSize = {0}")
     @MethodSource("data")
     void testTempFileAboveThreshold(final int initialBufferSize) throws IOException {
         final String prefix = "commons-io-test";
         final String suffix = ".out";
-        // @formatter:off
         final int threshold = testBytes.length - 5;
+        Path capturedPath = null;
         try (DeferredFileOutputStream out = DeferredFileOutputStream.builder()
+                // @formatter:off
                 .setThreshold(threshold)
                 .setBufferSize(initialBufferSize)
                 .setPrefix(prefix)
@@ -217,13 +303,12 @@ class DeferredFileOutputStreamTest extends AbstractTempDirTest {
                 .setDirectory(tempDirFile)
                 .setDirectory(tempDirPath.toFile())
                 .get()) {
-        // @formatter:on
+                // @formatter:on
             assertThresholdingInitialState(out, threshold, 0);
             assertDeferredInitialState(out);
             assertNull(out.getFile(), "Check File is null-A");
             assertNull(out.getPath(), "Check Path is null-A");
             out.write(testBytes, 0, testBytes.length);
-            out.close();
             assertFalse(out.isInMemory());
             assertEquals(testBytes.length, out.getByteCount());
             assertNull(out.getData());
@@ -233,11 +318,14 @@ class DeferredFileOutputStreamTest extends AbstractTempDirTest {
             assertTrue(out.getFile().getName().endsWith(suffix), "Check suffix");
             assertEquals(tempDirPath, out.getPath().getParent(), "Check dir");
             verifyResultFile(out.getFile());
-        }
+            capturedPath = out.getPath();
+        } // close() called here; temp file should be deleted
+        assertFalse(Files.exists(capturedPath), "Temp file should be deleted after close()");
     }
 
     /**
-     * Tests specifying a temporary file and the threshold is reached.
+     * Tests specifying a temporary file with prefix only and the threshold is reached.
+     * Verifies the temporary file is deleted automatically when the stream is closed.
      *
      * @throws IOException Thrown on a test failure.
      */
@@ -247,35 +335,33 @@ class DeferredFileOutputStreamTest extends AbstractTempDirTest {
         final String prefix = "commons-io-test";
         final String suffix = null;
         final int threshold = testBytes.length - 5;
+        Path capturedPath = null;
         try (DeferredFileOutputStream out = DeferredFileOutputStream.builder()
-            // @formatter:off
+                // @formatter:off
                 .setThreshold(threshold)
                 .setBufferSize(initialBufferSize)
                 .setPrefix(prefix)
                 .setSuffix(suffix)
+                .setDirectory((File) null)
                 .setDirectory((Path) null)
                 .get()) {
-            // @formatter:on
-            try {
-                assertThresholdingInitialState(out, threshold, 0);
-                assertDeferredInitialState(out);
-                assertNull(out.getFile(), "Check File is null-A");
-                assertNull(out.getPath(), "Check Path is null-A");
-                out.write(testBytes, 0, testBytes.length);
-                out.close();
-                assertFalse(out.isInMemory());
-                assertNull(out.getData());
-                assertEquals(testBytes.length, out.getByteCount());
-                assertNotNull(out.getFile(), "Check file not null");
-                assertTrue(out.getFile().exists(), "Check file exists");
-                assertTrue(out.getFile().getName().startsWith(prefix), "Check prefix");
-                assertTrue(out.getFile().getName().endsWith(".tmp"), "Check suffix"); // ".tmp" is default
-                verifyResultFile(out.getFile());
-            } finally {
-                // Delete the temporary file.
-                out.getFile().delete();
-            }
-        }
+                // @formatter:on
+            assertThresholdingInitialState(out, threshold, 0);
+            assertDeferredInitialState(out);
+            assertNull(out.getFile(), "Check File is null-A");
+            assertNull(out.getPath(), "Check Path is null-A");
+            out.write(testBytes, 0, testBytes.length);
+            assertFalse(out.isInMemory());
+            assertNull(out.getData());
+            assertEquals(testBytes.length, out.getByteCount());
+            assertNotNull(out.getFile(), "Check file not null");
+            assertTrue(out.getFile().exists(), "Check file exists");
+            assertTrue(out.getFile().getName().startsWith(prefix), "Check prefix");
+            assertTrue(out.getFile().getName().endsWith(".tmp"), "Check suffix"); // ".tmp" is default
+            verifyResultFile(out.getFile());
+            capturedPath = out.getPath();
+        } // close() called here; temp file should be deleted automatically
+        assertFalse(Files.exists(capturedPath), "Temp file should be deleted after close()");
     }
 
     /**
@@ -303,6 +389,68 @@ class DeferredFileOutputStreamTest extends AbstractTempDirTest {
     }
 
     /**
+     * Tests that the temporary file created by {@link Files#createTempFile} in
+     * {@link DeferredFileOutputStream#thresholdReached()} IS automatically deleted when the
+     * {@link DeferredFileOutputStream} is closed.
+     *
+     * @throws IOException Thrown on a test failure.
+     */
+    @Test
+    void testTempFileDeletedAfterClose() throws IOException {
+        final String prefix = "commons-io-test";
+        final String suffix = ".out";
+        final int threshold = testBytes.length - 5;
+        Path capturedPath = null;
+        try (DeferredFileOutputStream out = DeferredFileOutputStream.builder()
+                // @formatter:off
+                .setThreshold(threshold)
+                .setPrefix(prefix)
+                .setSuffix(suffix)
+                .setDirectory(tempDirPath)
+                .get()) {
+                // @formatter:on
+            assertNull(out.getPath(), "Temp file should not exist before threshold is reached");
+            // Write enough data to exceed the threshold, triggering thresholdReached() and Files.createTempFile()
+            out.write(testBytes, 0, testBytes.length);
+            assertFalse(out.isInMemory(), "Data should have been written to disk after threshold exceeded");
+            // Capture the temp file path before closing
+            capturedPath = out.getPath();
+            assertNotNull(capturedPath, "Temp file path should be set after threshold is reached");
+            assertTrue(Files.exists(capturedPath), "Temp file should exist after threshold is reached");
+        } // close() called here; temp file should be deleted automatically
+        assertFalse(Files.exists(capturedPath), "Temp file created by Files.createTempFile() in thresholdReached() must be deleted on close()");
+    }
+
+    /**
+     * Tests that the temporary file IS deleted on close when {@link DeferredFileOutputStream.Builder#setDeleteTempFileOnClose(boolean)} is explicitly set to
+     * {@code true}.
+     *
+     * @throws IOException Thrown on a test failure.
+     */
+    @Test
+    void testTempFileDeletedAfterCloseWhenFlagTrue() throws IOException {
+        final String prefix = "commons-io-test";
+        final String suffix = ".out";
+        final int threshold = testBytes.length - 5;
+        Path capturedPath = null;
+        try (DeferredFileOutputStream out = DeferredFileOutputStream.builder()
+                // @formatter:off
+                .setThreshold(threshold)
+                .setPrefix(prefix)
+                .setSuffix(suffix)
+                .setDirectory(tempDirPath)
+                .setDeleteTempFileOnClose(true)
+                .get()) {
+                // @formatter:on
+            out.write(testBytes, 0, testBytes.length);
+            assertFalse(out.isInMemory(), "Data should have been written to disk after threshold exceeded");
+            capturedPath = out.getPath();
+            assertTrue(Files.exists(capturedPath), "Temp file should exist before close()");
+        } // close() called here; temp file should be deleted because deleteTempFileOnClose=true
+        assertFalse(Files.exists(capturedPath), "Temp file must be deleted on close() when setDeleteTempFileOnClose(true)");
+    }
+
+    /**
      * Tests specifying a temporary file and the threshold is reached.
      *
      * @throws IOException Thrown on a test failure.
@@ -312,6 +460,41 @@ class DeferredFileOutputStreamTest extends AbstractTempDirTest {
         final String prefix = null;
         final String suffix = ".out";
         assertThrows(NullPointerException.class, () -> new DeferredFileOutputStream(testBytes.length - 5, prefix, suffix, tempDirFile));
+    }
+
+    /**
+     * Tests that the temporary file is NOT deleted on close when {@link DeferredFileOutputStream.Builder#setDeleteTempFileOnClose(boolean)} is set to
+     * {@code false}. The caller is then responsible for deleting it.
+     *
+     * @throws IOException Thrown on a test failure.
+     */
+    @Test
+    void testTempFileNotDeletedAfterCloseWhenFlagFalse() throws IOException {
+        final String prefix = "commons-io-test";
+        final String suffix = ".out";
+        final int threshold = testBytes.length - 5;
+        Path capturedPath = null;
+        try {
+            try (DeferredFileOutputStream out = DeferredFileOutputStream.builder()
+                    // @formatter:off
+                    .setThreshold(threshold)
+                    .setPrefix(prefix)
+                    .setSuffix(suffix)
+                    .setDirectory(tempDirPath)
+                    .setDeleteTempFileOnClose(false)
+                    .get()) {
+                    // @formatter:on
+                out.write(testBytes, 0, testBytes.length);
+                assertFalse(out.isInMemory(), "Data should have been written to disk after threshold exceeded");
+                capturedPath = out.getPath();
+                assertNotNull(capturedPath, "Temp file path should be set after threshold is reached");
+                assertTrue(Files.exists(capturedPath), "Temp file should exist before close()");
+            } // close() called here; temp file must NOT be deleted because deleteTempFileOnClose=false
+            assertTrue(Files.exists(capturedPath), "Temp file must NOT be deleted on close() when setDeleteTempFileOnClose(false)");
+        } finally {
+            // Caller is responsible for cleanup when deleteTempFileOnClose=false
+            PathUtils.deleteIfExists(capturedPath);
+        }
     }
 
     /**
@@ -389,8 +572,7 @@ class DeferredFileOutputStreamTest extends AbstractTempDirTest {
             assertThrows(IOException.class, () -> dfos.writeTo(baos));
             dfos.close();
             dfos.writeTo(baos);
-            final byte[] copiedBytes = baos.toByteArray();
-            assertArrayEquals(testBytes, copiedBytes);
+            assertArrayEquals(testBytes, baos.toByteArray());
             verifyResultFile(testFile);
         }
     }
@@ -414,8 +596,7 @@ class DeferredFileOutputStreamTest extends AbstractTempDirTest {
             assertEquals(testBytes.length, dfos.getByteCount());
             dfos.close();
             dfos.writeTo(baos);
-            final byte[] copiedBytes = baos.toByteArray();
-            assertArrayEquals(testBytes, copiedBytes);
+            assertArrayEquals(testBytes, baos.toByteArray());
             verifyResultFile(testFile);
         }
     }
@@ -440,8 +621,7 @@ class DeferredFileOutputStreamTest extends AbstractTempDirTest {
             assertEquals(testBytes.length, dfos.getByteCount());
             dfos.close();
             dfos.writeTo(baos);
-            final byte[] copiedBytes = baos.toByteArray();
-            assertArrayEquals(testBytes, copiedBytes);
+            assertArrayEquals(testBytes, baos.toByteArray());
         }
     }
 
@@ -453,10 +633,8 @@ class DeferredFileOutputStreamTest extends AbstractTempDirTest {
     private void verifyResultFile(final File testFile) throws IOException {
         try (InputStream fis = Files.newInputStream(testFile.toPath())) {
             assertEquals(testBytes.length, fis.available());
-
             final byte[] resultBytes = new byte[testBytes.length];
             assertEquals(testBytes.length, fis.read(resultBytes));
-
             assertArrayEquals(resultBytes, testBytes);
             assertEquals(-1, fis.read(resultBytes));
         }

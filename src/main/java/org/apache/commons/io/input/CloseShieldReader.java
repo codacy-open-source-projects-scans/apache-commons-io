@@ -33,8 +33,8 @@ public class CloseShieldReader extends ProxyReader {
     /**
      * Constructs a proxy that shields the given reader from being closed.
      *
-     * @param reader the reader to wrap.
-     * @return the created proxy.
+     * @param reader The reader to wrap.
+     * @return The created proxy.
      * @since 2.9.0
      */
     public static CloseShieldReader wrap(final Reader reader) {

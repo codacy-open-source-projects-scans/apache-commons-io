@@ -77,7 +77,7 @@ public class LineIterator implements Iterator<String>, Closeable {
     /**
      * Constructs an iterator of the lines for a {@link Reader}.
      *
-     * @param reader the {@link Reader} to read from, not null.
+     * @param reader The {@link Reader} to read from, not null.
      * @throws NullPointerException if the reader is null.
      */
     @SuppressWarnings("resource") // Caller closes Reader
@@ -92,7 +92,7 @@ public class LineIterator implements Iterator<String>, Closeable {
      * then the {@link Reader} remains open.
      * This method can safely be called multiple times.
      *
-     * @throws IOException if closing the underlying {@link Reader} fails.
+     * @throws IOException Thrown if closing the underlying {@link Reader} fails.
      */
     @Override
     public void close() throws IOException {
@@ -138,7 +138,7 @@ public class LineIterator implements Iterator<String>, Closeable {
      * Overridable method to validate each line that is returned.
      * This implementation always returns true.
      *
-     * @param line  the line that is to be validated.
+     * @param line  The line that is to be validated.
      * @return true if valid, false to remove from the iterator.
      */
     protected boolean isValidLine(final String line) {
@@ -148,7 +148,7 @@ public class LineIterator implements Iterator<String>, Closeable {
     /**
      * Returns the next line in the wrapped {@link Reader}.
      *
-     * @return the next line from the input.
+     * @return The next line from the input.
      * @throws NoSuchElementException if there is no line to return.
      */
     @Override
@@ -159,7 +159,7 @@ public class LineIterator implements Iterator<String>, Closeable {
     /**
      * Returns the next line in the wrapped {@link Reader}.
      *
-     * @return the next line from the input.
+     * @return The next line from the input.
      * @throws NoSuchElementException if there is no line to return.
      * @deprecated Use {@link #next()}.
      */

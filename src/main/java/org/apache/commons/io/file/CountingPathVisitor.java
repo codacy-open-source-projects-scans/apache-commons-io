@@ -161,7 +161,7 @@ public class CountingPathVisitor extends SimplePathVisitor {
     /**
      * Constructs a new instance configured with a {@link BigInteger} {@link PathCounters}.
      *
-     * @return a new instance configured with a {@link BigInteger} {@link PathCounters}.
+     * @return A new instance configured with a {@link BigInteger} {@link PathCounters}.
      */
     public static CountingPathVisitor withBigIntegerCounters() {
         return new Builder().setPathCounters(Counters.bigIntegerPathCounters()).get();
@@ -170,7 +170,7 @@ public class CountingPathVisitor extends SimplePathVisitor {
     /**
      * Constructs a new instance configured with a {@code long} {@link PathCounters}.
      *
-     * @return a new instance configured with a {@code long} {@link PathCounters}.
+     * @return A new instance configured with a {@code long} {@link PathCounters}.
      */
     public static CountingPathVisitor withLongCounters() {
         return new Builder().setPathCounters(Counters.longPathCounters()).get();
@@ -238,8 +238,8 @@ public class CountingPathVisitor extends SimplePathVisitor {
     /**
      * Tests whether the given file is accepted by the file filter.
      *
-     * @param file       the visited file.
-     * @param attributes the visited file attributes.
+     * @param file       The visited file.
+     * @param attributes The visited file attributes.
      * @return true to copy the given file, false if not.
      * @since 2.20.0
      */
@@ -263,7 +263,7 @@ public class CountingPathVisitor extends SimplePathVisitor {
     /**
      * Gets the visitation counts.
      *
-     * @return the visitation counts.
+     * @return The visitation counts.
      */
     public PathCounters getPathCounters() {
         return pathCounters;
@@ -294,7 +294,7 @@ public class CountingPathVisitor extends SimplePathVisitor {
     /**
      * Updates the counter for visiting the given directory.
      *
-     * @param dir the visited directory.
+     * @param dir The visited directory.
      * @param exc Encountered exception.
      * @since 2.9.0
      */
@@ -305,8 +305,8 @@ public class CountingPathVisitor extends SimplePathVisitor {
     /**
      * Updates the counters for visiting the given file.
      *
-     * @param file       the visited file.
-     * @param attributes the visited file attributes.
+     * @param file       The visited file.
+     * @param attributes The visited file attributes.
      */
     protected void updateFileCounters(final Path file, final BasicFileAttributes attributes) {
         pathCounters.getFileCounter().increment();

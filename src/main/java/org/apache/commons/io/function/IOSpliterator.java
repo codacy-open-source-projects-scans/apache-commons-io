@@ -26,7 +26,7 @@ import java.util.function.Consumer;
 /**
  * Like {@link Spliterator} but throws {@link IOException}.
  *
- * @param <T> the type of elements returned by this IOSpliterator.
+ * @param <T> The type of elements returned by this IOSpliterator.
  * @since 2.12.0
  */
 public interface IOSpliterator<T> {
@@ -34,7 +34,7 @@ public interface IOSpliterator<T> {
     /**
      * Adapts the given Spliterator as an IOSpliterator.
      *
-     * @param <E> the type of the stream elements.
+     * @param <E> The type of the stream elements.
      * @param iterator The iterator to adapt.
      * @return A new IOSpliterator.
      */
@@ -46,7 +46,7 @@ public interface IOSpliterator<T> {
      * Constructs a {@link Spliterator} for this instance that throws {@link UncheckedIOException} instead of
      * {@link IOException}.
      *
-     * @return an {@link UncheckedIOException} {@link Spliterator}.
+     * @return An {@link UncheckedIOException} {@link Spliterator}.
      */
     default Spliterator<T> asSpliterator() {
         return new UncheckedIOSpliterator<>(this);
@@ -55,7 +55,7 @@ public interface IOSpliterator<T> {
     /**
      * Like {@link Spliterator#characteristics()}.
      *
-     * @return a representation of characteristics.
+     * @return A representation of characteristics.
      */
     default int characteristics() {
         return unwrap().characteristics();
@@ -65,7 +65,7 @@ public interface IOSpliterator<T> {
      * Like {@link Spliterator#estimateSize()}.
      *
      *
-     * @return the estimated size, or {@code Long.MAX_VALUE} if infinite, unknown, or too expensive to compute.
+     * @return The estimated size, or {@code Long.MAX_VALUE} if infinite, unknown, or too expensive to compute.
      */
     default long estimateSize() {
         return unwrap().estimateSize();
@@ -85,7 +85,7 @@ public interface IOSpliterator<T> {
     /**
      * Like {@link Spliterator#getComparator()}.
      *
-     * @return a Comparator, or {@code null} if the elements are sorted in the natural order.
+     * @return A Comparator, or {@code null} if the elements are sorted in the natural order.
      * @throws IllegalStateException if the spliterator does not report a characteristic of {@code SORTED}.
      */
     @SuppressWarnings("unchecked")
@@ -96,7 +96,7 @@ public interface IOSpliterator<T> {
     /**
      * Like {@link Spliterator#getExactSizeIfKnown()}.
      *
-     * @return the exact size, if known, else {@code -1}.
+     * @return The exact size, if known, else {@code -1}.
      */
     default long getExactSizeIfKnown() {
         return unwrap().getExactSizeIfKnown();
@@ -105,7 +105,7 @@ public interface IOSpliterator<T> {
     /**
      * Like {@link Spliterator#hasCharacteristics(int)}.
      *
-     * @param characteristics the characteristics to check for.
+     * @param characteristics The characteristics to check for.
      * @return {@code true} if all the specified characteristics are present, else {@code false}
      */
     default boolean hasCharacteristics(final int characteristics) {
@@ -126,7 +126,7 @@ public interface IOSpliterator<T> {
     /**
      * Like {@link Spliterator#trySplit()}.
      *
-     * @return a {@code Spliterator} covering some portion of the elements, or {@code null} if this spliterator cannot be
+     * @return A {@code Spliterator} covering some portion of the elements, or {@code null} if this spliterator cannot be
      *         split.
      */
     default IOSpliterator<T> trySplit() {
@@ -139,7 +139,7 @@ public interface IOSpliterator<T> {
      * Implementations may not have anything to unwrap and that behavior is undefined for now.
      * </p>
      *
-     * @return the underlying Spliterator.
+     * @return The underlying Spliterator.
      */
     Spliterator<T> unwrap();
 

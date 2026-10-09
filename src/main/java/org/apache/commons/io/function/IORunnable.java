@@ -31,7 +31,7 @@ public interface IORunnable {
     /**
      * Returns the constant no-op runnable.
      *
-     * @return a constant no-op runnable.
+     * @return A constant no-op runnable.
      * @since 2.16.0
      */
     static IORunnable noop() {
@@ -41,7 +41,7 @@ public interface IORunnable {
     /**
      * Creates a {@link Runnable} for this instance that throws {@link UncheckedIOException} instead of {@link IOException}.
      *
-     * @return an UncheckedIOException Predicate.
+     * @return An UncheckedIOException Predicate.
      */
     default Runnable asRunnable() {
         return () -> Uncheck.run(this);
@@ -50,7 +50,7 @@ public interface IORunnable {
     /**
      * Like {@link Runnable#run()} but throws {@link IOException}.
      *
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     void run() throws IOException;
 }

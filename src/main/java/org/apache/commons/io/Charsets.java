@@ -176,7 +176,7 @@ public class Charsets {
     /**
      * Tests whether the given non-null Charset has an alias of the given name.
      *
-     * @param charset a non-null Charset.
+     * @param charset A non-null Charset.
      * @param charsetName The name to test.
      * @return whether the given non-null charset name is a UTF-8 alias.
      * @since 2.20.0
@@ -199,7 +199,7 @@ public class Charsets {
     /**
      * Tests whether the given non-null charset name is a UTF-8 alias.
      *
-     * @param charsetName a non-null charset name.
+     * @param charsetName A non-null charset name.
      * @return whether the given non-null charset name is a UTF-8 alias.
      */
     private static boolean isUTF8Alias(final String charsetName) {
@@ -227,7 +227,7 @@ public class Charsets {
      *
      * @param charset
      *            A charset or null.
-     * @return the given Charset or the default Charset if the given Charset is null.
+     * @return The given Charset or the default Charset if the given Charset is null.
      * @see Charset#defaultCharset()
      */
     public static Charset toCharset(final Charset charset) {
@@ -239,7 +239,7 @@ public class Charsets {
      *
      * @param charset The charset to test, may be null.
      * @param defaultCharset The charset to return if charset is null, may be null.
-     * @return a Charset.
+     * @return A Charset.
      * @since 2.12.0
      */
     public static Charset toCharset(final Charset charset, final Charset defaultCharset) {
@@ -250,7 +250,7 @@ public class Charsets {
      * Returns a Charset for the named charset. If the name is null, return the {@link Charset#defaultCharset() default Charset}.
      *
      * @param charsetName The name of the requested charset, may be null.
-     * @return a Charset for the named charset.
+     * @return A Charset for the named charset.
      * @throws UnsupportedCharsetException If the named charset is unavailable (unchecked exception).
      * @see Charset#defaultCharset()
      */
@@ -263,7 +263,7 @@ public class Charsets {
      *
      * @param charsetName The name of the requested charset, may be null.
      * @param defaultCharset The charset to return if charsetName is null, may be null.
-     * @return a Charset for the named charset.
+     * @return A Charset for the named charset.
      * @throws UnsupportedCharsetException If the named charset is unavailable (unchecked exception).
      * @since 2.12.0
      */
@@ -279,7 +279,7 @@ public class Charsets {
      *
      * @param charsetName    The name of the requested charset, may be null.
      * @param defaultCharset The charset to return if charsetName is null or there is a problem, may be null which returns {@link Charset#defaultCharset()}.
-     * @return a Charset for the named charset or {@code defaultCharset} if any errors occur.
+     * @return A Charset for the named charset or {@code defaultCharset} if any errors occur.
      * @see Charset#defaultCharset()
      * @since 2.20.0
      */

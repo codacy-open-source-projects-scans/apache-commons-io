@@ -39,7 +39,7 @@ public class DeletingPathVisitor extends CountingPathVisitor {
     /**
      * Constructs a new instance configured with a BigInteger {@link PathCounters}.
      *
-     * @return a new instance configured with a BigInteger {@link PathCounters}.
+     * @return A new instance configured with a BigInteger {@link PathCounters}.
      */
     public static DeletingPathVisitor withBigIntegerCounters() {
         return new DeletingPathVisitor(Counters.bigIntegerPathCounters());
@@ -48,7 +48,7 @@ public class DeletingPathVisitor extends CountingPathVisitor {
     /**
      * Constructs a new instance configured with a long {@link PathCounters}.
      *
-     * @return a new instance configured with a long {@link PathCounters}.
+     * @return A new instance configured with a long {@link PathCounters}.
      */
     public static DeletingPathVisitor withLongCounters() {
         return new DeletingPathVisitor(Counters.longPathCounters());
@@ -102,7 +102,7 @@ public class DeletingPathVisitor extends CountingPathVisitor {
     /**
      * Returns true to process the given path, false if not.
      *
-     * @param path the path to test.
+     * @param path The path to test.
      * @return true to process the given path, false if not.
      */
     private boolean accept(final Path path) {

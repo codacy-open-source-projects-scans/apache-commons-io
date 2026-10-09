@@ -26,9 +26,9 @@ import java.util.stream.Stream;
 /**
  * Like {@link BaseStream} but throws {@link IOException}.
  *
- * @param <T> the type of the stream elements.
- * @param <S> the type of the IO stream extending {@code IOBaseStream}.
- * @param <B> the type of the stream extending {@code BaseStream}.
+ * @param <T> The type of the stream elements.
+ * @param <S> The type of the IO stream extending {@code IOBaseStream}.
+ * @param <B> The type of the stream extending {@code BaseStream}.
  * @since 2.12.0
  */
 public interface IOBaseStream<T, S extends IOBaseStream<T, S, B>, B extends BaseStream<T, B>> extends Closeable {
@@ -37,7 +37,7 @@ public interface IOBaseStream<T, S extends IOBaseStream<T, S, B>, B extends Base
      * Constructs a {@link BaseStream} for this instance that throws {@link UncheckedIOException} instead of
      * {@link IOException}.
      *
-     * @return an {@link UncheckedIOException} {@link BaseStream}.
+     * @return An {@link UncheckedIOException} {@link BaseStream}.
      */
     @SuppressWarnings("unchecked")
     default BaseStream<T, B> asBaseStream() {
@@ -81,7 +81,7 @@ public interface IOBaseStream<T, S extends IOBaseStream<T, S, B>, B extends Base
      *
      * @param closeHandler See {@link BaseStream#onClose(Runnable) delegate}.
      * @return See {@link BaseStream#onClose(Runnable) delegate}.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      * @see BaseStream#onClose(Runnable)
      */
     @SuppressWarnings({"unused", "resource"}) // throws IOException, unwrap()
@@ -139,7 +139,7 @@ public interface IOBaseStream<T, S extends IOBaseStream<T, S, B>, B extends Base
      * Implementations may not have anything to unwrap and that behavior is undefined for now.
      * </p>
      *
-     * @return the underlying stream.
+     * @return The underlying stream.
      */
     B unwrap();
 

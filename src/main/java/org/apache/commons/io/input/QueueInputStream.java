@@ -104,7 +104,7 @@ public class QueueInputStream extends InputStream {
          * <li>timeout</li>
          * </ul>
          *
-         * @return a new instance.
+         * @return A new instance.
          * @see #getUnchecked()
          */
         @Override
@@ -126,7 +126,7 @@ public class QueueInputStream extends InputStream {
         /**
          * Sets the polling timeout.
          *
-         * @param timeout the polling timeout.
+         * @param timeout The polling timeout.
          * @return {@code this} instance.
          */
         public Builder setTimeout(final Duration timeout) {
@@ -142,7 +142,7 @@ public class QueueInputStream extends InputStream {
     /**
      * Constructs a new {@link Builder}.
      *
-     * @return a new {@link Builder}.
+     * @return A new {@link Builder}.
      * @since 2.12.0
      */
     public static Builder builder() {
@@ -184,7 +184,7 @@ public class QueueInputStream extends InputStream {
     /**
      * Gets the blocking queue.
      *
-     * @return the blocking queue.
+     * @return The blocking queue.
      */
     BlockingQueue<Integer> getBlockingQueue() {
         return blockingQueue;
@@ -193,7 +193,7 @@ public class QueueInputStream extends InputStream {
     /**
      * Gets the timeout duration.
      *
-     * @return the timeout duration.
+     * @return The timeout duration.
      */
     Duration getTimeout() {
         return Duration.ofNanos(timeoutNanos);
@@ -211,7 +211,7 @@ public class QueueInputStream extends InputStream {
     /**
      * Reads and returns a single byte.
      *
-     * @return the byte read, or {@code -1} if a timeout occurs before a queue element is available.
+     * @return The byte read, or {@code -1} if a timeout occurs before a queue element is available.
      * @throws IllegalStateException if thread is interrupted while waiting.
      */
     @Override
@@ -232,9 +232,9 @@ public class QueueInputStream extends InputStream {
      * an array of bytes.  The first byte is read while honoring the timeout; the rest are read while <em>not</em> honoring
      * the timeout. The number of bytes actually read is returned as an integer.
      *
-     * @param b     the buffer into which the data is read.
-     * @param offset   the start offset in array {@code b} at which the data is written.
-     * @param length   the maximum number of bytes to read.
+     * @param b     The buffer into which the data is read.
+     * @param offset   The start offset in array {@code b} at which the data is written.
+     * @param length   The maximum number of bytes to read.
      * @return     the total number of bytes read into the buffer, or {@code -1} if there is no more data because the
      *              end of the stream has been reached.
      * @throws NullPointerException If {@code b} is {@code null}.

@@ -24,6 +24,7 @@ import java.nio.channels.ReadableByteChannel;
 import java.nio.channels.SeekableByteChannel;
 import java.util.Objects;
 
+import org.apache.commons.io.Buffers;
 import org.apache.commons.io.IOUtils;
 
 /**
@@ -40,7 +41,7 @@ public final class FileChannels {
      * @param channel2       Another file channel.
      * @param bufferCapacity The two internal buffer capacities, in bytes.
      * @return true if the contents of both RandomAccessFiles are equal, false otherwise.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      * @deprecated Use {@link #contentEquals(SeekableByteChannel, SeekableByteChannel, int)}.
      */
     @Deprecated
@@ -55,7 +56,7 @@ public final class FileChannels {
      * @param channel2       Another readable byte channel.
      * @param bufferCapacity The two internal buffer capacities, in bytes.
      * @return true if the contents of both RandomAccessFiles are equal, false otherwise.
-     * @throws IOException if an I/O error occurs or the timeout is met.
+     * @throws IOException Thrown if an I/O error occurs or the timeout is met.
      * @since 2.19.0
      */
     public static boolean contentEquals(final ReadableByteChannel channel1, final ReadableByteChannel channel2, final int bufferCapacity) throws IOException {
@@ -67,33 +68,38 @@ public final class FileChannels {
         // Don't use ByteBuffer#compact() to avoid extra copying.
         final ByteBuffer c1Buffer = ByteBuffer.allocateDirect(bufferCapacity);
         final ByteBuffer c2Buffer = ByteBuffer.allocateDirect(bufferCapacity);
-        int c1NumRead = 0;
-        int c2NumRead = 0;
-        boolean c1Read0 = false;
-        boolean c2Read0 = false;
-        // If a channel is a non-blocking channel, it may return 0 bytes read for any given call.
-        while (true) {
-            if (!c2Read0) {
-                c1NumRead = readToLimit(channel1, c1Buffer);
-                c1Buffer.clear();
-                c1Read0 = c1NumRead == 0;
+        try {
+            int c1NumRead = 0;
+            int c2NumRead = 0;
+            boolean c1Read0 = false;
+            boolean c2Read0 = false;
+            // If a channel is a non-blocking channel, it may return 0 bytes read for any given call.
+            while (true) {
+                if (!c2Read0) {
+                    c1NumRead = readToLimit(channel1, c1Buffer);
+                    c1Buffer.clear();
+                    c1Read0 = c1NumRead == 0;
+                }
+                if (!c1Read0) {
+                    c2NumRead = readToLimit(channel2, c2Buffer);
+                    c2Buffer.clear();
+                    c2Read0 = c2NumRead == 0;
+                }
+                if (c1NumRead == IOUtils.EOF && c2NumRead == IOUtils.EOF) {
+                    return c1Buffer.equals(c2Buffer);
+                }
+                if (c1NumRead == 0 || c2NumRead == 0) {
+                    // 0 may be returned from a non-blocking channel.
+                    Thread.yield();
+                    continue;
+                }
+                if (c1NumRead != c2NumRead || !c1Buffer.equals(c2Buffer)) {
+                    return false;
+                }
             }
-            if (!c1Read0) {
-                c2NumRead = readToLimit(channel2, c2Buffer);
-                c2Buffer.clear();
-                c2Read0 = c2NumRead == 0;
-            }
-            if (c1NumRead == IOUtils.EOF && c2NumRead == IOUtils.EOF) {
-                return c1Buffer.equals(c2Buffer);
-            }
-            if (c1NumRead == 0 || c2NumRead == 0) {
-                // 0 may be returned from a non-blocking channel.
-                Thread.yield();
-                continue;
-            }
-            if (c1NumRead != c2NumRead || !c1Buffer.equals(c2Buffer)) {
-                return false;
-            }
+        } finally {
+            Buffers.clear(c1Buffer);
+            Buffers.clear(c2Buffer);
         }
     }
 
@@ -107,7 +113,7 @@ public final class FileChannels {
      * @param channel2       Another seekable byte channel.
      * @param bufferCapacity The two internal buffer capacities, in bytes.
      * @return true if the contents of both RandomAccessFiles are equal, false otherwise.
-     * @throws IOException if an I/O error occurs or the timeout is met.
+     * @throws IOException Thrown if an I/O error occurs or the timeout is met.
      * @since 2.19.0
      */
     public static boolean contentEquals(final SeekableByteChannel channel1, final SeekableByteChannel channel2, final int bufferCapacity) throws IOException {

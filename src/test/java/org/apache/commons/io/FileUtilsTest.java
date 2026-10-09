@@ -83,6 +83,7 @@ import java.util.zip.Checksum;
 
 import org.apache.commons.io.file.AbstractTempDirTest;
 import org.apache.commons.io.file.Counters.PathCounters;
+import org.apache.commons.io.file.NioFileSystem;
 import org.apache.commons.io.file.PathUtils;
 import org.apache.commons.io.file.TempDirectory;
 import org.apache.commons.io.file.TempFile;
@@ -96,7 +97,6 @@ import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.condition.EnabledIf;
 import org.junit.jupiter.api.condition.EnabledOnOs;
 import org.junit.jupiter.api.condition.OS;
 import org.junit.jupiter.api.io.TempDir;
@@ -2843,12 +2843,11 @@ class FileUtilsTest extends AbstractTempDirTest {
     }
 
     @Test
-    @EnabledIf("isPosixFilePermissionsSupported")
     void testReadFileToByteArray_IOExceptionOnPosixFileSystem() throws Exception {
+        assumeTrue(NioFileSystem.isPosix(tempDirPath));
         final File file = TestUtils.newFile(tempDirFile, "cant-read.txt");
         TestUtils.createFile(file, 100);
         Files.setPosixFilePermissions(file.toPath(), PosixFilePermissions.fromString("---------"));
-
         assertThrows(IOException.class, () -> FileUtils.readFileToByteArray(file));
     }
 
@@ -2861,12 +2860,11 @@ class FileUtilsTest extends AbstractTempDirTest {
     }
 
     @Test
-    @EnabledIf("isPosixFilePermissionsSupported")
     void testReadFileToString_IOExceptionOnPosixFileSystem() throws Exception {
+        assumeTrue(NioFileSystem.isPosix(tempDirPath));
         final File file = TestUtils.newFile(tempDirFile, "cant-read.txt");
         TestUtils.createFile(file, 100);
         Files.setPosixFilePermissions(file.toPath(), PosixFilePermissions.fromString("---------"));
-
         assertThrows(IOException.class, () -> FileUtils.readFileToString(file));
     }
 
@@ -2890,8 +2888,8 @@ class FileUtilsTest extends AbstractTempDirTest {
     }
 
     @Test
-    @EnabledIf("isPosixFilePermissionsSupported")
     void testReadLines_IOExceptionOnPosixFileSystem() throws Exception {
+        assumeTrue(NioFileSystem.isPosix(tempDirPath));
         final File file = TestUtils.newFile(tempDirFile, "cant-read.txt");
         TestUtils.createFile(file, 100);
         Files.setPosixFilePermissions(file.toPath(), PosixFilePermissions.fromString("---------"));
@@ -2988,7 +2986,7 @@ class FileUtilsTest extends AbstractTempDirTest {
             // Different result value depending on the Java version and operating system, but should not throw an exception or loop infinitely.
             FileUtils.sizeOfDirectory(file);
         } finally {
-            Files.deleteIfExists(linkPath);
+            PathUtils.deleteIfExists(linkPath);
         }
     }
 
@@ -3030,7 +3028,7 @@ class FileUtilsTest extends AbstractTempDirTest {
             assertDelete(true, nonEmptyFile);
             assertDelete(false, file);
         } finally {
-            Files.deleteIfExists(linkPath);
+            PathUtils.deleteIfExists(linkPath);
         }
     }
 

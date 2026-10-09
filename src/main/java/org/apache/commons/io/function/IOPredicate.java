@@ -25,7 +25,7 @@ import java.util.function.Predicate;
 /**
  * Like {@link Predicate} but throws {@link IOException}.
  *
- * @param <T> the type of the input to the predicate.
+ * @param <T> The type of the input to the predicate.
  * @since 2.12.0
  */
 @FunctionalInterface
@@ -34,8 +34,8 @@ public interface IOPredicate<T> {
     /**
      * Always false.
      *
-     * @param <T> the type of the input to the predicate.
-     * @return a constant predicate that tests always false.
+     * @param <T> The type of the input to the predicate.
+     * @return A constant predicate that tests always false.
      */
     @SuppressWarnings("unchecked")
     static <T> IOPredicate<T> alwaysFalse() {
@@ -45,8 +45,8 @@ public interface IOPredicate<T> {
     /**
      * Always true.
      *
-     * @param <T> the type of the input to the predicate.
-     * @return a constant predicate that tests always true.
+     * @param <T> The type of the input to the predicate.
+     * @return A constant predicate that tests always true.
      */
     @SuppressWarnings("unchecked")
     static <T> IOPredicate<T> alwaysTrue() {
@@ -56,12 +56,12 @@ public interface IOPredicate<T> {
     /**
      * Creates a predicate that tests if two arguments are equal using {@link Objects#equals(Object, Object)}.
      *
-     * @param <T> the type of arguments to the predicate.
-     * @param target the object to compare for equality, may be {@code null}
-     * @return a predicate that tests if two arguments are equal using {@link Objects#equals(Object, Object)}
+     * @param <T> The type of arguments to the predicate.
+     * @param target The object to compare for equality, may be {@code null}
+     * @return A predicate that tests if two arguments are equal using {@link Objects#equals(Object, Object)}
      */
     static <T> IOPredicate<T> isEqual(final Object target) {
-        return null == target ? Objects::isNull : object -> target.equals(object);
+        return target == null ? Objects::isNull : object -> target.equals(object);
     }
 
     /**
@@ -74,13 +74,13 @@ public interface IOPredicate<T> {
      * predicate throws an exception, the {@code other} predicate will not be evaluated.
      * </p>
      *
-     * @param other a predicate that will be logically-ANDed with this predicate.
-     * @return a composed predicate that represents the short-circuiting logical AND of this predicate and the {@code other}
+     * @param other A predicate that will be logically-ANDed with this predicate.
+     * @return A composed predicate that represents the short-circuiting logical AND of this predicate and the {@code other}
      *         predicate.
      * @throws NullPointerException if other is null.
      */
     default IOPredicate<T> and(final IOPredicate<? super T> other) {
-        Objects.requireNonNull(other);
+        Objects.requireNonNull(other, "other");
         return t -> test(t) && other.test(t);
     }
 
@@ -88,7 +88,7 @@ public interface IOPredicate<T> {
      * Creates a {@link Predicate} for this instance that throws {@link UncheckedIOException} instead of
      * {@link IOException}.
      *
-     * @return an UncheckedIOException Predicate.
+     * @return An UncheckedIOException Predicate.
      */
     default Predicate<T> asPredicate() {
         return t -> Uncheck.test(this, t);
@@ -97,7 +97,7 @@ public interface IOPredicate<T> {
     /**
      * Creates a predicate that represents the logical negation of this predicate.
      *
-     * @return a predicate that represents the logical negation of this predicate.
+     * @return A predicate that represents the logical negation of this predicate.
      */
     default IOPredicate<T> negate() {
         return t -> !test(t);
@@ -113,22 +113,22 @@ public interface IOPredicate<T> {
      * predicate throws an exception, the {@code other} predicate will not be evaluated.
      * </p>
      *
-     * @param other a predicate that will be logically-ORed with this predicate.
-     * @return a composed predicate that represents the short-circuiting logical OR of this predicate and the {@code other}
+     * @param other A predicate that will be logically-ORed with this predicate.
+     * @return A composed predicate that represents the short-circuiting logical OR of this predicate and the {@code other}
      *         predicate.
      * @throws NullPointerException if other is null.
      */
     default IOPredicate<T> or(final IOPredicate<? super T> other) {
-        Objects.requireNonNull(other);
+        Objects.requireNonNull(other, "other");
         return t -> test(t) || other.test(t);
     }
 
     /**
      * Evaluates this predicate on the given argument.
      *
-     * @param t the input argument.
+     * @param t The input argument.
      * @return {@code true} if the input argument matches the predicate, otherwise {@code false}
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     boolean test(T t) throws IOException;
 

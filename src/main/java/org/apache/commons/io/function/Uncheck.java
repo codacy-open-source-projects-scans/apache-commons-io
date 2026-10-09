@@ -31,10 +31,10 @@ public final class Uncheck {
     /**
      * Accepts an IO consumer with the given arguments.
      *
-     * @param <T> the first input type.
-     * @param <U> the second input type.
-     * @param t the first input argument.
-     * @param u the second input argument.
+     * @param <T> The first input type.
+     * @param <U> The second input type.
+     * @param t The first input argument.
+     * @param u The second input argument.
      * @param consumer Consumes the value.
      * @throws UncheckedIOException if an I/O error occurs.
      */
@@ -49,8 +49,8 @@ public final class Uncheck {
     /**
      * Accepts an IO consumer with the given argument.
      *
-     * @param <T> the input type.
-     * @param t the input argument.
+     * @param <T> The input type.
+     * @param t The input argument.
      * @param consumer Consumes the value.
      * @throws UncheckedIOException if an I/O error occurs.
      */
@@ -65,7 +65,7 @@ public final class Uncheck {
     /**
      * Accepts an IO consumer with the given argument.
      *
-     * @param i the input argument.
+     * @param i The input argument.
      * @param consumer Consumes the value.
      * @throws UncheckedIOException if an I/O error occurs.
      * @since 2.18.0
@@ -81,12 +81,12 @@ public final class Uncheck {
     /**
      * Accepts an IO consumer with the given arguments.
      *
-     * @param <T> the first input type.
-     * @param <U> the second input type.
-     * @param <V> the third input type.
-     * @param t the first input argument.
-     * @param u the second input argument.
-     * @param v the third input argument.
+     * @param <T> The first input type.
+     * @param <U> The second input type.
+     * @param <V> The third input type.
+     * @param t The first input argument.
+     * @param u The second input argument.
+     * @param v The third input argument.
      * @param consumer Consumes the value.
      * @throws UncheckedIOException if an I/O error occurs.
      */
@@ -101,13 +101,13 @@ public final class Uncheck {
     /**
      * Applies an IO function with the given arguments.
      *
-     * @param <T> the first function argument type.
-     * @param <U> the second function argument type.
-     * @param <R> the return type.
-     * @param function the function.
-     * @param t the first function argument.
-     * @param u the second function argument.
-     * @return the function result.
+     * @param <T> The first function argument type.
+     * @param <U> The second function argument type.
+     * @param <R> The return type.
+     * @param function The function.
+     * @param t The first function argument.
+     * @param u The second function argument.
+     * @return The function result.
      * @throws UncheckedIOException if an I/O error occurs.
      */
     public static <T, U, R> R apply(final IOBiFunction<T, U, R> function, final T t, final U u) {
@@ -121,11 +121,11 @@ public final class Uncheck {
     /**
      * Applies an IO function with the given arguments.
      *
-     * @param function the function.
-     * @param <T> the first function argument type.
-     * @param <R> the return type.
-     * @param t the first function argument.
-     * @return the function result.
+     * @param function The function.
+     * @param <T> The first function argument type.
+     * @param <R> The return type.
+     * @param t The first function argument.
+     * @return The function result.
      * @throws UncheckedIOException if an I/O error occurs.
      */
     public static <T, R> R apply(final IOFunction<T, R> function, final T t) {
@@ -139,17 +139,17 @@ public final class Uncheck {
     /**
      * Applies an IO quad-function with the given arguments.
      *
-     * @param function the function.
-     * @param <T> the first function argument type.
-     * @param <U> the second function argument type.
-     * @param <V> the third function argument type.
-     * @param <W> the fourth function argument type.
-     * @param <R> the return type.
-     * @param t the first function argument.
-     * @param u the second function argument.
-     * @param v the third function argument.
-     * @param w the fourth function argument.
-     * @return the function result.
+     * @param function The function.
+     * @param <T> The first function argument type.
+     * @param <U> The second function argument type.
+     * @param <V> The third function argument type.
+     * @param <W> The fourth function argument type.
+     * @param <R> The return type.
+     * @param t The first function argument.
+     * @param u The second function argument.
+     * @param v The third function argument.
+     * @param w The fourth function argument.
+     * @return The function result.
      * @throws UncheckedIOException if an I/O error occurs.
      */
     public static <T, U, V, W, R> R apply(final IOQuadFunction<T, U, V, W, R> function, final T t, final U u, final V v, final W w) {
@@ -163,15 +163,15 @@ public final class Uncheck {
     /**
      * Applies an IO tri-function with the given arguments.
      *
-     * @param <T> the first function argument type.
-     * @param <U> the second function argument type.
-     * @param <V> the third function argument type.
-     * @param <R> the return type.
-     * @param function the function.
-     * @param t the first function argument.
-     * @param u the second function argument.
-     * @param v the third function argument.
-     * @return the function result.
+     * @param <T> The first function argument type.
+     * @param <U> The second function argument type.
+     * @param <V> The third function argument type.
+     * @param <R> The return type.
+     * @param function The function.
+     * @param t The first function argument.
+     * @param u The second function argument.
+     * @param v The third function argument.
+     * @return The function result.
      * @throws UncheckedIOException if an I/O error occurs.
      */
     public static <T, U, V, R> R apply(final IOTriFunction<T, U, V, R> function, final T t, final U u, final V v) {
@@ -185,11 +185,11 @@ public final class Uncheck {
     /**
      * Compares the arguments with the comparator.
      *
-     * @param <T> the first function argument type.
-     * @param comparator the function.
-     * @param t the first function argument.
-     * @param u the second function argument.
-     * @return the comparator result.
+     * @param <T> The first function argument type.
+     * @param comparator The function.
+     * @param t The first function argument.
+     * @param u The second function argument.
+     * @return The comparator result.
      * @throws UncheckedIOException if an I/O error occurs.
      */
     public static <T> int compare(final IOComparator<T> comparator, final T t, final T u) {
@@ -203,7 +203,7 @@ public final class Uncheck {
     /**
      * Gets the result from an IO supplier.
      *
-     * @param <T> the return type of the operations.
+     * @param <T> The return type of the operations.
      * @param supplier Supplies the return value.
      * @return result from the supplier.
      * @throws UncheckedIOException if an I/O error occurs.
@@ -219,7 +219,7 @@ public final class Uncheck {
     /**
      * Gets the result from an IO supplier.
      *
-     * @param <T> the return type of the operations.
+     * @param <T> The return type of the operations.
      * @param supplier Supplies the return value.
      * @param message The UncheckedIOException message if an I/O error occurs.
      * @return result from the supplier.
@@ -348,9 +348,9 @@ public final class Uncheck {
     /**
      * Tests an IO predicate.
      *
-     * @param <T> the type of the input to the predicate.
-     * @param predicate the predicate.
-     * @param t the input to the predicate.
+     * @param <T> The type of the input to the predicate.
+     * @param predicate The predicate.
+     * @param t The input to the predicate.
      * @return {@code true} if the input argument matches the predicate, otherwise {@code false}.
      */
     public static <T> boolean test(final IOPredicate<T> predicate, final T t) {
@@ -365,7 +365,7 @@ public final class Uncheck {
      * Constructs a new {@link UncheckedIOException} for the given exception.
      *
      * @param e The exception to wrap.
-     * @return a new {@link UncheckedIOException}.
+     * @return A new {@link UncheckedIOException}.
      */
     private static UncheckedIOException wrap(final IOException e) {
         return new UncheckedIOException(e);
@@ -376,7 +376,7 @@ public final class Uncheck {
      *
      * @param e The exception to wrap.
      * @param message The UncheckedIOException message if an I/O error occurs.
-     * @return a new {@link UncheckedIOException}.
+     * @return A new {@link UncheckedIOException}.
      */
     private static UncheckedIOException wrap(final IOException e, final Supplier<String> message) {
         return new UncheckedIOException(message.get(), e);
